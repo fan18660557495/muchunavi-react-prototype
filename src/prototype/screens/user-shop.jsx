@@ -496,14 +496,14 @@ function MU_ShopCard({ id, size, name, en, area, dist, casts, tag, open, src, fa
   const favoriteButtonSize = size === 'S' ? 24 : 28;
 
   return (
-    <div style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', height: h, cursor: 'pointer' }} onClick={() => { MU_setShopContext({ id, size, name, en, area, dist, casts, tag, open, src, favorite }); window.__nav?.open('shop-detail'); }}>
+    <div style={{ position: 'relative', borderRadius: 6, overflow: 'hidden', height: h, cursor: 'pointer' }} onClick={() => { MU_setShopContext({ id, size, name, en, area, dist, casts, tag, open, src, favorite }); window.__nav?.open('shop-detail'); }}>
       <MU_ShopPhoto src={src} w="100%" h={h} radius={10} fullSize />
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(26, 44, 49, 0.25) 0%, transparent 40%, rgba(26, 44, 49, 0.7) 100%)' }} />
       <div style={{ position: 'absolute', top: 7, left: 7, right: 7, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           {tag ? <div style={{ padding: '2px 6px', borderRadius: 3, background: MU_S.rouge, border: `0.5px solid ${MU_S.gold}`, fontSize: 8, fontWeight: 700, color: MU_S.gold, letterSpacing: '0.15em', fontFamily: MU_S.fontBrand, alignSelf: 'flex-start' }}>{tag}</div> : null}
           {open ? (
-            <div style={{ height: 18, padding: '0 7px', borderRadius: 9, background: MU_S.success, color: '#1A2C31', fontSize: 9, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 3, letterSpacing: '0.05em', alignSelf: 'flex-start' }}>
+            <div style={{ height: 18, padding: '0 7px', borderRadius: 9, background: MU_S.success, color: MU_M.goldDeep, fontSize: 9, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 3, letterSpacing: '0.05em', alignSelf: 'flex-start' }}>
               <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#1A2C31' }} />
               営業中
             </div>
@@ -527,7 +527,7 @@ function MU_ShopCard({ id, size, name, en, area, dist, casts, tag, open, src, fa
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            boxShadow: favorite ? MU_S.shadowGold : '0 6px 18px rgba(0, 0, 0, 0.18)',
+            boxShadow: 'none',
             padding: 0,
           }}
         >
@@ -669,7 +669,7 @@ function MU_ShopDetail() {
           <MU_ShopPhoto src={shop.src} w="100%" h={310} radius={0} fullSize />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20, 16, 15, 0.5) 0%, transparent 30%, rgba(26, 44, 49, 0.75) 100%)' }} />
           <div style={{ position: 'absolute', top: MU_TOP_SPACING, left: 0, right: 0, padding: '8px 20px', display: 'flex', justifyContent: 'space-between' }}>
-            <div style={{ width: 36, height: 36, borderRadius: 18, background: 'rgba(255, 255, 255, 0.7)', border: `0.5px solid ${MU_S.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} onClick={() => window.__nav?.back()}>
+            <div style={{ width: 36, height: 36, borderRadius: 8, background: 'transparent', border: `0.5px solid ${MU_S.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} onClick={() => window.__nav?.back()}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={MU_S.ink} strokeWidth="2"><path d="M15 6 L9 12 L15 18" strokeLinecap="round" /></svg>
             </div>
             <button
@@ -679,7 +679,7 @@ function MU_ShopDetail() {
                 const next = MU_toggleFavoriteShop(shop.id);
                 MU_setShopContext({ ...shop, favorite: next });
               }}
-              style={{ padding: '7px 14px', borderRadius: 18, background: favorite ? MU_S.gradGold : 'rgba(255, 255, 255, 0.7)', border: `0.5px solid ${favorite ? 'transparent' : MU_S.hairlineStrong}`, fontSize: 11, color: favorite ? '#1A2C31' : MU_S.gold, letterSpacing: '0.1em', display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer', boxShadow: favorite ? MU_S.shadowGold : 'none' }}
+              style={{ padding: '7px 14px', borderRadius: 8, background: 'transparent', border: `0.5px solid ${favorite ? MU_S.gold : MU_S.hairlineStrong}`, fontSize: 11, color: MU_S.goldDeep, letterSpacing: '0.1em', display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer', boxShadow: 'none' }}
             >
               <svg width="11" height="11" viewBox="0 0 24 24" fill={favorite ? '#1A2C31' : 'none'} stroke={favorite ? '#1A2C31' : MU_S.gold} strokeWidth="2"><path d="M12 21 C5 15 2 11 2 7 A5 5 0 0 1 12 5 A5 5 0 0 1 22 7 C22 11 19 15 12 21 Z" /></svg>
               {favorite ? 'お気に入り済み' : 'お気に入り'}
@@ -730,7 +730,7 @@ function MU_ShopDetail() {
             { label: 'イベント', sub: 'EVENT', badge: 'NEW', target: 'shop-events' },
             { label: '求人', sub: 'RECRUIT', badge: '募集中', target: 'shop-recruit' },
           ].map((a) => (
-            <button key={a.label} type="button" onClick={() => window.__nav?.open(a.target)} style={{ flex: 1, padding: '12px 0', borderRadius: 12, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}`, textAlign: 'center', position: 'relative', cursor: 'pointer' }}>
+            <button key={a.label} type="button" onClick={() => window.__nav?.open(a.target)} style={{ flex: 1, padding: '12px 0', borderRadius: 6, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}`, textAlign: 'center', position: 'relative', cursor: 'pointer' }}>
               <div style={{ marginTop: 4, fontSize: 10, color: MU_S.ink, letterSpacing: '0.08em', fontFamily: MU_S.fontSerif }}>{a.label}</div>
               <div style={{ fontSize: 7, color: MU_S.goldDeep, letterSpacing: '0.2em', fontFamily: MU_S.fontBrand, marginTop: 1 }}>{a.sub}</div>
               <div style={{ position: 'absolute', top: 6, right: 8, fontSize: 8, color: MU_S.gold, background: MU_S.rouge, padding: '1px 5px', borderRadius: 3, fontWeight: 600, letterSpacing: '0.05em' }}>{a.badge}</div>
@@ -738,15 +738,15 @@ function MU_ShopDetail() {
           ))}
         </div>
 
-        <div style={{ margin: '0 20px 18px', padding: '14px 16px', borderRadius: 12, background: MU_S.gradRouge, border: `0.5px solid ${MU_S.rougeSoft}`, display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: 40, height: 40, borderRadius: 20, background: 'rgba(164, 150, 115, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ margin: '0 20px 18px', padding: '14px 16px', borderRadius: 6, background: MU_S.gradRouge, border: `0.5px solid ${MU_S.rougeSoft}`, display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ width: 40, height: 40, borderRadius: 8, background: 'rgba(164, 150, 115, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={MU_S.gold} strokeWidth="1.6"><path d="M4 8 V16 A1 1 0 0 0 5 17 H19 A1 1 0 0 0 20 16 V8 A1 1 0 0 0 19 7 H5 A1 1 0 0 0 4 8 Z" /><path d="M4 12 H20" strokeDasharray="2 2" /></svg>
           </div>
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: MU_S.fontBrand, fontSize: 10, color: 'rgba(234, 212, 167, 0.86)', letterSpacing: '0.25em' }}>COUPON</div>
             <div style={{ fontFamily: MU_S.fontSerif, fontSize: 14, color: '#F6F2EF', marginTop: 2, letterSpacing: '0.05em', textShadow: '0 1px 2px rgba(0,0,0,0.18)' }}>{detail.info.coupon}</div>
           </div>
-          <div style={{ padding: '7px 14px', borderRadius: 14, background: MU_S.gold, color: '#1A2C31', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', cursor: 'pointer' }} onClick={() => window.__nav?.open('shop-coupons')}>見る</div>
+          <div style={{ padding: '7px 14px', borderRadius: 8, background: MU_S.gold, color: MU_M.goldDeep, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', cursor: 'pointer' }} onClick={() => window.__nav?.open('shop-coupons')}>見る</div>
         </div>
 
         <window.MU_SectionTitle ja="オンラインキャスト" en={`CASTS · ${castList.length}`} action="すべて見る" onAction={() => window.__nav?.open('shop-casts')} />
@@ -761,7 +761,7 @@ function MU_ShopDetail() {
                   <MU_ShopPhoto src={cast.src} w={90} h={115} radius={8} />
                 </div>
                 <div style={{ position: 'absolute', top: 5, left: 5, padding: '2px 6px', borderRadius: 999, background: statusMeta.tone, fontSize: 8, fontWeight: 800, color: statusMeta.text, letterSpacing: '0.05em', boxShadow: statusMeta.active ? '0 0 0 1px rgba(18,226,154,0.2), 0 4px 10px rgba(18,226,154,0.18)' : 'none' }}>{statusMeta.label}</div>
-                {statusMeta.active ? <div style={{ position: 'absolute', top: 10, right: 8, width: 8, height: 8, borderRadius: '50%', background: MU_S.success, boxShadow: '0 0 10px rgba(18,226,154,0.8)' }} /> : null}
+                {statusMeta.active ? <div style={{ position: 'absolute', top: 10, right: 8, width: 8, height: 8, borderRadius: '50%', background: MU_S.success }} /> : null}
               </div>
               <div style={{ marginTop: 6, fontSize: 11, color: MU_S.ink, fontFamily: MU_S.fontSerif, letterSpacing: '0.04em' }}>{cast.name}</div>
               <div style={{ marginTop: 2, display: 'inline-flex', alignItems: 'center', gap: 5, minHeight: 18, padding: '0 6px', borderRadius: 999, background: statusMeta.chipBg, border: `0.5px solid ${statusMeta.chipBorder}`, fontSize: 8, color: statusMeta.chipText, letterSpacing: '0.05em' }}>
@@ -771,7 +771,7 @@ function MU_ShopDetail() {
           )})}
         </div>
 
-        <div style={{ margin: '0 20px', padding: 16, borderRadius: 12, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
+        <div style={{ margin: '0 20px', padding: 16, borderRadius: 6, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
           <div style={{ fontFamily: MU_S.fontBrand, fontSize: 10, color: MU_S.goldDeep, letterSpacing: '0.25em', marginBottom: 10 }}>INFO</div>
           {[
             ['住所', detail.info.address],
@@ -791,13 +791,13 @@ function MU_ShopDetail() {
       </div>
 
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '14px 20px 20px', display: 'flex', gap: 10 }}>
-        <div style={{ flex: 1, height: 48, borderRadius: 24, border: `0.5px solid ${MU_S.gold}`, background: 'rgba(251, 247, 244, 0.08)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, cursor: 'pointer' }} onClick={() => window.__nav?.open('shop-recruit')}>
+        <div style={{ flex: 1, height: 48, borderRadius: 8, border: `0.5px solid ${MU_S.gold}`, background: 'rgba(251, 247, 244, 0.08)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, cursor: 'pointer' }} onClick={() => window.__nav?.open('shop-recruit')}>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={MU_S.gold} strokeWidth="1.6"><rect x="3" y="7" width="18" height="13" rx="1" /><path d="M9 7 V5 A1 1 0 0 1 10 4 H14 A1 1 0 0 1 15 5 V7" /></svg>
           <span style={{ fontSize: 12, color: MU_S.gold, fontWeight: 600, letterSpacing: '0.15em', fontFamily: MU_S.fontSerif }}>採用相談</span>
         </div>
-        <div style={{ flex: 1.3, height: 48, borderRadius: 24, background: MU_S.gradGold, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, boxShadow: MU_S.shadowGold, cursor: 'pointer' }} onClick={() => window.__nav?.open('chat')}>
+        <div style={{ flex: 1.3, height: 48, borderRadius: 8, background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, boxShadow: 'none', cursor: 'pointer' }} onClick={() => window.__nav?.open('chat')}>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1A2C31" strokeWidth="1.8"><path d="M4 5 H20 A1 1 0 0 1 21 6 V17 A1 1 0 0 1 20 18 H10 L5 21 V18 H4 A1 1 0 0 1 3 17 V6 A1 1 0 0 1 4 5 Z" strokeLinejoin="round" /></svg>
-          <span style={{ fontSize: 13, color: '#1A2C31', fontWeight: 700, letterSpacing: '0.15em' }}>店舗に連絡</span>
+          <span style={{ fontSize: 13, color: MU_M.goldDeep, fontWeight: 700, letterSpacing: '0.15em' }}>店舗に連絡</span>
         </div>
       </div>
     </div>
@@ -813,12 +813,12 @@ function MU_ShopRecruit() {
     <div style={{ width: '100%', height: '100%', background: MU_S.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 40 }}>
         <MU_SubHeader title="採用相談" subtitle={shop.name} />
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_S.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_S.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_S.fontBrand, fontSize: 10, color: MU_S.goldDeep, letterSpacing: '0.24em' }}>RECRUIT INFO</div>
           <div style={{ marginTop: 5, fontFamily: MU_S.fontSerif, fontSize: 18, color: MU_S.ink }}>{recruit.title}</div>
           <div style={{ marginTop: 8, fontSize: 11, color: MU_S.inkMid, lineHeight: 1.7 }}>{recruit.summary}</div>
         </div>
-        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 14, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 8, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
           {[
             ['給与目安', recruit.salary],
             ['シフト時間', recruit.shifts],
@@ -832,7 +832,7 @@ function MU_ShopRecruit() {
         </div>
         <div style={{ margin: '14px 20px 0', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
           {recruit.benefits.map((item) => (
-            <div key={item} style={{ padding: '14px 12px', borderRadius: 14, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}`, textAlign: 'center', fontSize: 11, color: MU_S.ink }}>
+            <div key={item} style={{ padding: '14px 12px', borderRadius: 8, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}`, textAlign: 'center', fontSize: 11, color: MU_S.ink }}>
               {item}
             </div>
           ))}
@@ -893,7 +893,7 @@ function MU_ShopCoupons() {
     <div style={{ width: '100%', height: '100%', background: MU_S.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 40 }}>
         <MU_SubHeader title="店舗クーポン" subtitle={shop.name} />
-        <div style={{ margin: '14px 20px 0', padding: 18, borderRadius: 20, background: 'linear-gradient(135deg, #452d27 0%, #7A4A3B 42%, #C08B61 100%)', border: '1px solid rgba(234,212,167,0.22)', boxShadow: '0 16px 34px rgba(201,122,122,0.12)' }}>
+        <div style={{ margin: '14px 20px 0', padding: 18, borderRadius: 8, background: '#FBF8F4', border: '1px solid rgba(234,212,167,0.22)' }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 14 }}>
             <div>
               <div style={{ fontFamily: MU_S.fontBrand, fontSize: 10, color: 'rgba(251,247,244,0.78)', letterSpacing: '0.28em' }}>COUPON LOUNGE</div>
@@ -902,7 +902,7 @@ function MU_ShopCoupons() {
                 今すぐ使えるクーポンと、受け取り済みチケットをまとめて管理
               </div>
             </div>
-            <div style={{ flexShrink: 0, width: 56, height: 56, borderRadius: 18, background: 'rgba(251,247,244,0.12)', border: '1px solid rgba(251,247,244,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.14)' }}>
+            <div style={{ flexShrink: 0, width: 56, height: 56, borderRadius: 8, background: 'rgba(251,247,244,0.12)', border: '1px solid rgba(251,247,244,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F0D8B8" strokeWidth="1.7">
                 <path d="M4 8 V16 A1 1 0 0 0 5 17 H19 A1 1 0 0 0 20 16 V8 A1 1 0 0 0 19 7 H5 A1 1 0 0 0 4 8 Z" />
                 <path d="M4 12 H20" strokeDasharray="2 2" />
@@ -910,29 +910,29 @@ function MU_ShopCoupons() {
             </div>
           </div>
           <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
-            <div style={{ padding: '12px 12px', borderRadius: 14, background: 'rgba(255,255,255,0.14)', border: '1px solid rgba(255,255,255,0.12)' }}>
+            <div style={{ padding: '12px 12px', borderRadius: 8, background: 'rgba(255,255,255,0.14)', border: '1px solid rgba(255,255,255,0.12)' }}>
               <div style={{ fontSize: 9, color: 'rgba(251,247,244,0.72)', letterSpacing: '0.08em' }}>総チケット</div>
               <div style={{ marginTop: 5, fontFamily: MU_S.fontSerif, fontSize: 22, color: '#F6F2EF' }}>{detail.coupons.length}</div>
             </div>
-            <div style={{ padding: '12px 12px', borderRadius: 14, background: 'rgba(255,255,255,0.14)', border: '1px solid rgba(255,255,255,0.12)' }}>
+            <div style={{ padding: '12px 12px', borderRadius: 8, background: 'rgba(255,255,255,0.14)', border: '1px solid rgba(255,255,255,0.12)' }}>
               <div style={{ fontSize: 9, color: 'rgba(251,247,244,0.72)', letterSpacing: '0.08em' }}>受取可能</div>
               <div style={{ marginTop: 5, fontFamily: MU_S.fontSerif, fontSize: 22, color: '#F0D8B8' }}>{availableCount}</div>
             </div>
-            <div style={{ padding: '12px 12px', borderRadius: 14, background: 'rgba(255,255,255,0.14)', border: '1px solid rgba(255,255,255,0.12)' }}>
+            <div style={{ padding: '12px 12px', borderRadius: 8, background: 'rgba(255,255,255,0.14)', border: '1px solid rgba(255,255,255,0.12)' }}>
               <div style={{ fontSize: 9, color: 'rgba(251,247,244,0.72)', letterSpacing: '0.08em' }}>受取済み</div>
               <div style={{ marginTop: 5, fontFamily: MU_S.fontSerif, fontSize: 22, color: '#F6F2EF' }}>{claimedCount}</div>
             </div>
           </div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 4, borderRadius: 16, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}`, display: 'flex' }}>
+        <div style={{ margin: '14px 20px 0', padding: 4, borderRadius: 8, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}`, display: 'flex' }}>
           {[ 
             { id: 'coupons', label: 'クーポン' },
             { id: 'system', label: '料金システム' },
           ].map((tab) => {
             const active = activeTab === tab.id;
             return (
-              <button key={tab.id} type="button" onClick={() => setActiveTab(tab.id)} style={{ flex: 1, height: 34, borderRadius: 12, background: active ? MU_S.gradGold : 'transparent', color: active ? '#1A2C31' : MU_S.inkMid, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
+              <button key={tab.id} type="button" onClick={() => setActiveTab(tab.id)} style={{ flex: 1, height: 34, borderRadius: 6, background: active ? MU_S.bgAlt : 'transparent', color: active ? MU_S.ink : MU_S.inkMid, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
                 {tab.label}
               </button>
             );
@@ -947,12 +947,12 @@ function MU_ShopCoupons() {
               const accent = isClaimed ? '#CFC5BC' : index % 3 === 0 ? '#A49673' : index % 3 === 1 ? '#C97A7A' : '#C9BC9A';
 
             return (
-              <div key={item.title} style={{ position: 'relative', padding: '16px 16px 16px 18px', borderRadius: 18, background: isClaimed ? 'linear-gradient(135deg, #F6F2EE 0%, #FFFFFF 100%)' : 'linear-gradient(135deg, #FFF9F3 0%, #FFFFFF 100%)', border: `1px solid ${isClaimed ? 'rgba(207,197,188,0.55)' : 'rgba(164,150,115,0.22)'}`, boxShadow: isClaimed ? '0 8px 18px rgba(26,44,49,0.04)' : '0 12px 26px rgba(164,150,115,0.08)', overflow: 'hidden' }}>
+              <div key={item.title} style={{ position: 'relative', padding: '16px 16px 16px 18px', borderRadius: 8, background: isClaimed ? 'linear-gradient(135deg, #F6F2EE 0%, #FFFFFF 100%)' : 'linear-gradient(135deg, #FFF9F3 0%, #FFFFFF 100%)', border: `1px solid ${isClaimed ? 'rgba(207,197,188,0.55)' : 'rgba(164,150,115,0.22)'}`, overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: 6, background: accent }} />
                 <div style={{ position: 'absolute', left: -10, top: '50%', transform: 'translateY(-50%)', width: 20, height: 20, borderRadius: '50%', background: MU_S.bg }} />
                 <div style={{ position: 'absolute', right: -10, top: '50%', transform: 'translateY(-50%)', width: 20, height: 20, borderRadius: '50%', background: MU_S.bg }} />
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-                    <div style={{ width: 52, height: 52, borderRadius: 14, background: isClaimed ? 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)' : `linear-gradient(135deg, ${accent} 0%, #FFFFFF 130%)`, border: `1px solid ${isClaimed ? 'rgba(220,203,188,0.8)' : 'rgba(164,150,115,0.28)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: isClaimed ? MU_S.inkMid : '#1A2C31', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.5)' }}>
+                    <div style={{ width: 52, height: 52, borderRadius: 8, background: isClaimed ? 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)' : `linear-gradient(135deg, ${accent} 0%, #FFFFFF 130%)`, border: `1px solid ${isClaimed ? 'rgba(220,203,188,0.8)' : 'rgba(164,150,115,0.28)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: isClaimed ? MU_S.inkMid : '#1A2C31' }}>
                       {index % 4 === 0 ? (
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
                           <path d="M4 8 V16 A1 1 0 0 0 5 17 H19 A1 1 0 0 0 20 16 V8 A1 1 0 0 0 19 7 H5 A1 1 0 0 0 4 8 Z" />
@@ -1001,7 +1001,7 @@ function MU_ShopCoupons() {
                               setCouponVersion((prev) => prev + 1);
                             }
                           }}
-                          style={{ height: 32, padding: '0 14px', borderRadius: 999, background: isClaimed ? MU_S.bgSoft : MU_S.gradGold, color: isClaimed ? MU_S.inkMid : '#1A2C31', fontSize: 10, fontWeight: 800, letterSpacing: '0.08em', cursor: 'pointer', boxShadow: isClaimed ? 'none' : '0 8px 18px rgba(164,150,115,0.18)' }}
+                          style={{ height: 32, padding: '0 14px', borderRadius: 999, background: 'transparent', border: `0.5px solid ${isClaimed ? MU_S.hairline : MU_S.gold}`, color: isClaimed ? MU_S.inkMid : MU_S.goldDeep, fontSize: 10, fontWeight: 800, letterSpacing: '0.08em', cursor: 'pointer' }}
                         >
                           {isClaimed ? '受取済み' : '受け取る'}
                         </button>
@@ -1012,7 +1012,7 @@ function MU_ShopCoupons() {
                 );
               })}
           </div>
-          <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: MU_S.gradRouge, border: `0.5px solid ${MU_S.rougeSoft}` }}>
+          <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: MU_S.gradRouge, border: `0.5px solid ${MU_S.rougeSoft}` }}>
             <div style={{ fontFamily: MU_S.fontBrand, fontSize: 10, color: 'rgba(234, 212, 167, 0.86)', letterSpacing: '0.24em' }}>USAGE NOTE</div>
             <div style={{ marginTop: 6, fontSize: 11, color: '#F6F2EF', lineHeight: 1.7, textShadow: '0 1px 2px rgba(0,0,0,0.18)' }}>
               店舗クーポンは通常、会員ポイントと併用できますが、複数の割引は同時適用できません。混雑時間帯と個室クーポンは店舗最終確認が優先されます。
@@ -1023,7 +1023,7 @@ function MU_ShopCoupons() {
 
         {activeTab === 'system' ? (
           <>
-          <div style={{ margin: '14px 20px 0', borderRadius: 14, background: '#FFFCF9', border: `0.5px solid ${MU_S.goldLight}`, overflow: 'hidden', boxShadow: '0 10px 28px rgba(26,44,49,0.04)' }}>
+          <div style={{ margin: '14px 20px 0', borderRadius: 8, background: '#FFFCF9', border: `0.5px solid ${MU_S.goldLight}`, overflow: 'hidden' }}>
             <div style={{ height: 36, padding: '0 14px', background: '#C97A7A', display: 'flex', alignItems: 'center', gap: 10 }}>
               <div style={{ width: 0, height: 0, borderTop: '6px solid transparent', borderBottom: '6px solid transparent', borderLeft: '8px solid #FFFFFF' }} />
               <div style={{ fontSize: 15, color: '#FFFFFF', fontWeight: 700, letterSpacing: '0.02em' }}>料金情報</div>
@@ -1124,12 +1124,12 @@ function MU_ShopCouponDetail() {
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 36 }}>
         <MU_SubHeader title="クーポン詳細" subtitle={shop.name} />
 
-        <div style={{ margin: '14px 20px 0', padding: 0, borderRadius: 22, background: '#FFFFFF', border: `0.5px solid ${MU_S.hairlineStrong}`, boxShadow: '0 12px 32px rgba(26,44,49,0.05)', overflow: 'hidden' }}>
-          <div style={{ position: 'relative', padding: '26px 18px 18px', background: 'linear-gradient(180deg, #FFFCFA 0%, #FFFFFF 100%)' }}>
+        <div style={{ margin: '14px 20px 0', padding: 0, borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_S.hairlineStrong}`, overflow: 'hidden' }}>
+          <div style={{ position: 'relative', padding: '26px 18px 18px', background: '#FBF8F4' }}>
             <div style={{ position: 'absolute', left: -10, top: 116, width: 20, height: 20, borderRadius: '50%', background: MU_S.bg, border: `0.5px solid ${MU_S.hairline}` }} />
             <div style={{ position: 'absolute', right: -10, top: 116, width: 20, height: 20, borderRadius: '50%', background: MU_S.bg, border: `0.5px solid ${MU_S.hairline}` }} />
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
-              <div style={{ width: 62, height: 62, borderRadius: 18, background: 'linear-gradient(135deg, #D7B193 0%, #F5EDE5 100%)', border: '1px solid rgba(164,150,115,0.34)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#5F5147', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.58), 0 6px 18px rgba(164,150,115,0.08)' }}>
+              <div style={{ width: 62, height: 62, borderRadius: 8, background: '#FBF8F4', border: '1px solid rgba(164,150,115,0.34)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#5F5147', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.58), 0 6px 18px rgba(164,150,115,0.08)' }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                   <path d="M4 8 V16 A1 1 0 0 0 5 17 H19 A1 1 0 0 0 20 16 V8 A1 1 0 0 0 19 7 H5 A1 1 0 0 0 4 8 Z" />
                   <path d="M4 12 H20" strokeDasharray="2 2" />
@@ -1167,17 +1167,17 @@ function MU_ShopCouponDetail() {
             onClick={() => {
               if (!claimed) MU_claimCoupon(shop.id, coupon.title);
             }}
-            style={{ width: '100%', height: 44, borderRadius: 999, background: claimed ? MU_S.bgSoft : 'linear-gradient(90deg, #D9B394 0%, #A96E47 100%)', color: claimed ? MU_S.inkMid : '#FFFFFF', fontSize: 16, fontWeight: 800, letterSpacing: '0.08em', cursor: 'pointer', boxShadow: claimed ? 'none' : '0 10px 24px rgba(169,110,71,0.22)' }}
+            style={{ width: '100%', height: 44, borderRadius: 999, background: 'transparent', border: `0.5px solid ${claimed ? MU_S.hairline : MU_S.gold}`, color: claimed ? MU_S.inkMid : MU_S.goldDeep, fontSize: 16, fontWeight: 800, letterSpacing: '0.08em', cursor: 'pointer' }}
           >
             {claimed ? '受取済み' : '受け取る'}
           </button>
         </div>
 
-        <div style={{ margin: '18px 20px 0', padding: '18px 16px', borderRadius: 18, background: '#FFFFFF', border: `0.5px solid ${MU_S.hairline}`, boxShadow: '0 10px 28px rgba(26,44,49,0.03)' }}>
+        <div style={{ margin: '18px 20px 0', padding: '18px 16px', borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_S.hairline}` }}>
           <div style={{ fontFamily: MU_S.fontBrand, fontSize: 10, color: MU_S.goldDeep, letterSpacing: '0.24em', textAlign: 'center' }}>REDEEM QR</div>
           <div style={{ marginTop: 8, fontFamily: MU_S.fontSerif, fontSize: 16, color: MU_S.ink, letterSpacing: '0.04em', textAlign: 'center' }}>到店核销二维码</div>
           <div style={{ marginTop: 14, display: 'flex', justifyContent: 'center' }}>
-            <div style={{ width: 168, height: 168, padding: 10, borderRadius: 20, background: '#FFFFFF', border: `0.5px solid ${MU_S.hairlineStrong}`, boxShadow: '0 10px 24px rgba(26,44,49,0.06)' }}>
+            <div style={{ width: 168, height: 168, padding: 10, borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_S.hairlineStrong}` }}>
               <div style={{ width: '100%', height: '100%', display: 'grid', gridTemplateColumns: 'repeat(21, 1fr)', gridTemplateRows: 'repeat(21, 1fr)', gap: 1 }}>
                 {qrCells.map((filled, index) => (
                   <div key={index} style={{ background: filled ? '#1A2C31' : 'transparent', borderRadius: 1 }} />
@@ -1197,7 +1197,7 @@ function MU_ShopCouponDetail() {
           <div style={{ flex: 1, height: 1, background: 'rgba(164,150,115,0.16)' }} />
         </div>
 
-        <div style={{ margin: '10px 20px 0', borderRadius: 18, background: '#FFFFFF', border: `0.5px solid ${MU_S.hairline}`, overflow: 'hidden', boxShadow: '0 10px 28px rgba(26,44,49,0.03)' }}>
+        <div style={{ margin: '10px 20px 0', borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_S.hairline}`, overflow: 'hidden' }}>
           {[
             ['有効期限', coupon.deadline, 'calendar'],
             ['利用可能回数', coupon.usageLimit, 'person'],
@@ -1207,7 +1207,7 @@ function MU_ShopCouponDetail() {
             ['備考', coupon.notes, 'note'],
           ].map(([label, value, icon], index) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 0', margin: '0 14px', borderTop: index > 0 ? `0.5px solid ${MU_S.hairline}` : 'none' }}>
-              <div style={{ width: 28, height: 28, borderRadius: 14, background: 'linear-gradient(135deg, #FBF6F1 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_S.hairline}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_S.goldDeep, flexShrink: 0 }}>
+              <div style={{ width: 28, height: 28, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_S.hairline}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_S.goldDeep, flexShrink: 0 }}>
                 {icon === 'calendar' ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M8 3 V7" /><path d="M16 3 V7" /><path d="M4 10 H20" /></svg> : null}
                 {icon === 'person' ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="8" r="3.2" /><path d="M6 19 C6 15.8 8.7 14 12 14 C15.3 14 18 15.8 18 19" /></svg> : null}
                 {icon === 'shop' ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M5 10 H19 V19 H5 Z" /><path d="M4 10 L6 5 H18 L20 10" /><path d="M10 14 H14" /></svg> : null}
@@ -1229,7 +1229,7 @@ function MU_ShopCouponDetail() {
         </div>
 
         <div style={{ padding: '18px 20px 0' }}>
-          <button type="button" onClick={() => window.__nav?.back()} style={{ width: '100%', height: 42, borderRadius: 999, background: '#FFFFFF', border: `0.5px solid ${MU_S.goldLight}`, color: MU_S.ink, fontSize: 14, fontWeight: 700, cursor: 'pointer', boxShadow: '0 8px 22px rgba(26,44,49,0.02)' }}>
+          <button type="button" onClick={() => window.__nav?.back()} style={{ width: '100%', height: 42, borderRadius: 999, background: '#FFFFFF', border: `0.5px solid ${MU_S.goldLight}`, color: MU_S.ink, fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
             クーポン一覧に戻る
           </button>
         </div>
@@ -1247,7 +1247,7 @@ function MU_ShopCasts() {
     <div style={{ width: '100%', height: '100%', background: MU_S.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 40 }}>
         <MU_SubHeader title="キャスト一覧" subtitle={shop.name} />
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_S.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_S.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_S.fontBrand, fontSize: 10, color: MU_S.goldDeep, letterSpacing: '0.24em' }}>CAST LINEUP</div>
           <div style={{ marginTop: 5, fontFamily: MU_S.fontSerif, fontSize: 18, color: MU_S.ink }}>{shop.name} は現在 {onlineCount} 名出勤中、予約可能 {detail.casts.length - onlineCount} 名です</div>
         </div>
@@ -1256,7 +1256,7 @@ function MU_ShopCasts() {
             const statusMeta = MU_getCastStatusMeta(cast.state);
 
             return (
-            <div key={cast.name} onClick={() => window.__nav?.open('cast-detail')} style={{ padding: 10, borderRadius: 16, background: statusMeta.dimmed ? 'rgba(244,240,236,0.92)' : MU_S.surface, border: statusMeta.active ? '1px solid rgba(18,226,154,0.34)' : statusMeta.dimmed ? '1px solid rgba(26,44,49,0.14)' : `0.5px solid ${MU_S.hairline}`, boxShadow: statusMeta.active ? '0 10px 24px rgba(18,226,154,0.08)' : 'none', cursor: 'pointer', opacity: statusMeta.dimmed ? 0.78 : 1 }}>
+            <div key={cast.name} onClick={() => window.__nav?.open('cast-detail')} style={{ padding: 10, borderRadius: 8, background: statusMeta.dimmed ? 'rgba(244,240,236,0.92)' : MU_S.surface, border: statusMeta.active ? '1px solid rgba(18,226,154,0.34)' : statusMeta.dimmed ? '1px solid rgba(26,44,49,0.14)' : `0.5px solid ${MU_S.hairline}`, boxShadow: statusMeta.active ? '0 10px 24px rgba(18,226,154,0.08)' : 'none', cursor: 'pointer', opacity: statusMeta.dimmed ? 0.78 : 1 }}>
               <div style={{ position: 'relative' }}>
                 <div style={{ filter: statusMeta.dimmed ? 'grayscale(0.95)' : 'none', opacity: statusMeta.dimmed ? 0.72 : 1 }}>
                   <MU_ShopPhoto src={cast.src} w="100%" h={180} radius={12} />
@@ -1264,8 +1264,8 @@ function MU_ShopCasts() {
                 <div style={{ position: 'absolute', top: 8, left: 8, padding: '4px 8px', borderRadius: 999, background: statusMeta.tone, color: statusMeta.text, fontSize: 9, fontWeight: 800, letterSpacing: '0.05em', boxShadow: statusMeta.active ? '0 4px 10px rgba(18,226,154,0.18)' : 'none' }}>
                   {statusMeta.label}
                 </div>
-                {statusMeta.active ? <div style={{ position: 'absolute', top: 12, right: 12, width: 10, height: 10, borderRadius: '50%', background: MU_S.success, boxShadow: '0 0 12px rgba(18,226,154,0.85)' }} /> : null}
-                {statusMeta.dimmed ? <div style={{ position: 'absolute', inset: 0, borderRadius: 12, background: 'linear-gradient(180deg, rgba(26,44,49,0.02) 0%, rgba(26,44,49,0.28) 100%)' }} /> : null}
+                {statusMeta.active ? <div style={{ position: 'absolute', top: 12, right: 12, width: 10, height: 10, borderRadius: '50%', background: MU_S.success }} /> : null}
+                {statusMeta.dimmed ? <div style={{ position: 'absolute', inset: 0, borderRadius: 6, background: 'linear-gradient(180deg, rgba(26,44,49,0.02) 0%, rgba(26,44,49,0.28) 100%)' }} /> : null}
               </div>
               <div style={{ marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
                 <div>
@@ -1276,12 +1276,12 @@ function MU_ShopCasts() {
                     <span>{statusMeta.dimmed ? '未出勤' : statusMeta.active ? '出勤中' : '待機/予約'}</span>
                   </div>
                 </div>
-                <button type="button" onClick={(event) => { event.stopPropagation(); window.__nav?.open('chat'); }} style={{ height: 26, padding: '0 10px', borderRadius: 999, background: MU_S.gradGold, color: '#1A2C31', fontSize: 9, fontWeight: 700, cursor: 'pointer' }}>連絡</button>
+                <button type="button" onClick={(event) => { event.stopPropagation(); window.__nav?.open('chat'); }} style={{ height: 26, padding: '0 10px', borderRadius: 999, background: 'transparent', color: MU_M.goldDeep, fontSize: 9, fontWeight: 700, cursor: 'pointer' }}>連絡</button>
               </div>
             </div>
           )})}
         </div>
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
           <div style={{ fontFamily: MU_S.fontBrand, fontSize: 10, color: MU_S.goldDeep, letterSpacing: '0.24em' }}>BOOKING TIP</div>
           <div style={{ marginTop: 6, fontSize: 11, color: MU_S.inkMid, lineHeight: 1.7 }}>
             `出勤中` はすぐ連絡可能、`予約可` は事前確保向け、`オンライン` は通常 30 - 60 分後の来店予定です。
@@ -1300,21 +1300,21 @@ function MU_ShopEvents() {
     <div style={{ width: '100%', height: '100%', background: MU_S.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 40 }}>
         <MU_SubHeader title="店舗イベント" subtitle={shop.name} />
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: MU_S.gradRouge, border: `0.5px solid ${MU_S.rougeSoft}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: MU_S.gradRouge, border: `0.5px solid ${MU_S.rougeSoft}` }}>
           <div style={{ fontFamily: MU_S.fontBrand, fontSize: 10, color: 'rgba(234, 212, 167, 0.86)', letterSpacing: '0.24em' }}>EVENT BOARD</div>
           <div style={{ marginTop: 5, fontFamily: MU_S.fontSerif, fontSize: 18, color: '#F6F2EF' }}>{shop.name} の開催中イベントと日程</div>
         </div>
         <div style={{ margin: '14px 20px 0', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
-          <div style={{ padding: '14px 12px', borderRadius: 14, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
+          <div style={{ padding: '14px 12px', borderRadius: 8, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
             <div style={{ fontSize: 9, color: MU_S.inkMid, letterSpacing: '0.08em' }}>今週のイベント</div>
             <div style={{ marginTop: 4, fontFamily: MU_S.fontSerif, fontSize: 18, color: MU_S.gold }}>{detail.events.length}</div>
           </div>
-          <div style={{ padding: '14px 12px', borderRadius: 14, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
+          <div style={{ padding: '14px 12px', borderRadius: 8, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
             <div style={{ fontSize: 9, color: MU_S.inkMid, letterSpacing: '0.08em' }}>人気日程</div>
             <div style={{ marginTop: 4, fontFamily: MU_S.fontSerif, fontSize: 18, color: MU_S.ink }}>Fri / Sat</div>
           </div>
         </div>
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, overflow: 'hidden', background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, overflow: 'hidden', background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
           {detail.events.map((item, index) => (
             <button
               key={item.title}
@@ -1336,7 +1336,7 @@ function MU_ShopEvents() {
             </button>
           ))}
         </div>
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
           <div style={{ fontFamily: MU_S.fontBrand, fontSize: 10, color: MU_S.goldDeep, letterSpacing: '0.24em' }}>RESERVATION NOTE</div>
           <div style={{ marginTop: 6, fontSize: 11, color: MU_S.inkMid, lineHeight: 1.7 }}>
             イベント期間は人気キャストの予約が集中しやすいため、先にクーポンを受け取ってから店舗またはキャストへ連絡するのがおすすめです。
@@ -1356,7 +1356,7 @@ function MU_ShopEventDetail() {
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 40 }}>
         <MU_SubHeader title="イベント詳細" subtitle={shop.name} />
 
-        <div style={{ margin: '14px 20px 0', padding: 18, borderRadius: 18, background: MU_S.gradRouge, border: `0.5px solid ${MU_S.rougeSoft}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 18, borderRadius: 8, background: MU_S.gradRouge, border: `0.5px solid ${MU_S.rougeSoft}` }}>
           <div style={{ fontFamily: MU_S.fontBrand, fontSize: 10, color: 'rgba(234, 212, 167, 0.86)', letterSpacing: '0.24em' }}>{event.heroLabel}</div>
           <div style={{ marginTop: 6, fontFamily: MU_S.fontSerif, fontSize: 22, color: '#F6F2EF', lineHeight: 1.35 }}>{event.title}</div>
           <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
@@ -1366,7 +1366,7 @@ function MU_ShopEventDetail() {
           <div style={{ marginTop: 10, fontSize: 11, color: 'rgba(251,247,244,0.82)', lineHeight: 1.75 }}>{event.overview}</div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: '#FFFFFF', border: `0.5px solid ${MU_S.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_S.hairline}`, overflow: 'hidden' }}>
           <div style={{ padding: '14px 16px', borderBottom: `0.5px solid ${MU_S.hairline}`, fontFamily: MU_S.fontSerif, fontSize: 16, color: MU_S.ink }}>イベント概要</div>
           {event.highlights.map((item, index) => (
             <div key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '12px 16px', borderTop: index > 0 ? `0.5px solid ${MU_S.hairline}` : 'none' }}>
@@ -1376,19 +1376,19 @@ function MU_ShopEventDetail() {
           ))}
         </div>
 
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}` }}>
           <div style={{ padding: '14px 16px 8px', fontFamily: MU_S.fontSerif, fontSize: 16, color: MU_S.ink }}>来店特典</div>
           <div style={{ padding: '0 16px 14px', display: 'flex', flexDirection: 'column', gap: 10 }}>
             {event.perks.map((perk) => (
               <div key={perk} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                <div style={{ width: 16, height: 16, borderRadius: 8, background: MU_S.gradGold, color: '#1A2C31', fontSize: 10, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 1 }}>+</div>
+                <div style={{ width: 16, height: 16, borderRadius: 8, background: 'transparent', color: MU_M.goldDeep, fontSize: 10, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 1 }}>+</div>
                 <div style={{ fontSize: 12, color: MU_S.inkMid, lineHeight: 1.7 }}>{perk}</div>
               </div>
             ))}
           </div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: '#FFFFFF', border: `0.5px solid ${MU_S.hairline}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_S.hairline}` }}>
           <div style={{ fontFamily: MU_S.fontBrand, fontSize: 10, color: MU_S.goldDeep, letterSpacing: '0.24em' }}>NOTICE</div>
           <div style={{ marginTop: 8, display: 'flex', flexDirection: 'column', gap: 8 }}>
             {event.notes.map((note) => (
@@ -1398,10 +1398,10 @@ function MU_ShopEventDetail() {
         </div>
 
         <div style={{ padding: '18px 20px 0', display: 'flex', gap: 10 }}>
-          <button type="button" onClick={() => window.__nav?.back()} style={{ flex: 1, height: 44, borderRadius: 22, background: '#FFFFFF', border: `0.5px solid ${MU_S.goldLight}`, color: MU_S.ink, fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
+          <button type="button" onClick={() => window.__nav?.back()} style={{ flex: 1, height: 44, borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_S.goldLight}`, color: MU_S.ink, fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
             イベント一覧に戻る
           </button>
-          <button type="button" onClick={() => window.__nav?.open('booking')} style={{ flex: 1.15, height: 44, borderRadius: 22, background: MU_S.gradGold, color: '#1A2C31', fontSize: 13, fontWeight: 800, cursor: 'pointer', boxShadow: MU_S.shadowGold }}>
+          <button type="button" onClick={() => window.__nav?.open('booking')} style={{ flex: 1.15, height: 44, borderRadius: 8, background: 'transparent', color: MU_M.goldDeep, fontSize: 13, fontWeight: 800, cursor: 'pointer', boxShadow: 'none' }}>
             このイベントを予約
           </button>
         </div>
@@ -1427,7 +1427,7 @@ function MU_ShopGallery() {
     <div style={{ width: '100%', height: '100%', background: MU_S.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 40 }}>
         <MU_SubHeader title="店舗アルバム" subtitle={shop.name} />
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 18, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_S.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_S.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_S.fontBrand, fontSize: 10, color: MU_S.goldDeep, letterSpacing: '0.24em' }}>GALLERY</div>
           <div style={{ marginTop: 5, fontFamily: MU_S.fontSerif, fontSize: 18, color: MU_S.ink }}>{shop.name} の店内アルバム</div>
         </div>
@@ -1437,7 +1437,7 @@ function MU_ShopGallery() {
               key={item.src + index}
               type="button"
               onClick={() => setPreviewIndex(index)}
-              style={{ padding: 0, borderRadius: 16, overflow: 'hidden', background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}`, cursor: 'pointer', textAlign: 'left' }}
+              style={{ padding: 0, borderRadius: 8, overflow: 'hidden', background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}`, cursor: 'pointer', textAlign: 'left' }}
             >
               <MU_ShopPhoto src={item.src} w="100%" h={156} radius={0} />
               <div style={{ padding: '10px 12px 12px' }}>
@@ -1471,7 +1471,7 @@ function MU_ShopGallery() {
             src={gallery[previewIndex]}
             alt={`${shop.name} ${previewIndex + 1}`}
             onClick={(event) => event.stopPropagation()}
-            style={{ maxWidth: '100%', maxHeight: '78vh', objectFit: 'contain', borderRadius: 18, boxShadow: '0 18px 46px rgba(0,0,0,0.28)' }}
+            style={{ maxWidth: '100%', maxHeight: '78vh', objectFit: 'contain', borderRadius: 8 }}
           />
         </div>
       ) : null}
@@ -1488,7 +1488,7 @@ function MU_ShopVideos() {
     <div style={{ width: '100%', height: '100%', background: MU_S.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 40 }}>
         <MU_SubHeader title="店舗動画" subtitle={shop.name} />
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 18, background: MU_S.gradRouge, border: `0.5px solid ${MU_S.rougeSoft}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: MU_S.gradRouge, border: `0.5px solid ${MU_S.rougeSoft}` }}>
           <div style={{ fontFamily: MU_S.fontBrand, fontSize: 10, color: 'rgba(234, 212, 167, 0.86)', letterSpacing: '0.24em' }}>VIDEO</div>
           <div style={{ marginTop: 5, fontFamily: MU_S.fontSerif, fontSize: 18, color: '#F6F2EF' }}>{shop.name} の店舗動画</div>
         </div>
@@ -1498,13 +1498,13 @@ function MU_ShopVideos() {
               key={video.title}
               type="button"
               onClick={() => setActiveVideo(index)}
-              style={{ padding: 0, borderRadius: 18, overflow: 'hidden', background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}`, cursor: 'pointer', textAlign: 'left' }}
+              style={{ padding: 0, borderRadius: 8, overflow: 'hidden', background: MU_S.surface, border: `0.5px solid ${MU_S.hairline}`, cursor: 'pointer', textAlign: 'left' }}
             >
               <div style={{ position: 'relative' }}>
                 <MU_ShopPhoto src={video.cover} w="100%" h={198} radius={0} />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(26,44,49,0.08) 0%, rgba(26,44,49,0.7) 100%)' }} />
                 <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <div style={{ width: 58, height: 58, borderRadius: 999, background: 'rgba(251,247,244,0.88)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 24px rgba(0,0,0,0.14)' }}>
+                  <div style={{ width: 58, height: 58, borderRadius: 999, background: 'rgba(251,247,244,0.88)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="#1A2C31"><path d="M8 6 V18 L18 12 Z" /></svg>
                   </div>
                 </div>
@@ -1544,7 +1544,7 @@ function MU_ShopVideos() {
               controls
               autoPlay
               playsInline
-              style={{ width: '100%', borderRadius: 18, background: '#000', boxShadow: '0 18px 46px rgba(0,0,0,0.32)' }}
+              style={{ width: '100%', borderRadius: 8, background: '#000' }}
             />
             <div style={{ marginTop: 12, textAlign: 'center', fontSize: 12, color: '#F6F2EF', letterSpacing: '0.06em' }}>{videos[activeVideo].title}</div>
           </div>
@@ -1558,7 +1558,7 @@ function MU_SubHeader({ title, subtitle }) {
   return (
     <div style={{ paddingTop: MU_TOP_SPACING }}>
       <div style={{ padding: '8px 20px', display: 'flex', alignItems: 'center', gap: 12 }}>
-        <div style={{ width: 36, height: 36, borderRadius: 18, background: '#FFFFFF', border: `0.5px solid ${MU_S.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} onClick={() => window.__nav?.back()}>
+        <div style={{ width: 36, height: 36, borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_S.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} onClick={() => window.__nav?.back()}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={MU_S.ink} strokeWidth="2"><path d="M15 6 L9 12 L15 18" strokeLinecap="round" /></svg>
         </div>
         <div style={{ flex: 1, textAlign: 'center' }}>

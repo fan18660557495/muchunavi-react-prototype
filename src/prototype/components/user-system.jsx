@@ -110,21 +110,33 @@ window.MU_FlatRowGroup = function MU_FlatRowGroup({ children, topBorder = false,
 
 // ============== MU_StatColumns ==============
 // Multi-column stat row, no card wrapper, vertical hairlines between columns.
-window.MU_StatColumns = function MU_StatColumns({ items, onItemClick, padX = 20, marginTop = 14, numFontSize = 24 }) {
+window.MU_StatColumns = function MU_StatColumns({ items, onItemClick, padX = 20, marginTop = 14, numFontSize = 24, withDividers = false }) {
   const t = T();
+  const wrapStyle = withDividers
+    ? { margin: `${marginTop}px ${padX}px 0`, padding: '18px 0', display: 'flex', borderTop: `0.5px solid ${t.hairline}`, borderBottom: `0.5px solid ${t.hairline}` }
+    : { margin: `${marginTop}px ${padX}px 0`, padding: '4px 0', display: 'flex' };
   return (
-    <div style={{ margin: `${marginTop}px ${padX}px 0`, padding: '4px 0', display: 'flex' }}>
-      {items.map((item, i) => (
-        <button
-          key={item.label}
-          type="button"
-          onClick={() => onItemClick?.(item)}
-          style={{ flex: 1, textAlign: 'center', borderLeft: i > 0 ? `0.5px solid ${t.hairline}` : 'none', cursor: 'pointer', background: 'transparent', padding: '2px 0', border: 'none' }}
-        >
-          <div style={{ fontFamily: t.fontSerif, fontSize: numFontSize, color: t.ink, fontWeight: 500, lineHeight: 1.1 }}>{item.num}</div>
-          <div style={{ fontSize: 9, color: t.inkMid, marginTop: 3, letterSpacing: '0.02em', lineHeight: 1.3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', padding: '0 2px' }}>{item.label}</div>
-        </button>
-      ))}
+    <div style={wrapStyle}>
+      {items.map((item, i) => {
+        const showInnerDivider = i > 0;
+        return (
+          <button
+            key={item.label}
+            type="button"
+            onClick={() => onItemClick?.(item)}
+            style={{ flex: 1, textAlign: 'center', position: 'relative', cursor: 'pointer', background: 'transparent', padding: '2px 0', border: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}
+          >
+            {showInnerDivider ? (
+              <span style={{ position: 'absolute', left: 0, top: '14%', bottom: '14%', width: 0.5, background: t.hairline }} />
+            ) : null}
+            {item.icon ? (
+              <span style={{ width: 20, height: 20, color: t.gold, display: 'inline-flex' }}>{item.icon}</span>
+            ) : null}
+            <div style={{ fontFamily: t.fontSerif, fontSize: numFontSize, color: t.ink, fontWeight: 500, lineHeight: 1.1 }}>{item.num}</div>
+            <div style={{ fontSize: 9, color: t.inkMid, letterSpacing: '0.02em', lineHeight: 1.3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', padding: '0 2px' }}>{item.label}</div>
+          </button>
+        );
+      })}
     </div>
   );
 };

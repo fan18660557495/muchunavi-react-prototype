@@ -1,8 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import mypageLv3Img from '../../assets/lv3.png';
-import vipDecorImg from '../../assets/vip.svg';
-import vipDecor2Img from '../../assets/vip2.svg';
-import mhLogoImg from '../../assets/mh-logo.svg';
 
 const MU_M = window.MU_TOKENS;
 const MU_TOP_SPACING = window.MU_TOP_SPACING || 32;
@@ -57,11 +54,11 @@ function MU_BookingThumb({ src, size = 56, radius = 10 }) {
 }
 
 function MU_FinanceIcon({ type }) {
-  const wrapStyle = { width: 46, height: 46, borderRadius: 23, background: 'linear-gradient(180deg, #FFFDFB 0%, #F6EFE8 100%)', border: '1px solid rgba(229, 218, 207, 0.95)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 10px rgba(0,0,0,0.03)', flexShrink: 0 };
+  const wrapStyle = { width: 46, height: 46, borderRadius: 23, background: 'linear-gradient(180deg, #FFFDFB 0%, #F6EFE8 100%)', border: '1px solid rgba(229, 218, 207, 0.95)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 };
   if (type === 'gift') {
     return (
       <div style={wrapStyle}>
-        <div style={{ width: 24, height: 20, borderRadius: 6, background: 'linear-gradient(180deg, #FFB6CC 0%, #F58CB2 100%)', position: 'relative', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.5)' }}>
+        <div style={{ width: 24, height: 20, borderRadius: 6, background: 'linear-gradient(180deg, #FFB6CC 0%, #F58CB2 100%)', position: 'relative' }}>
           <div style={{ position: 'absolute', left: 11, top: 0, bottom: 0, width: 3, background: '#FBF1F1' }} />
           <div style={{ position: 'absolute', left: 0, right: 0, top: 8, height: 3, background: '#FBF1F1' }} />
           <div style={{ position: 'absolute', left: 4, top: -5, width: 7, height: 7, border: '3px solid #F7A8C2', borderRadius: '7px 7px 0 7px', transform: 'rotate(-45deg)' }} />
@@ -171,15 +168,15 @@ function MU_StatsPage({ eyebrow, title, summary, items }) {
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow={eyebrow} title={title} />
 
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>SUMMARY</div>
           <div style={{ marginTop: 5, fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink, letterSpacing: '0.05em' }}>{summary}</div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           {items.map((item, index) => (
             <div key={`${item.title}-${index}`} style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none' }}>
-              {item.thumb ? <MU_BookingThumb src={item.thumb} size={52} radius={10} /> : <div style={{ width: 52, height: 52, borderRadius: 12, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.gold, fontFamily: MU_M.fontBrand, fontSize: 13 }}>{item.icon}</div>}
+              {item.thumb ? <MU_BookingThumb src={item.thumb} size={52} radius={10} /> : <div style={{ width: 52, height: 52, borderRadius: 6, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.gold, fontFamily: MU_M.fontBrand, fontSize: 13 }}>{item.icon}</div>}
               <div style={{ flex: 1 }}>
                 <div style={{ fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.ink, letterSpacing: '0.04em' }}>{item.title}</div>
                 <div style={{ marginTop: 4, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.5 }}>{item.subtitle}</div>
@@ -199,64 +196,59 @@ function MU_StatsPage({ eyebrow, title, summary, items }) {
 }
 
 function MU_MyPage() {
-  const [tierIdx, setTierIdx] = useState(0);
-  const [prevIdx, setPrevIdx] = useState(null);
-  const [direction, setDirection] = useState(null);
-  const dragStartX = useRef(null);
-  const isDragging = useRef(false);
+  const [ptExpanded, setPtExpanded] = useState(false);
+  const [lineNotify, setLineNotify] = useState(true);
 
-  const changeTier = (delta) => {
-    if (prevIdx !== null) return;
-    setTierIdx((current) => {
-      const next = Math.max(0, Math.min(tierCards.length - 1, current + delta));
-      if (next === current) return current;
-      setPrevIdx(current);
-      setDirection(delta > 0 ? 'next' : 'prev');
-      return next;
-    });
-  };
-
-  const handleAnimEnd = (e) => {
-    if (e.currentTarget.dataset.role === 'incoming') {
-      setPrevIdx(null);
-      setDirection(null);
-    }
-  };
-
-  const onPointerStart = (clientX) => {
-    dragStartX.current = clientX;
-    isDragging.current = true;
-  };
-  const onPointerEnd = (clientX) => {
-    if (!isDragging.current) return;
-    isDragging.current = false;
-    const dx = clientX - (dragStartX.current ?? clientX);
-    dragStartX.current = null;
-    if (Math.abs(dx) < 40) return;
-    changeTier(dx < 0 ? 1 : -1);
-  };
   const statItems = [
-    { label: 'クーポン', num: '12', target: 'mypage-coupons' },
-    { label: 'お気に入り店舗', num: '28', target: 'mypage-favorites' },
-    { label: 'フォロー中のキャスト', num: '6', target: 'mypage-following' },
-    { label: 'ファン', num: '14', target: 'mypage-followers' },
+    {
+      label: 'クーポン', num: '12', target: 'mypage-coupons',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 8v8h18V8M3 8l9-5 9 5" />
+          <circle cx="12" cy="13" r="0.5" fill="currentColor" />
+        </svg>
+      ),
+    },
+    {
+      label: 'お気に入り店舗', num: '18', target: 'mypage-favorites',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 21s-7-4.5-7-10.5C5 7 7.5 5 10 5c1.5 0 2.5.8 2 2 0-1.2 0.5-2 2-2 2.5 0 5 2 5 5.5 0 6-7 10.5-7 10.5z" />
+        </svg>
+      ),
+    },
+    {
+      label: 'フォロー中', num: '24', target: 'mypage-following',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="10" cy="8" r="4" />
+          <path d="M2 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+          <path d="M18 8l2 2 4-4" />
+        </svg>
+      ),
+    },
+    {
+      label: 'ファン', num: '136', target: 'mypage-followers',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="9" cy="8" r="3.5" />
+          <circle cx="17" cy="9" r="2.5" />
+          <path d="M2 20c0-3.9 3.1-7 7-7s7 3.1 7 7" />
+          <path d="M16 14c2.8 0 5 2.2 5 5" />
+        </svg>
+      ),
+    },
   ];
-  const actionItems = [
-    { label: '予約注文', en: 'ORDERS', count: 3, target: 'mypage-orders' },
+  const historyItems = [
+    { label: '会員特典 & 限定ミッション', en: 'BENEFITS', target: 'mypage-benefits' },
+    { label: 'muchuポン購入履歴', en: 'MUCHU PASS', count: 3, target: 'mypage-muchupon-history' },
     { label: 'ギフト履歴', en: 'GIFTS', target: 'mypage-gifts' },
     { label: '来店履歴', en: 'HISTORY', target: 'mypage-visits' },
-    { label: '友だち招待', en: 'INVITE', tagText: '+1,000 PT', target: 'mypage-invite' },
   ];
-  const serviceItems = [
-    { label: '本人確認', target: 'mypage-verification' },
-    { label: 'カスタマーサポート', target: 'mypage-support' },
-    { label: 'ビジネス提携', target: 'mypage-business' },
-    { label: '設定', target: 'mypage-settings' },
-  ];
-  const tierCards = [
-    { id: 'signature', tier: 'SIGNATURE', name: 'TAKESHI', cardNo: '3528  ****  ****  6789', valid: 'VALID THRU 06/29', nextTier: '次のティアまで 21,550 PT', progress: 28, icon: vipDecorImg, iconSize: 128, bg: '#1A2C31' },
-    { id: 'gold', tier: 'GOLD', name: 'TAKESHI', cardNo: '3528  ****  ****  6789', valid: 'VALID THRU 06/29', nextTier: '次のティアまで 8,200 PT', progress: 65, icon: vipDecor2Img, iconSize: 148, bg: '#2D241A' },
-    { id: 'platinum', tier: 'PLATINUM', name: 'TAKESHI', cardNo: '3528  ****  ****  6789', valid: 'VALID THRU 06/29', nextTier: 'すでに最高ティア', progress: 100, icon: vipDecorImg, iconSize: 128, bg: '#2A2E33' },
+  const ptBreakdown = [
+    { label: '有償ポイント', value: '90,600' },
+    { label: '無償ポイント', value: '30,000' },
+    { label: '限定ポイント', value: '8,000', warn: '今月末失効' },
   ];
 
   return (
@@ -264,129 +256,144 @@ function MU_MyPage() {
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 82 }}>
         <div style={{ height: MU_TOP_SPACING }} />
 
-        <window.MU_PageHeader>
-          <window.MU_HeaderIconButton onClick={() => window.__nav?.open('mypage-invite')} ariaLabel="分享">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 4 V15" />
-              <path d="M8 8 L12 4 L16 8" />
-              <path d="M5 13 V19 A1 1 0 0 0 6 20 H18 A1 1 0 0 0 19 19 V13" />
+        <div style={{ padding: '8px 20px 14px', display: 'flex', alignItems: 'center', gap: 14 }}>
+          <button
+            type="button"
+            onClick={() => window.__nav?.open('mypage-share')}
+            aria-label="プロフィール"
+            style={{ width: 44, height: 44, borderRadius: '50%', border: `0.5px solid ${MU_M.hairlineStrong}`, background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0, flexShrink: 0 }}
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={MU_M.gold} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
             </svg>
-          </window.MU_HeaderIconButton>
-          <window.MU_HeaderIconButton onClick={() => window.__nav?.open('mypage-settings')} ariaLabel="设置">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          </button>
+          <div style={{ flex: 1, minWidth: 0, fontFamily: MU_M.fontSerif, fontSize: 17, color: MU_M.ink, letterSpacing: '0.12em', fontWeight: 400, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>山田 武</div>
+          <button
+            type="button"
+            onClick={() => window.__nav?.open('mypage-settings')}
+            aria-label="設定"
+            style={{ width: 44, height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', background: 'transparent', border: 'none', padding: 0, flexShrink: 0 }}
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={MU_M.gold} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="3" />
               <path d="M19.4 15 A1.6 1.6 0 0 0 19.7 16.8 L19.8 16.9 A2 2 0 0 1 17 19.8 L16.9 19.7 A1.6 1.6 0 0 0 15 19.4 A1.6 1.6 0 0 0 14 20.9 V21 A2 2 0 0 1 10 21 V20.9 A1.6 1.6 0 0 0 9 19.4 A1.6 1.6 0 0 0 7.1 19.7 L7 19.8 A2 2 0 0 1 4.2 17 L4.3 16.9 A1.6 1.6 0 0 0 4.6 15 A1.6 1.6 0 0 0 3.1 14 H3 A2 2 0 0 1 3 10 H3.1 A1.6 1.6 0 0 0 4.6 9 A1.6 1.6 0 0 0 4.3 7.1 L4.2 7 A2 2 0 0 1 7 4.2 L7.1 4.3 A1.6 1.6 0 0 0 9 4.6 A1.6 1.6 0 0 0 10 3.1 V3 A2 2 0 0 1 14 3 V3.1 A1.6 1.6 0 0 0 15 4.6 A1.6 1.6 0 0 0 16.9 4.3 L17 4.2 A2 2 0 0 1 19.8 7 L19.7 7.1 A1.6 1.6 0 0 0 19.4 9 A1.6 1.6 0 0 0 20.9 10 H21 A2 2 0 0 1 21 14 H20.9 A1.6 1.6 0 0 0 19.4 15 Z" />
             </svg>
-          </window.MU_HeaderIconButton>
-        </window.MU_PageHeader>
+          </button>
+        </div>
 
-        <style>{`
-          @keyframes muTierInNext { from { transform: translateX(56px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-          @keyframes muTierOutNext { from { transform: translateX(0); opacity: 1; } to { transform: translateX(-56px); opacity: 0; } }
-          @keyframes muTierInPrev { from { transform: translateX(-56px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-          @keyframes muTierOutPrev { from { transform: translateX(0); opacity: 1; } to { transform: translateX(56px); opacity: 0; } }
-        `}</style>
-
-        {(() => {
-          const animDur = '380ms';
-          const animEase = 'cubic-bezier(0.22, 0.61, 0.36, 1)';
-          const inAnim = direction === 'next' ? 'muTierInNext' : direction === 'prev' ? 'muTierInPrev' : null;
-          const outAnim = direction === 'next' ? 'muTierOutNext' : direction === 'prev' ? 'muTierOutPrev' : null;
-          const renderTier = (tier) => (
-            <>
-              <div style={{ fontFamily: '"Italiana", "Shippori Mincho", serif', fontSize: 13, color: '#F6F2EF', letterSpacing: '0.22em', fontStyle: 'italic', fontWeight: 400 }}>muchunavi</div>
-              <div style={{ marginTop: 6, fontFamily: MU_M.fontBrand, fontSize: 9, color: '#D8C9B0', letterSpacing: '0.30em', fontWeight: 500 }}>{tier.tier}</div>
-              <div style={{ marginTop: 8, fontFamily: MU_M.fontSerif, fontSize: 20, color: '#F6F2EF', letterSpacing: '0.12em', fontWeight: 500 }}>{tier.name}</div>
-              <div style={{ marginTop: 10, fontFamily: MU_M.fontSerif, fontSize: 15, color: '#E8DCC4', letterSpacing: '0.14em', fontWeight: 400 }}>{tier.cardNo}</div>
-              <div style={{ marginTop: 6, fontFamily: MU_M.fontBrand, fontSize: 9, color: '#C9B79F', letterSpacing: '0.16em', fontWeight: 500 }}>{tier.valid}</div>
-              <div style={{ marginTop: 12, width: 'calc(100% - 70px)', height: 1, background: 'rgba(212, 188, 140, 0.18)' }}>
-                <div style={{ width: `${tier.progress}%`, height: 1, background: MU_M.gold }} />
-              </div>
-              <div style={{ marginTop: 6, fontSize: 9, color: '#C9B79F', letterSpacing: '0.04em' }}>{tier.nextTier}</div>
-            </>
-          );
-          return (
-            <div
-              tabIndex={0}
-              style={{ margin: '8px 20px 0', position: 'relative', touchAction: 'pan-y', outline: 'none' }}
-              onTouchStart={(e) => onPointerStart(e.touches[0].clientX)}
-              onTouchEnd={(e) => onPointerEnd(e.changedTouches[0].clientX)}
-              onMouseDown={(e) => onPointerStart(e.clientX)}
-              onMouseUp={(e) => onPointerEnd(e.clientX)}
-              onMouseLeave={() => { isDragging.current = false; dragStartX.current = null; }}
-              onKeyDown={(e) => {
-                if (e.key === 'ArrowLeft') { e.preventDefault(); changeTier(-1); }
-                else if (e.key === 'ArrowRight') { e.preventDefault(); changeTier(1); }
-              }}
-            >
-              <div style={{ borderRadius: 8, position: 'relative', background: tierCards[tierIdx].bg, boxShadow: '0 6px 18px rgba(26, 44, 49, 0.14)', padding: '18px 20px 14px', overflow: 'hidden', transition: 'background-color 380ms cubic-bezier(0.22, 0.61, 0.36, 1)' }}>
-                {/* 隐形占位 - 保持卡片高度稳定 */}
-                <div style={{ visibility: 'hidden', pointerEvents: 'none' }} aria-hidden="true">
-                  {renderTier(tierCards[tierIdx])}
-                </div>
-
-                {/* 旧卡片内容（仅动画期间） */}
-                {prevIdx !== null && outAnim ? (
-                  <div style={{ position: 'absolute', top: 18, left: 20, right: 20, zIndex: 1, animation: `${outAnim} ${animDur} ${animEase} forwards` }}>
-                    {renderTier(tierCards[prevIdx])}
-                  </div>
-                ) : null}
-
-                {/* 当前内容（始终 absolute，避免高度抖动） */}
-                <div
-                  key={`text-${tierIdx}`}
-                  data-role="incoming"
-                  style={{ position: 'absolute', top: 18, left: 20, right: 20, zIndex: 2, animation: inAnim ? `${inAnim} ${animDur} ${animEase} both` : 'none' }}
-                  onAnimationEnd={handleAnimEnd}
-                >
-                  {renderTier(tierCards[tierIdx])}
-                </div>
-
-                <img src={mhLogoImg} alt="mh" style={{ position: 'absolute', right: 18, bottom: 14, width: 58, height: 'auto', zIndex: 4 }} />
-              </div>
-
-              {prevIdx !== null && outAnim ? (
-                <img src={tierCards[prevIdx].icon} alt="" style={{ position: 'absolute', top: -18 - (tierCards[prevIdx].iconSize - 128) / 2, right: 20 - (tierCards[prevIdx].iconSize - 128) / 2, width: tierCards[prevIdx].iconSize, height: tierCards[prevIdx].iconSize, objectFit: 'contain', pointerEvents: 'none', opacity: 0.95, zIndex: 3, animation: `${outAnim} ${animDur} ${animEase} forwards` }} />
-              ) : null}
-              <img
-                key={`vip-${tierIdx}`}
-                src={tierCards[tierIdx].icon}
-                alt=""
-                style={{ position: 'absolute', top: -18 - (tierCards[tierIdx].iconSize - 128) / 2, right: 20 - (tierCards[tierIdx].iconSize - 128) / 2, width: tierCards[tierIdx].iconSize, height: tierCards[tierIdx].iconSize, objectFit: 'contain', pointerEvents: 'none', opacity: 0.95, zIndex: 4, animation: inAnim ? `${inAnim} ${animDur} ${animEase} both` : 'none' }}
-              />
+        <div style={{ margin: '0 20px' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontFamily: MU_M.fontSerif, fontSize: 19, lineHeight: 1.15, letterSpacing: '0.05em', color: MU_M.ink, fontWeight: 400 }}>MUCHUNAVIグランドマスター</div>
+              <div style={{ marginTop: 5, fontFamily: MU_M.fontBrand, fontSize: 8, letterSpacing: '0.32em', color: MU_M.goldDeep, opacity: 0.75 }}>MUCHUNAVI GRAND MASTER MEMBER</div>
             </div>
-          );
-        })()}
+            <div style={{ width: 44, height: 44, borderRadius: '50%', border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontFamily: '"Italiana", serif', fontStyle: 'italic', fontSize: 20, color: MU_M.goldDeep }}>m</div>
+          </div>
 
-        <window.MU_StatColumns items={statItems} onItemClick={(item) => window.__nav?.open(item.target)} />
+          <div style={{ marginTop: 18, width: 38, height: 28, border: `0.5px solid ${MU_M.hairlineStrong}`, borderRadius: 4, position: 'relative' }}>
+            <div style={{ position: 'absolute', left: 2, right: 2, top: 'calc(50% - 0.25px)', height: 0.5, background: MU_M.hairlineStrong, opacity: 0.7 }} />
+            <div style={{ position: 'absolute', top: 2, bottom: 2, left: 'calc(50% - 0.25px)', width: 0.5, background: MU_M.hairlineStrong, opacity: 0.7 }} />
+          </div>
 
-        <window.MU_FlatCard style={{ margin: '10px 20px 0' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+          <div style={{ marginTop: 12, fontFamily: MU_M.fontSerif, fontSize: 21, letterSpacing: '0.17em', color: MU_M.ink, fontWeight: 400, whiteSpace: 'nowrap' }}>4119&nbsp;&nbsp;3901&nbsp;&nbsp;2345&nbsp;&nbsp;6789</div>
+
+          <button
+            type="button"
+            onClick={() => window.__nav?.open('mypage-benefits')}
+            aria-label="会員特典を見る"
+            style={{ marginTop: 14, padding: 0, background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12, width: '100%', transition: 'opacity .15s' }}
+            onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.7'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
+          >
+            <div style={{ flex: 1, height: 3, border: `0.5px solid ${MU_M.hairline}`, borderRadius: 2, overflow: 'hidden' }}>
+              <div style={{ width: '100%', height: '100%', background: MU_M.gold, opacity: 0.78 }} />
+            </div>
+            <span style={{ fontFamily: MU_M.fontSerif, fontSize: 11, letterSpacing: '0.08em', color: MU_M.goldDeep, fontWeight: 500, whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+              Lv.77 / 77
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
+                <path d="M9 6 L15 12 L9 18" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+          </button>
+
+          <div style={{ marginTop: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 12 }}>
             <div>
-              <div style={{ fontFamily: MU_M.fontBrand, fontSize: 9, color: MU_M.inkMid, letterSpacing: '0.22em' }}>MUCHU PT</div>
-              <div style={{ marginTop: 2, fontFamily: MU_M.fontSerif, fontSize: 30, color: MU_M.ink, letterSpacing: '0.03em', fontWeight: 500, lineHeight: 1 }}>128,450</div>
+              <div style={{ fontFamily: MU_M.fontBrand, fontSize: 7, letterSpacing: '0.31em', color: MU_M.inkLow, textTransform: 'uppercase' }}>USERNAME</div>
+              <div style={{ marginTop: 3, fontFamily: MU_M.fontSerif, fontSize: 14, letterSpacing: '0.16em', color: MU_M.ink, fontWeight: 400 }}>TAKESHI</div>
             </div>
-            <window.MU_OutlinedButton onClick={() => window.__nav?.open('mypage-recharge')}>チャージで +10%</window.MU_OutlinedButton>
-          </div>
-          <div style={{ display: 'flex', paddingTop: 10, borderTop: `0.5px solid ${MU_M.hairline}` }}>
-            {[
-              { label: '有効PT', value: '96,000' },
-              { label: '通常PT', value: '28,450' },
-              { label: '限定PT', value: '4,000', warn: '残り20日' },
-            ].map((p, i) => (
-              <div key={p.label} style={{ flex: 1, borderLeft: i > 0 ? `0.5px solid ${MU_M.hairline}` : 'none', paddingLeft: i > 0 ? 10 : 0 }}>
-                <div style={{ fontSize: 9, color: MU_M.inkMid, letterSpacing: '0.04em' }}>{p.label}</div>
-                <div style={{ marginTop: 2, display: 'flex', alignItems: 'baseline', gap: 5 }}>
-                  <div style={{ fontSize: 13, color: MU_M.ink, fontFamily: MU_M.fontSerif, letterSpacing: '0.02em', fontWeight: 500 }}>{p.value}</div>
-                  {p.warn ? <div style={{ fontSize: 8, color: MU_M.gold }}>{p.warn}</div> : null}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 10 }}>
+              <button
+                type="button"
+                onClick={() => window.__nav?.open('mypage-benefits')}
+                style={{ padding: '5px 14px', border: `0.5px solid ${MU_M.gold}`, borderRadius: 999, background: 'transparent', color: MU_M.goldDeep, fontFamily: MU_M.fontSerif, fontSize: 10.5, letterSpacing: '0.2em', fontWeight: 400, cursor: 'pointer', whiteSpace: 'nowrap' }}
+              >
+                会員特典
+              </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div style={{ textAlign: 'right', lineHeight: 1.15 }}>
+                  <div style={{ fontFamily: MU_M.fontBrand, fontSize: 7, letterSpacing: '0.31em', color: MU_M.inkLow, textTransform: 'uppercase' }}>VALID</div>
+                  <div style={{ fontFamily: MU_M.fontBrand, fontSize: 7, letterSpacing: '0.31em', color: MU_M.inkLow, textTransform: 'uppercase' }}>THRU</div>
                 </div>
+                <div style={{ fontFamily: MU_M.fontSerif, fontSize: 13, letterSpacing: '0.11em', color: MU_M.ink, fontWeight: 400 }}>06/29</div>
               </div>
-            ))}
+            </div>
           </div>
-        </window.MU_FlatCard>
+        </div>
+
+        <window.MU_StatColumns items={statItems} onItemClick={(item) => window.__nav?.open(item.target)} withDividers numFontSize={22} />
+
+        <div style={{ margin: '18px 20px 0', padding: '22px 22px 18px', borderRadius: 8, border: `0.5px solid ${MU_M.hairline}`, background: '#FBF8F4' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
+            <span style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: 500 }}>MUCHU PT</span>
+            <button
+              type="button"
+              onClick={() => window.__nav?.open('mypage-recharge')}
+              style={{ padding: '7px 16px', border: `0.5px solid ${MU_M.hairlineStrong}`, borderRadius: 999, background: 'transparent', color: MU_M.goldDeep, fontFamily: MU_M.fontSerif, fontSize: 11, letterSpacing: '0.04em', cursor: 'pointer', whiteSpace: 'nowrap' }}
+            >
+              ポイント購入で<span style={{ color: MU_M.warn, marginLeft: 2, fontWeight: 500 }}>+18%</span>
+            </button>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <span style={{ fontFamily: MU_M.fontSerif, fontSize: 10.5, color: MU_M.inkMid, letterSpacing: '0.15em', fontWeight: 300 }}>総保有ポイント</span>
+              <button
+                type="button"
+                onClick={() => window.__nav?.open('mypage-pt-detail')}
+                style={{ padding: 0, background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'baseline', gap: 6 }}
+              >
+                <span style={{ fontFamily: MU_M.fontSerif, fontSize: 40, color: MU_M.ink, letterSpacing: '0.02em', fontWeight: 300, lineHeight: 1 }}>128,600</span>
+                <span style={{ fontFamily: MU_M.fontBrand, fontSize: 13, color: MU_M.inkMid, letterSpacing: '0.2em' }}>PT</span>
+              </button>
+            </div>
+            <button
+              type="button"
+              onClick={() => setPtExpanded((v) => !v)}
+              style={{ padding: '8px 2px 6px', background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, color: MU_M.inkMid, fontFamily: MU_M.fontSerif, fontSize: 11, letterSpacing: '0.12em', fontWeight: 300 }}
+            >
+              <span>内訳</span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" style={{ transform: ptExpanded ? 'rotate(180deg)' : 'none', transition: 'transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1)' }}>
+                <path d="M6 9 L12 15 L18 9" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
+
+          <div style={{ maxHeight: ptExpanded ? 120 : 0, opacity: ptExpanded ? 1 : 0, overflow: 'hidden', transition: 'max-height 360ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 240ms ease, margin-top 360ms cubic-bezier(0.22, 0.61, 0.36, 1), padding-top 360ms cubic-bezier(0.22, 0.61, 0.36, 1)', marginTop: ptExpanded ? 14 : 0, paddingTop: ptExpanded ? 14 : 0, borderTop: ptExpanded ? `0.5px solid ${MU_M.hairline}` : '0.5px solid transparent' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 28 }}>
+              {ptBreakdown.map((p) => (
+                <div key={p.label} style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                  <span style={{ fontFamily: MU_M.fontSerif, fontSize: 10.5, color: MU_M.inkMid, letterSpacing: '0.1em', fontWeight: 300 }}>{p.label}</span>
+                  <span style={{ fontFamily: MU_M.fontSerif, fontSize: 15, color: MU_M.ink, letterSpacing: '0.04em', fontWeight: 400 }}>{p.value}<span style={{ fontFamily: MU_M.fontBrand, fontSize: 9.5, color: MU_M.inkMid, marginLeft: 3, letterSpacing: '0.12em' }}>PT</span></span>
+                  {p.warn ? <span style={{ fontFamily: MU_M.fontBrand, fontSize: 9.5, color: MU_M.warn, letterSpacing: '0.14em', marginTop: 3 }}>{p.warn}</span> : null}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
 
         <window.MU_FlatRowGroup>
-          {actionItems.map((r) => (
+          {historyItems.map((r) => (
             <window.MU_FlatRow
               key={r.label}
               label={r.label}
@@ -399,14 +406,40 @@ function MU_MyPage() {
         </window.MU_FlatRowGroup>
 
         <window.MU_FlatRowGroup topBorder>
-          {serviceItems.map((item) => (
-            <window.MU_FlatRow
-              key={item.label}
-              label={item.label}
-              onClick={() => window.__nav?.open(item.target)}
-            />
-          ))}
+          <window.MU_FlatRow label="友だち招待" en="INVITE" tagText="+1,000 PT" onClick={() => window.__nav?.open('mypage-invite')} />
         </window.MU_FlatRowGroup>
+
+        <window.MU_FlatRowGroup topBorder>
+          <window.MU_FlatRow label="本人確認" en="IDENTITY" onClick={() => window.__nav?.open('mypage-verification')} />
+        </window.MU_FlatRowGroup>
+
+        <div style={{ margin: '14px 20px 0', paddingTop: 6, borderTop: `0.5px solid ${MU_M.hairline}` }}>
+          <div style={{ padding: '12px 0', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ flex: 1, display: 'flex', alignItems: 'baseline', gap: 10 }}>
+              <div style={{ fontSize: 14, color: MU_M.ink, fontFamily: MU_M.fontSerif, letterSpacing: '0.03em', fontWeight: 500 }}>LINE通知</div>
+              <div style={{ fontSize: 9, color: MU_M.inkMid, letterSpacing: '0.16em', fontFamily: MU_M.fontBrand }}>LINE NOTIFY</div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setLineNotify((v) => !v)}
+              style={{ width: 36, height: 20, borderRadius: 999, padding: 2, background: lineNotify ? MU_M.gold : 'rgba(31, 42, 68, 0.18)', border: 'none', cursor: 'pointer', display: 'flex', justifyContent: lineNotify ? 'flex-end' : 'flex-start', transition: 'background 240ms ease' }}
+            >
+              <div style={{ width: 16, height: 16, borderRadius: 999, background: '#FBF7F4', boxShadow: '0 0.5px 2px rgba(31, 42, 68, 0.18)' }} />
+            </button>
+          </div>
+        </div>
+
+        <window.MU_FlatRowGroup topBorder>
+          <window.MU_FlatRow label="設定" en="SETTINGS" onClick={() => window.__nav?.open('mypage-settings')} />
+        </window.MU_FlatRowGroup>
+
+        <button
+          type="button"
+          onClick={() => window.__nav?.open('mypage-settings')}
+          style={{ margin: '20px 20px 0', width: 'calc(100% - 40px)', padding: '18px 0', borderTop: `0.5px solid ${MU_M.hairline}`, borderBottom: `0.5px solid ${MU_M.hairline}`, borderLeft: 'none', borderRight: 'none', background: 'transparent', color: MU_M.inkMid, fontFamily: MU_M.fontSerif, fontSize: 13, letterSpacing: '0.25em', cursor: 'pointer' }}
+        >
+          ログアウト
+        </button>
 
         <div style={{ height: 20 }} />
       </div>
@@ -436,7 +469,7 @@ function MU_MyPaymentBinding() {
             デフォルトの支払い方法を設定できます。
           </div>
         </div>
-        <div style={{ margin: '18px 16px 0', borderRadius: 20, background: 'rgba(255,255,255,0.96)', border: '1px solid rgba(231, 220, 209, 0.96)', overflow: 'hidden', boxShadow: '0 10px 28px rgba(126, 98, 74, 0.06)' }}>
+        <div style={{ margin: '18px 16px 0', borderRadius: 8, background: '#FBF8F4', border: '1px solid rgba(231, 220, 209, 0.96)', overflow: 'hidden' }}>
           {methods.map((item, index) => {
             const active = selected === item.id;
             const badgeStyle = item.tone === 'primary'
@@ -446,7 +479,7 @@ function MU_MyPaymentBinding() {
                 : { background: 'rgba(86, 131, 181, 0.12)', color: '#4E78A6', border: '1px solid rgba(86, 131, 181, 0.18)' };
             return (
               <button key={item.id} type="button" onClick={() => setSelected(item.id)} style={{ width: '100%', padding: '16px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? '1px solid rgba(239, 231, 223, 0.94)' : 'none', textAlign: 'left', cursor: 'pointer', background: active ? 'linear-gradient(135deg, #FDFBF9 0%, #F6EEE7 100%)' : 'transparent' }}>
-                <div style={{ width: 46, height: 46, borderRadius: 14, background: '#FFFFFF', border: `1px solid ${active ? 'rgba(201, 160, 130, 0.9)' : 'rgba(231, 220, 209, 0.96)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: active ? '0 6px 16px rgba(185, 130, 95, 0.08)' : 'none', overflow: 'hidden' }}>
+                <div style={{ width: 46, height: 46, borderRadius: 8, background: '#FFFFFF', border: `1px solid ${active ? 'rgba(201, 160, 130, 0.9)' : 'rgba(231, 220, 209, 0.96)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                   {item.brand === 'visa' ? (
                     <div style={{ fontSize: 14, fontWeight: 900, color: '#1A4C9A', letterSpacing: '-0.03em' }}>VISA</div>
                   ) : item.brand === 'master' ? (
@@ -470,7 +503,7 @@ function MU_MyPaymentBinding() {
             );
           })}
         </div>
-        <button type="button" onClick={() => window.__nav?.open('mypage-payment-add-card')} style={{ margin: '18px 20px 0', width: 'calc(100% - 40px)', height: 46, borderRadius: 999, background: 'linear-gradient(180deg, #C89B7D 0%, #B7815E 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#FFFFFF', fontSize: 12, fontWeight: 800, letterSpacing: '0.08em', cursor: 'pointer', boxShadow: '0 10px 22px rgba(183, 129, 94, 0.18)' }}>
+        <button type="button" onClick={() => window.__nav?.open('mypage-payment-add-card')} style={{ margin: '18px 20px 0', width: 'calc(100% - 40px)', height: 46, borderRadius: 999, background: 'transparent', border: `0.5px solid ${MU_M.gold}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.goldDeep, fontSize: 12, fontWeight: 500, letterSpacing: '0.08em', cursor: 'pointer' }}>
           绑定新的支付方式
         </button>
         <div style={{ marginTop: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, fontSize: 10, color: '#99877A' }}>
@@ -494,7 +527,7 @@ function MU_MyPaymentAddCard() {
     width: '100%',
     minWidth: 0,
     height: 46,
-    borderRadius: 12,
+    borderRadius: 6,
     border: '1px solid rgba(230, 219, 207, 0.96)',
     background: '#FFFFFF',
     padding: '0 14px',
@@ -526,7 +559,7 @@ function MU_MyPaymentAddCard() {
           </div>
         </div>
 
-        <div style={{ margin: '22px 16px 0', padding: '18px 18px 16px', borderRadius: 18, background: 'rgba(255,255,255,0.97)', border: '1px solid rgba(231, 220, 209, 0.96)', boxShadow: '0 10px 28px rgba(126, 98, 74, 0.07)' }}>
+        <div style={{ margin: '22px 16px 0', padding: '18px 18px 16px', borderRadius: 8, background: '#FBF8F4', border: '1px solid rgba(231, 220, 209, 0.96)' }}>
           <div style={{ fontSize: 11, color: '#5A473D', fontWeight: 700 }}>カード番号</div>
           <div style={{ marginTop: 10, position: 'relative' }}>
             <input value={cardNumber} onChange={(event) => setCardNumber(event.target.value)} placeholder="例） 1234 5678 9012 3456" style={{ ...fieldStyle, paddingRight: 110 }} />
@@ -589,10 +622,10 @@ function MU_MyPaymentAddCard() {
           <div style={{ marginTop: 8, fontSize: 10, color: '#8C7A6C', lineHeight: 1.6 }}>ご自身で分かりやすい名前を設定できます。</div>
         </div>
 
-        <button type="button" style={{ margin: '20px 20px 0', width: 'calc(100% - 40px)', height: 46, borderRadius: 999, background: 'linear-gradient(180deg, #C89B7D 0%, #B7815E 100%)', color: '#FFFFFF', fontSize: 12, fontWeight: 800, letterSpacing: '0.08em', cursor: 'pointer', boxShadow: '0 10px 22px rgba(183, 129, 94, 0.18)' }}>
+        <button type="button" style={{ margin: '20px 20px 0', width: 'calc(100% - 40px)', height: 46, borderRadius: 999, background: 'transparent', border: `0.5px solid ${MU_M.gold}`, color: MU_M.goldDeep, fontSize: 12, fontWeight: 500, letterSpacing: '0.08em', cursor: 'pointer' }}>
           カードを登録する
         </button>
-        <button type="button" style={{ margin: '14px 20px 0', width: 'calc(100% - 40px)', height: 46, borderRadius: 999, background: 'rgba(255,255,255,0.98)', color: '#B07C5D', fontSize: 12, fontWeight: 800, letterSpacing: '0.08em', cursor: 'pointer', border: '1px solid rgba(198, 156, 129, 0.92)', boxShadow: '0 3px 10px rgba(134, 97, 74, 0.04)' }}>
+        <button type="button" style={{ margin: '14px 20px 0', width: 'calc(100% - 40px)', height: 46, borderRadius: 999, background: '#FBF8F4', color: '#B07C5D', fontSize: 12, fontWeight: 800, letterSpacing: '0.08em', cursor: 'pointer', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           登録をスキップする
         </button>
 
@@ -614,20 +647,20 @@ function MU_MyPhoneChange() {
     <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="PHONE" title="更换手机号码" />
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>SECURITY UPDATE</div>
           <div style={{ marginTop: 5, fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink }}>修改登录手机号并同步账号通知</div>
         </div>
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
           <div style={{ fontSize: 11, color: MU_M.inkMid }}>新手机号码</div>
-          <input value={phone} onChange={(event) => setPhone(event.target.value)} style={{ marginTop: 8, width: '100%', height: 42, borderRadius: 12, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, padding: '0 14px', fontSize: 14, color: MU_M.ink }} />
+          <input value={phone} onChange={(event) => setPhone(event.target.value)} style={{ marginTop: 8, width: '100%', height: 42, borderRadius: 6, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, padding: '0 14px', fontSize: 14, color: MU_M.ink }} />
           <div style={{ marginTop: 14, fontSize: 11, color: MU_M.inkMid }}>验证码</div>
           <div style={{ marginTop: 8, display: 'flex', gap: 10 }}>
-            <input value={code} onChange={(event) => setCode(event.target.value)} style={{ flex: 1, height: 42, borderRadius: 12, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, padding: '0 14px', fontSize: 14, color: MU_M.ink }} />
-            <button type="button" style={{ width: 110, height: 42, borderRadius: 12, background: MU_M.bgSoft, color: MU_M.ink, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>发送验证码</button>
+            <input value={code} onChange={(event) => setCode(event.target.value)} style={{ flex: 1, height: 42, borderRadius: 6, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, padding: '0 14px', fontSize: 14, color: MU_M.ink }} />
+            <button type="button" style={{ width: 110, height: 42, borderRadius: 6, background: MU_M.bgSoft, color: MU_M.ink, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>发送验证码</button>
           </div>
         </div>
-        <div style={{ margin: '14px 20px 0', height: 42, borderRadius: 14, background: MU_M.gradGold, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1A2C31', fontSize: 12, fontWeight: 700, letterSpacing: '0.12em' }}>确认更换</div>
+        <div style={{ margin: '14px 20px 0', height: 42, borderRadius: 8, background: 'transparent', border: `0.5px solid ${MU_M.gold}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.goldDeep, fontSize: 12, fontWeight: 500, letterSpacing: '0.12em' }}>确认更换</div>
         <div style={{ height: 20 }} />
       </div>
     </div>
@@ -666,12 +699,12 @@ function MU_MyQRCode() {
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="MY QR" title="我的二维码" />
 
-        <div style={{ margin: '14px 20px 0', padding: '22px 20px 20px', borderRadius: 24, background: 'linear-gradient(180deg, #FFFFFF 0%, #F6F2EF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}`, boxShadow: '0 18px 40px rgba(26,44,49,0.06)' }}>
+        <div style={{ margin: '14px 20px 0', padding: '22px 20px 20px', borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-            <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" style={{ width: 72, height: 72, borderRadius: 36, objectFit: 'cover', display: 'block', boxShadow: '0 10px 24px rgba(26,44,49,0.12)' }} />
+            <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" style={{ width: 72, height: 72, borderRadius: 36, objectFit: 'cover', display: 'block' }} />
             <div style={{ marginTop: 12, fontFamily: MU_M.fontSerif, fontSize: 20, color: MU_M.ink, letterSpacing: '0.04em' }}>TAKESHI</div>
 
-            <div style={{ marginTop: 16, width: 224, height: 224, padding: 14, borderRadius: 24, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, boxShadow: '0 12px 28px rgba(26,44,49,0.06)' }}>
+            <div style={{ marginTop: 16, width: 224, height: 224, padding: 14, borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
               <div style={{ width: '100%', height: '100%', display: 'grid', gridTemplateColumns: 'repeat(25, 1fr)', gridTemplateRows: 'repeat(25, 1fr)', gap: 1 }}>
                 {qrCells.map((filled, index) => (
                   <div key={index} style={{ background: filled ? '#1A2C31' : 'transparent', borderRadius: 1 }} />
@@ -694,15 +727,15 @@ function MU_MyQRCode() {
         ) : null}
 
         <div style={{ margin: '18px 20px 0', display: 'flex', gap: 10 }}>
-          <button type="button" onClick={() => setQrState('copied')} style={{ flex: 1, height: 44, borderRadius: 14, background: MU_M.bgSoft, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.ink, fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
+          <button type="button" onClick={() => setQrState('copied')} style={{ flex: 1, height: 44, borderRadius: 8, background: MU_M.bgSoft, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.ink, fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
             复制链接
           </button>
-          <button type="button" onClick={() => setQrState('saved')} style={{ flex: 1, height: 44, borderRadius: 14, background: MU_M.gradGold, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1A2C31', fontSize: 13, fontWeight: 700, cursor: 'pointer', boxShadow: MU_M.shadowGold }}>
+          <button type="button" onClick={() => setQrState('saved')} style={{ flex: 1, height: 44, borderRadius: 8, background: 'transparent', border: `0.5px solid ${MU_M.gold}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.goldDeep, fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>
             保存图片
           </button>
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairline}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairline}` }}>
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>PROFILE LINK</div>
           <div style={{ marginTop: 8, fontSize: 12, color: MU_M.ink, lineHeight: 1.7, wordBreak: 'break-all' }}>{MU_MY_QR_LINK}</div>
         </div>
@@ -758,13 +791,13 @@ function MU_BookingConfirm() {
           </div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>CONFIRM BOOKING</div>
           <div style={{ marginTop: 5, fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink, letterSpacing: '0.05em' }}>来店時間、人数、特典を確認して予約を確定します</div>
           {confirmNotice ? <div style={{ marginTop: 10, display: 'inline-flex', padding: '4px 10px', borderRadius: 999, background: MU_M.rougeTint, color: MU_M.rouge, fontSize: 10, fontWeight: 700 }}>{confirmNotice}</div> : null}
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 14, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex', gap: 12, alignItems: 'center' }}>
+        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex', gap: 12, alignItems: 'center' }}>
           <MU_BookingThumb src={order.shopThumb} size={56} radius={10} />
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.ink, letterSpacing: '0.04em' }}>{order.shopName}</div>
@@ -776,7 +809,7 @@ function MU_BookingConfirm() {
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.25em', marginBottom: 10 }}>SELECT DATE</div>
           <div className="mu-hide-scrollbar" style={{ display: 'flex', gap: 6, overflowX: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {dates.map((d) => (
-              <button key={`${d.day}-${d.date}`} type="button" onClick={() => !d.off && setSelectedDate(d.date)} style={{ flexShrink: 0, width: 52, padding: '10px 0', borderRadius: 10, textAlign: 'center', background: selectedDate === d.date ? MU_M.gradGold : MU_M.surface, border: `0.5px solid ${selectedDate === d.date ? 'transparent' : MU_M.hairline}`, opacity: d.off ? 0.4 : 1, cursor: d.off ? 'default' : 'pointer' }}>
+              <button key={`${d.day}-${d.date}`} type="button" onClick={() => !d.off && setSelectedDate(d.date)} style={{ flexShrink: 0, width: 52, padding: '10px 0', borderRadius: 6, textAlign: 'center', background: selectedDate === d.date ? MU_M.bgAlt : MU_M.surface, border: `0.5px solid ${selectedDate === d.date ? MU_M.hairlineStrong : MU_M.hairline}`, opacity: d.off ? 0.4 : 1, cursor: d.off ? 'default' : 'pointer' }}>
                 <div style={{ fontSize: 9, color: selectedDate === d.date ? '#1A2C31' : MU_M.inkMid, letterSpacing: '0.05em' }}>{d.day}</div>
                 <div style={{ marginTop: 3, fontSize: 14, color: selectedDate === d.date ? '#1A2C31' : MU_M.ink, fontFamily: MU_M.fontSerif, fontWeight: selectedDate === d.date ? 700 : 400 }}>{d.date}</div>
                 {d.off ? <div style={{ fontSize: 7, color: MU_M.danger, marginTop: 1 }}>店休</div> : null}
@@ -792,7 +825,7 @@ function MU_BookingConfirm() {
               const disabled = s === '満席' || s === '-';
               const color = s === '満席' ? MU_M.inkLow : s === '残りわずか' ? MU_M.warn : s === '-' ? MU_M.inkLow : MU_M.gold;
               return (
-                <button key={t} type="button" onClick={() => !disabled && setSelectedTime(t)} style={{ height: 50, borderRadius: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: selectedTime === t ? MU_M.rouge : MU_M.surface, border: `0.5px solid ${selectedTime === t ? MU_M.gold : MU_M.hairline}`, opacity: disabled ? 0.4 : 1, cursor: disabled ? 'default' : 'pointer' }}>
+                <button key={t} type="button" onClick={() => !disabled && setSelectedTime(t)} style={{ height: 50, borderRadius: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: selectedTime === t ? MU_M.rouge : MU_M.surface, border: `0.5px solid ${selectedTime === t ? MU_M.gold : MU_M.hairline}`, opacity: disabled ? 0.4 : 1, cursor: disabled ? 'default' : 'pointer' }}>
                   <div style={{ fontSize: 12, color: selectedTime === t ? MU_M.gold : MU_M.ink, fontFamily: MU_M.fontSerif, letterSpacing: '0.05em' }}>{t}</div>
                   <div style={{ fontSize: 10, color }}>{s}</div>
                 </button>
@@ -801,21 +834,21 @@ function MU_BookingConfirm() {
           </div>
         </div>
 
-        <div style={{ margin: '20px 20px 0', padding: 14, borderRadius: 14, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
+        <div style={{ margin: '20px 20px 0', padding: 14, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.25em' }}>PARTY</div>
               <div style={{ marginTop: 2, fontSize: 13, color: MU_M.ink, fontFamily: MU_M.fontSerif, letterSpacing: '0.05em' }}>来店人数</div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <button type="button" onClick={() => setPartySize((prev) => Math.max(1, prev - 1))} style={{ width: 32, height: 32, borderRadius: 16, border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.gold, fontSize: 16, cursor: 'pointer' }}>-</button>
+              <button type="button" onClick={() => setPartySize((prev) => Math.max(1, prev - 1))} style={{ width: 32, height: 32, borderRadius: 8, border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.gold, fontSize: 16, cursor: 'pointer' }}>-</button>
               <div style={{ fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.gold, width: 24, textAlign: 'center' }}>{partySize}</div>
-              <button type="button" onClick={() => setPartySize((prev) => Math.min(6, prev + 1))} style={{ width: 32, height: 32, borderRadius: 16, background: MU_M.gradGold, color: '#1A2C31', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, cursor: 'pointer' }}>+</button>
+              <button type="button" onClick={() => setPartySize((prev) => Math.min(6, prev + 1))} style={{ width: 32, height: 32, borderRadius: 8, background: 'transparent', border: `0.5px solid ${MU_M.gold}`, color: MU_M.goldDeep, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, cursor: 'pointer' }}>+</button>
             </div>
           </div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 14, background: MU_M.gradRouge, border: `0.5px solid ${MU_M.rougeSoft}`, display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.rougeSoft}`, display: 'flex', alignItems: 'center', gap: 12 }}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={MU_M.gold} strokeWidth="1.6"><path d="M4 8 V16 A1 1 0 0 0 5 17 H19 A1 1 0 0 0 20 16 V8 A1 1 0 0 0 19 7 H5 A1 1 0 0 0 4 8 Z" /><path d="M4 12 H20" strokeDasharray="2 2" /></svg>
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: MU_M.fontBrand, fontSize: 9, color: 'rgba(234, 212, 167, 0.86)', letterSpacing: '0.25em' }}>COUPON · APPLIED</div>
@@ -823,7 +856,7 @@ function MU_BookingConfirm() {
           </div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 14, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
           {[
             [`コース料金 (2h × ${partySize}名)`, `¥${(order.packageFeePerGuest * partySize).toLocaleString()}`],
             ['指名料金', `¥${order.nominationFee.toLocaleString()}`],
@@ -841,7 +874,7 @@ function MU_BookingConfirm() {
         </div>
       </div>
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '14px 20px 28px', background: 'linear-gradient(180deg, transparent 0%, rgba(26, 44, 49, 0.75) 30%)' }}>
-        <button type="button" onClick={() => setConfirmNotice(`予約を送信しました ${selectedDate} ${selectedTime}`)} style={{ width: '100%', height: 50, borderRadius: 25, background: MU_M.gradGold, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1A2C31', fontSize: 14, fontWeight: 700, letterSpacing: '0.2em', fontFamily: MU_M.fontSerif, boxShadow: MU_M.shadowGold, cursor: 'pointer' }}>
+        <button type="button" onClick={() => setConfirmNotice(`予約を送信しました ${selectedDate} ${selectedTime}`)} style={{ width: '100%', height: 50, borderRadius: 25, background: 'transparent', border: `0.5px solid ${MU_M.gold}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.goldDeep, fontSize: 14, fontWeight: 500, letterSpacing: '0.2em', fontFamily: MU_M.fontSerif, cursor: 'pointer' }}>
           予約を確定
         </button>
       </div>
@@ -906,7 +939,7 @@ function MU_BookingDetail() {
           </div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
             <div>
               <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>ORDER STATUS</div>
@@ -918,7 +951,7 @@ function MU_BookingDetail() {
           {actionNotice ? <div style={{ marginTop: 10, display: 'inline-flex', padding: '4px 10px', borderRadius: 999, background: 'rgba(26,44,49,0.06)', color: MU_M.ink, fontSize: 10, fontWeight: 700 }}>{actionNotice}</div> : null}
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 14, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex', gap: 12, alignItems: 'center' }}>
+        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex', gap: 12, alignItems: 'center' }}>
           <MU_BookingThumb src={order.shopThumb} size={56} radius={10} />
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.ink, letterSpacing: '0.04em' }}>{order.shopName}</div>
@@ -926,7 +959,7 @@ function MU_BookingDetail() {
           </div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 14, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
             {[
               { label: '来店日', value: selectedDate },
@@ -949,7 +982,7 @@ function MU_BookingDetail() {
           </div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 14, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.25em' }}>RESCHEDULE POLICY</div>
@@ -962,7 +995,7 @@ function MU_BookingDetail() {
           </div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 14, background: MU_M.gradRouge, border: `0.5px solid ${MU_M.rougeSoft}`, display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.rougeSoft}`, display: 'flex', alignItems: 'center', gap: 12 }}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={MU_M.gold} strokeWidth="1.6"><path d="M4 8 V16 A1 1 0 0 0 5 17 H19 A1 1 0 0 0 20 16 V8 A1 1 0 0 0 19 7 H5 A1 1 0 0 0 4 8 Z" /><path d="M4 12 H20" strokeDasharray="2 2" /></svg>
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: MU_M.fontBrand, fontSize: 9, color: 'rgba(234, 212, 167, 0.86)', letterSpacing: '0.25em' }}>COUPON · APPLIED</div>
@@ -971,7 +1004,7 @@ function MU_BookingDetail() {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={MU_M.gold} strokeWidth="1.8"><path d="M9 6 L15 12 L9 18" /></svg>
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 14, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 14, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
           {[
             [`コース料金 (2h × ${partySize}名)`, `¥${(order.packageFeePerGuest * partySize).toLocaleString()}`],
             ['指名料金', `¥${order.nominationFee.toLocaleString()}`],
@@ -992,7 +1025,7 @@ function MU_BookingDetail() {
       </div>
 
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '10px 16px 24px', background: 'linear-gradient(180deg, transparent 0%, rgba(26, 44, 49, 0.82) 28%)' }}>
-        <div style={{ padding: 8, borderRadius: 20, background: 'rgba(28,22,18,0.78)', border: '0.5px solid rgba(251,247,244,0.14)', boxShadow: '0 -8px 24px rgba(0,0,0,0.18)', backdropFilter: 'blur(18px)' }}>
+        <div style={{ padding: 8, borderRadius: 8, background: 'rgba(28,22,18,0.78)', border: '0.5px solid rgba(251,247,244,0.14)', boxShadow: '0 -8px 24px rgba(0,0,0,0.18)', backdropFilter: 'blur(18px)' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6 }}>
             {[
               { label: '日程変更', onClick: () => { setOrderStatus('rescheduled'); syncNotice('日程変更を送信しました。店舗確認をお待ちください'); } },
@@ -1029,24 +1062,24 @@ function MU_MyOrders() {
     <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="MY ORDERS" title="予約注文" />
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>SUMMARY</div>
           <div style={{ marginTop: 5, fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink, letterSpacing: '0.05em' }}>{activeTab === 'upcoming' ? '現在 2 件の予約が進行中で、そのうち 1 件は支払い待ちです' : '直近30日で 5 件来店、1 件キャンセルしました'}</div>
         </div>
-        <div style={{ margin: '14px 20px 0', padding: 4, borderRadius: 18, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex' }}>
+        <div style={{ margin: '14px 20px 0', padding: 4, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex' }}>
           {[
             { id: 'upcoming', label: '進行中' },
             { id: 'history', label: '注文履歴' },
           ].map((tab) => {
             const active = tab.id === activeTab;
             return (
-              <button key={tab.id} type="button" onClick={() => setActiveTab(tab.id)} style={{ flex: 1, height: 34, borderRadius: 14, background: active ? MU_M.gradGold : 'transparent', color: active ? '#1A2C31' : MU_M.inkMid, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
+              <button key={tab.id} type="button" onClick={() => setActiveTab(tab.id)} style={{ flex: 1, height: 34, borderRadius: 8, background: active ? MU_M.bgAlt : 'transparent', color: active ? MU_M.ink : MU_M.inkMid, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
                 {tab.label}
               </button>
             );
           })}
         </div>
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           {orders[activeTab].map((item, index) => (
             <button key={`${item.title}-${index}`} type="button" onClick={() => { MU_setBookingContext(item); window.__nav?.open('booking-detail'); }} style={{ width: '100%', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none', textAlign: 'left', cursor: 'pointer' }}>
               <MU_BookingThumb src={item.thumb} size={54} radius={10} />
@@ -1134,24 +1167,24 @@ function MU_MyCoupons() {
     <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="COUPONS" title="クーポン" />
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>SUMMARY</div>
           <div style={{ marginTop: 5, fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink, letterSpacing: '0.05em' }}>現在利用可能 12枚、まもなく期限切れ 3枚</div>
         </div>
-        <div style={{ margin: '14px 20px 0', padding: 4, borderRadius: 18, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex' }}>
+        <div style={{ margin: '14px 20px 0', padding: 4, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex' }}>
           {tabs.map((tab) => {
             const active = tab.id === activeTab;
             return (
-              <button key={tab.id} type="button" onClick={() => setActiveTab(tab.id)} style={{ flex: 1, height: 34, borderRadius: 14, background: active ? MU_M.gradGold : 'transparent', color: active ? '#1A2C31' : MU_M.inkMid, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
+              <button key={tab.id} type="button" onClick={() => setActiveTab(tab.id)} style={{ flex: 1, height: 34, borderRadius: 8, background: active ? MU_M.bgAlt : 'transparent', color: active ? MU_M.ink : MU_M.inkMid, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
                 {tab.label} {tab.count}
               </button>
             );
           })}
         </div>
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           {couponMap[activeTab].map((item, index) => (
             <button key={`${item.title}-${index}`} type="button" onClick={() => openCouponDetail(item, index)} style={{ width: '100%', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none', textAlign: 'left', cursor: 'pointer', background: 'transparent' }}>
-              <div style={{ width: 52, height: 52, borderRadius: 12, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: 52, height: 52, borderRadius: 6, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {renderCouponIcon(item.icon)}
               </div>
               <div style={{ flex: 1 }}>
@@ -1201,7 +1234,7 @@ function MU_MySearch() {
     <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="SEARCH" title="クイックアクセス" />
-        <div style={{ margin: '14px 20px 0', padding: '12px 14px', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div style={{ margin: '14px 20px 0', padding: '12px 14px', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex', alignItems: 'center', gap: 10 }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={MU_M.goldDeep} strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M16 16 L20 20" strokeLinecap="round" /></svg>
           <div style={{ flex: 1, fontSize: 12, color: MU_M.inkMid }}>ページ、予約、ギフト、サービスを検索</div>
         </div>
@@ -1209,13 +1242,13 @@ function MU_MySearch() {
           {keywords.map((keyword) => {
             const active = keyword === activeKeyword;
             return (
-              <button key={keyword} type="button" onClick={() => setActiveKeyword(keyword)} style={{ flexShrink: 0, height: 32, padding: '0 14px', borderRadius: 999, background: active ? MU_M.gradGold : MU_M.surface, border: `0.5px solid ${active ? 'transparent' : MU_M.hairline}`, color: active ? '#1A2C31' : MU_M.ink, fontSize: 11, fontWeight: 700, cursor: 'pointer' }}>
+              <button key={keyword} type="button" onClick={() => setActiveKeyword(keyword)} style={{ flexShrink: 0, height: 32, padding: '0 14px', borderRadius: 999, background: active ? MU_M.bgAlt : MU_M.surface, border: `0.5px solid ${active ? MU_M.hairlineStrong : MU_M.hairline}`, color: active ? MU_M.ink : MU_M.inkMid, fontSize: 11, fontWeight: 700, cursor: 'pointer' }}>
                 {keyword}
               </button>
             );
           })}
         </div>
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           {resultMap[activeKeyword].map((item, index) => (
             <button key={item.title} type="button" onClick={() => {
               if (item.mode === 'create') {
@@ -1223,7 +1256,7 @@ function MU_MySearch() {
               }
               window.__nav?.open(item.target);
             }} style={{ width: '100%', padding: '15px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none', textAlign: 'left', cursor: 'pointer' }}>
-              <div style={{ width: 42, height: 42, borderRadius: 12, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.gold, fontFamily: MU_M.fontBrand, fontSize: 12 }}>{String(index + 1).padStart(2, '0')}</div>
+              <div style={{ width: 42, height: 42, borderRadius: 6, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.gold, fontFamily: MU_M.fontBrand, fontSize: 12 }}>{String(index + 1).padStart(2, '0')}</div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.ink }}>{item.title}</div>
                 <div style={{ marginTop: 4, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.5 }}>{item.subtitle}</div>
@@ -1252,22 +1285,19 @@ function MU_MyShare() {
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="SHARE" title="招待シェア" />
 
-        <div style={{ margin: '14px 20px 0', padding: 18, borderRadius: 18, background: 'linear-gradient(135deg, #1A2C31 0%, #4A3024 100%)', border: `0.5px solid ${MU_M.goldDeep}`, overflow: 'hidden', position: 'relative' }}>
-          <div style={{ position: 'absolute', right: -24, top: -18, width: 130, height: 130, borderRadius: '50%', background: 'radial-gradient(circle, rgba(234,212,167,0.22), transparent 70%)' }} />
-          <div style={{ position: 'relative' }}>
-            <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldLight, letterSpacing: '0.24em' }}>INVITE POSTER</div>
-            <div style={{ marginTop: 8, fontFamily: MU_M.fontSerif, fontSize: 22, color: '#F6F2EF', lineHeight: 1.45 }}>お気に入りのナイトスポットを友だちにシェア</div>
-            <div style={{ marginTop: 8, fontSize: 11, color: 'rgba(251,247,244,0.82)', lineHeight: 1.7 }}>
-              友だちが会員登録、本人確認、初回来店を完了すると、招待特典と会員成長値を受け取れます。
-            </div>
-            <div style={{ marginTop: 16, padding: 14, borderRadius: 16, background: 'rgba(251,247,244,0.08)', border: '0.5px solid rgba(251,247,244,0.14)' }}>
-              <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: 'rgba(234,212,167,0.82)', letterSpacing: '0.24em' }}>REFERRAL CODE</div>
-              <div style={{ marginTop: 8, fontFamily: MU_M.fontSerif, fontSize: 30, color: MU_M.gold, letterSpacing: '0.18em' }}>TAK10234</div>
-              <div style={{ marginTop: 10, display: 'flex', gap: 8 }}>
-                {['会員登録 300PT', '初回来店 700PT', 'VIP成長値'].map((item) => (
-                  <div key={item} style={{ padding: '4px 8px', borderRadius: 999, background: 'rgba(251,247,244,0.12)', color: '#F6F2EF', fontSize: 9, whiteSpace: 'nowrap' }}>{item}</div>
-                ))}
-              </div>
+        <div style={{ margin: '14px 20px 0', padding: '22px 22px 18px', borderRadius: MU_M.r.md, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairline}` }}>
+          <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: 500 }}>INVITE POSTER</div>
+          <div style={{ marginTop: 8, fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink, lineHeight: 1.45, letterSpacing: '0.04em' }}>お気に入りのナイトスポットを友だちにシェア</div>
+          <div style={{ marginTop: 8, fontFamily: MU_M.fontSerif, fontSize: 11, color: MU_M.inkMid, lineHeight: 1.75, fontWeight: 300 }}>
+            友だちが会員登録、本人確認、初回来店を完了すると、招待特典と会員成長値を受け取れます。
+          </div>
+          <div style={{ marginTop: 16, paddingTop: 14, borderTop: `0.5px solid ${MU_M.hairline}` }}>
+            <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: 500 }}>REFERRAL CODE</div>
+            <div style={{ marginTop: 6, fontFamily: MU_M.fontSerif, fontSize: 28, color: MU_M.ink, letterSpacing: '0.2em', fontWeight: 400 }}>TAK10234</div>
+            <div style={{ marginTop: 10, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {['会員登録 300PT', '初回来店 700PT', 'VIP成長値'].map((item) => (
+                <div key={item} style={{ padding: '4px 10px', borderRadius: MU_M.r.pill, border: `0.5px solid ${MU_M.hairlineStrong}`, color: MU_M.goldDeep, fontFamily: MU_M.fontSerif, fontSize: 10, letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>{item}</div>
+              ))}
             </div>
           </div>
         </div>
@@ -1278,55 +1308,67 @@ function MU_MyShare() {
               key={item.id}
               type="button"
               onClick={() => setShareState(item.label)}
-              style={{ padding: '16px 14px', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, textAlign: 'left', cursor: 'pointer' }}
+              style={{ padding: '16px 14px', borderRadius: MU_M.r.md, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, textAlign: 'left', cursor: 'pointer' }}
             >
-              <div style={{ width: 42, height: 42, borderRadius: 12, background: item.id === 'line' ? '#06C755' : item.id === 'x' ? '#1A2C31' : 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${item.id === 'line' || item.id === 'x' ? 'transparent' : MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: 40, height: 40, borderRadius: MU_M.r.sm, background: item.id === 'line' ? '#06C755' : item.id === 'x' ? MU_M.ink : 'transparent', border: `0.5px solid ${item.id === 'line' || item.id === 'x' ? 'transparent' : MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {item.id === 'line' ? (
-                  <span style={{ fontSize: 9, fontWeight: 800, color: '#FFFFFF', letterSpacing: '0.04em' }}>LINE</span>
+                  <span style={{ fontFamily: MU_M.fontBrand, fontSize: 10, fontWeight: 700, color: '#FFFFFF', letterSpacing: '0.06em' }}>LINE</span>
                 ) : item.id === 'x' ? (
-                  <span style={{ fontSize: 16, fontWeight: 800, color: '#FFFFFF', lineHeight: 1 }}>X</span>
+                  <span style={{ fontFamily: MU_M.fontBrand, fontSize: 16, fontWeight: 700, color: '#FFFFFF', lineHeight: 1 }}>X</span>
                 ) : item.id === 'link' ? (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={MU_M.goldDeep} strokeWidth="1.8">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={MU_M.goldDeep} strokeWidth="1.4">
                     <path d="M10 13.5 L14 9.5" strokeLinecap="round" />
                     <path d="M7.5 14.5 L5.8 16.2 A3 3 0 1 0 10 20.4 L11.8 18.6" strokeLinecap="round" />
                     <path d="M16.5 9.5 L18.2 7.8 A3 3 0 1 0 14 3.6 L12.2 5.4" strokeLinecap="round" />
                   </svg>
                 ) : (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={MU_M.goldDeep} strokeWidth="1.7">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={MU_M.goldDeep} strokeWidth="1.4">
                     <path d="M5 19 H19" strokeLinecap="round" />
                     <path d="M12 15 V5" strokeLinecap="round" />
                     <path d="M8.5 8.5 L12 5 L15.5 8.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 )}
               </div>
-              <div style={{ marginTop: 12, fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.ink }}>{item.label}</div>
-              <div style={{ marginTop: 4, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.5 }}>{item.sub}</div>
+              <div style={{ marginTop: 12, fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.ink, letterSpacing: '0.04em' }}>{item.label}</div>
+              <div style={{ marginTop: 4, fontFamily: MU_M.fontSerif, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.5, fontWeight: 300 }}>{item.sub}</div>
             </button>
           ))}
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
-          <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>SHARE LINK</div>
-          <div style={{ marginTop: 8, padding: '12px 14px', borderRadius: 12, background: '#F6F2EF', border: `0.5px solid ${MU_M.hairline}`, fontSize: 11, color: MU_M.inkMid, lineHeight: 1.6 }}>
+        <div style={{ margin: '14px 20px 0', padding: '20px 22px 18px', borderRadius: MU_M.r.md, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairline}` }}>
+          <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: 500 }}>SHARE LINK</div>
+          <div style={{ marginTop: 10, padding: '12px 14px', borderRadius: MU_M.r.sm, background: MU_M.bg, border: `0.5px solid ${MU_M.hairline}`, fontFamily: MU_M.fontSerif, fontSize: 11, color: MU_M.inkMid, lineHeight: 1.6, letterSpacing: '0.02em' }}>
             https://muchunavi.jp/invite/TAK10234
           </div>
           <div style={{ marginTop: 12, display: 'flex', gap: 10 }}>
-            <button type="button" onClick={() => setShareState('リンクをコピーしました')} style={{ flex: 1, height: 40, borderRadius: 14, background: MU_M.bgSoft, color: MU_M.ink, fontSize: 11, fontWeight: 700, cursor: 'pointer' }}>リンクをコピー</button>
-            <button type="button" onClick={() => setShareState('LINEで共有する準備ができました')} style={{ flex: 1.2, height: 40, borderRadius: 14, background: MU_M.gradGold, color: '#1A2C31', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', cursor: 'pointer' }}>LINEでシェア</button>
+            <button
+              type="button"
+              onClick={() => setShareState('リンクをコピーしました')}
+              style={{ flex: 1, height: 40, borderRadius: MU_M.r.pill, background: 'transparent', border: `0.5px solid ${MU_M.hairlineStrong}`, color: MU_M.goldDeep, fontFamily: MU_M.fontSerif, fontSize: 11, letterSpacing: '0.08em', cursor: 'pointer' }}
+            >
+              リンクをコピー
+            </button>
+            <button
+              type="button"
+              onClick={() => setShareState('LINEで共有する準備ができました')}
+              style={{ flex: 1.2, height: 40, borderRadius: MU_M.r.pill, background: 'transparent', border: `0.5px solid ${MU_M.gold}`, color: MU_M.goldDeep, fontFamily: MU_M.fontSerif, fontSize: 11, letterSpacing: '0.12em', fontWeight: 500, cursor: 'pointer' }}
+            >
+              LINEでシェア
+            </button>
           </div>
-          {shareState ? <div style={{ marginTop: 10, fontSize: 10, color: MU_M.goldDeep, fontWeight: 700 }}>{shareState}</div> : null}
+          {shareState ? <div style={{ marginTop: 10, fontFamily: MU_M.fontSerif, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.04em' }}>{shareState}</div> : null}
         </div>
 
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0' }}>
           {[
             { title: '招待特典について', subtitle: '友だちが会員登録と初回来店を完了すると自動で特典が付与されます' },
             { title: 'シェア履歴', subtitle: '直近7日間で12回シェア、3名が新規登録しました' },
             { title: '招待ルール', subtitle: '同一端末または同一決済アカウントでの重複特典取得はできません' },
           ].map((item, index) => (
-            <div key={item.title} style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none' }}>
+            <div key={item.title} style={{ padding: '14px 0', display: 'flex', alignItems: 'center', gap: 12, borderTop: index === 0 ? `0.5px solid ${MU_M.hairline}` : 'none', borderBottom: `0.5px solid ${MU_M.hairline}` }}>
               <div style={{ flex: 1 }}>
-                <div style={{ fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.ink }}>{item.title}</div>
-                <div style={{ marginTop: 4, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.5 }}>{item.subtitle}</div>
+                <div style={{ fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.ink, letterSpacing: '0.04em' }}>{item.title}</div>
+                <div style={{ marginTop: 4, fontFamily: MU_M.fontSerif, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.5, fontWeight: 300 }}>{item.subtitle}</div>
               </div>
             </div>
           ))}
@@ -1349,11 +1391,11 @@ function MU_MyFavorites() {
     <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="FAVORITES" title="お気に入り店舗" />
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>SUMMARY</div>
           <div style={{ marginTop: 5, fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink, letterSpacing: '0.05em' }}>お気に入り店舗は {items.length} 件、今週は 5 件の営業更新があります</div>
         </div>
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           {items.map((item, index) => (
             <div key={`${item.title}-${index}`} style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none' }}>
               <MU_BookingThumb src={item.thumb} size={52} radius={10} />
@@ -1401,11 +1443,11 @@ function MU_MyFollowing() {
     <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="FOLLOWING" title="フォロー中のキャスト" />
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>SUMMARY</div>
           <div style={{ marginTop: 5, fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink, letterSpacing: '0.05em' }}>フォロー中 {items.length} 名、そのうち1名が今夜出勤</div>
         </div>
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           {items.map((item, index) => (
             <div key={`${item.title}-${index}`} style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none' }}>
               <MU_BookingThumb src={item.thumb} size={52} radius={10} />
@@ -1417,7 +1459,7 @@ function MU_MyFollowing() {
                 <div style={{ fontSize: 11, color: MU_M.goldDeep, fontWeight: 700 }}>{item.meta}</div>
                 <div style={{ display: 'flex', gap: 6 }}>
                   <button type="button" onClick={() => { window.MU_setCastContext?.(item.cast); window.__nav?.open('cast-detail'); }} style={{ height: 24, padding: '0 10px', borderRadius: 999, background: MU_M.bgSoft, color: MU_M.ink, fontSize: 9, fontWeight: 700, cursor: 'pointer' }}>詳細</button>
-                  <button type="button" onClick={() => window.__nav?.open('chat')} style={{ height: 24, padding: '0 10px', borderRadius: 999, background: MU_M.gradGold, color: '#1A2C31', fontSize: 9, fontWeight: 700, cursor: 'pointer' }}>チャット</button>
+                  <button type="button" onClick={() => window.__nav?.open('chat')} style={{ height: 24, padding: '0 10px', borderRadius: 999, background: 'transparent', border: `0.5px solid ${MU_M.gold}`, color: MU_M.goldDeep, fontSize: 9, fontWeight: 700, cursor: 'pointer' }}>チャット</button>
                 </div>
               </div>
             </div>
@@ -1441,11 +1483,11 @@ function MU_MyFollowers() {
     <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="FOLLOWERS" title="私のファン" />
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>SUMMARY</div>
           <div style={{ marginTop: 5, fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink, letterSpacing: '0.05em' }}>あなたをフォローしているファンは14名、そのうち4名が今週アクションしています</div>
         </div>
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           {items.map((item, index) => (
             <div key={`${item.title}-${index}`} style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none' }}>
               <MU_BookingThumb src={item.thumb} size={52} radius={10} />
@@ -1491,15 +1533,15 @@ function MU_MyBadges() {
     <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="BADGES" title="バッジ" />
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>SUMMARY</div>
           <div style={{ marginTop: 5, fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink, letterSpacing: '0.05em' }}>14個のバッジを獲得済み、次まであと2回の来店</div>
         </div>
         <div style={{ margin: '14px 20px 0', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
           {badges.map((badge) => (
-            <div key={badge.title} style={{ padding: '16px 14px', borderRadius: 16, background: badge.on ? 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)' : MU_M.surface, border: `0.5px solid ${badge.on ? MU_M.goldLight : MU_M.hairline}`, boxShadow: badge.on ? MU_M.shadowSm : 'none', position: 'relative', overflow: 'hidden' }}>
+            <div key={badge.title} style={{ padding: '16px 14px', borderRadius: 8, background: badge.on ? '#FBF8F4' : MU_M.surface, border: `0.5px solid ${badge.on ? MU_M.goldLight : MU_M.hairline}`, position: 'relative', overflow: 'hidden' }}>
               {badge.on && <div style={{ position: 'absolute', top: -10, right: -10, width: 40, height: 40, background: 'radial-gradient(circle, rgba(212,188,140,0.3) 0%, transparent 70%)', pointerEvents: 'none' }} />}
-              <div style={{ width: 46, height: 46, borderRadius: 23, background: badge.on ? MU_M.gradGold : MU_M.bgAlt, display: 'flex', alignItems: 'center', justifyContent: 'center', border: `0.5px solid ${badge.on ? 'transparent' : MU_M.hairlineStrong}`, boxShadow: badge.on ? '0 4px 10px rgba(164,150,115,0.3)' : 'none' }}>
+              <div style={{ width: 46, height: 46, borderRadius: 23, background: badge.on ? MU_M.bgAlt : MU_M.surface, display: 'flex', alignItems: 'center', justifyContent: 'center', border: `0.5px solid ${badge.on ? 'transparent' : MU_M.hairlineStrong}` }}>
                 {renderBadgeIcon(badge)}
               </div>
               <div style={{ marginTop: 12, fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.ink, letterSpacing: '0.04em' }}>{badge.title}</div>
@@ -1629,7 +1671,7 @@ function MU_MyGiftRecords() {
     <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="GIFT HISTORY" title="ギフト履歴" />
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
             <div>
               <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>SUMMARY</div>
@@ -1637,7 +1679,7 @@ function MU_MyGiftRecords() {
                 {dateFrom || '指定なし'} 〜 {dateTo || '指定なし'}
               </div>
             </div>
-            <button type="button" onClick={() => setShowFilters((prev) => !prev)} style={{ width: 34, height: 34, borderRadius: 12, background: showFilters ? MU_M.gradGold : '#FFFFFF', border: `0.5px solid ${showFilters ? 'transparent' : MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: showFilters ? MU_M.shadowSm : 'none' }}>
+            <button type="button" onClick={() => setShowFilters((prev) => !prev)} style={{ width: 34, height: 34, borderRadius: 6, background: showFilters ? MU_M.bgAlt : '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={showFilters ? '#1A2C31' : MU_M.goldDeep} strokeWidth="1.8" strokeLinecap="round">
                 <path d="M4 7h16" />
                 <path d="M7 12h10" />
@@ -1648,12 +1690,12 @@ function MU_MyGiftRecords() {
           <div style={{ marginTop: 5, fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink, letterSpacing: '0.05em' }}>{summaryText}</div>
         </div>
         {showFilters ? (
-          <div style={{ margin: '10px 20px 0', padding: 12, borderRadius: 14, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
+          <div style={{ margin: '10px 20px 0', padding: 12, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6 }}>
               {presets.map((preset) => {
                 const active = preset.id === activePreset;
                 return (
-                  <button key={preset.id} type="button" onClick={() => handlePresetClick(preset.id)} style={{ height: 30, borderRadius: 10, background: active ? MU_M.gradGold : MU_M.bgSoft, border: `0.5px solid ${active ? 'transparent' : MU_M.hairline}`, color: active ? '#1A2C31' : MU_M.inkMid, fontSize: 10, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
+                  <button key={preset.id} type="button" onClick={() => handlePresetClick(preset.id)} style={{ height: 30, borderRadius: 6, background: active ? MU_M.bgAlt : 'transparent', border: `0.5px solid ${active ? MU_M.hairlineStrong : MU_M.hairline}`, color: active ? MU_M.ink : MU_M.inkMid, fontSize: 10, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
                     {preset.label}
                   </button>
                 );
@@ -1662,21 +1704,21 @@ function MU_MyGiftRecords() {
             <div style={{ marginTop: 8, display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: 8, alignItems: 'end' }}>
               <div>
                 <div style={{ marginBottom: 4, fontSize: 9, color: MU_M.inkMid }}>開始日</div>
-                <input type="date" value={draftDateFrom} onChange={(event) => { setActivePreset('custom'); setDraftDateFrom(event.target.value); }} style={{ width: '100%', height: 36, padding: '0 10px', borderRadius: 10, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, color: MU_M.ink, fontSize: 11 }} />
+                <input type="date" value={draftDateFrom} onChange={(event) => { setActivePreset('custom'); setDraftDateFrom(event.target.value); }} style={{ width: '100%', height: 36, padding: '0 10px', borderRadius: 6, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, color: MU_M.ink, fontSize: 11 }} />
               </div>
               <div>
                 <div style={{ marginBottom: 4, fontSize: 9, color: MU_M.inkMid }}>終了日</div>
-                <input type="date" value={draftDateTo} onChange={(event) => { setActivePreset('custom'); setDraftDateTo(event.target.value); }} style={{ width: '100%', height: 36, padding: '0 10px', borderRadius: 10, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, color: MU_M.ink, fontSize: 11 }} />
+                <input type="date" value={draftDateTo} onChange={(event) => { setActivePreset('custom'); setDraftDateTo(event.target.value); }} style={{ width: '100%', height: 36, padding: '0 10px', borderRadius: 6, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, color: MU_M.ink, fontSize: 11 }} />
               </div>
-              <button type="button" onClick={() => applyFilter(activePreset)} style={{ width: 72, height: 36, borderRadius: 10, background: MU_M.gradGold, color: '#1A2C31', fontSize: 11, fontWeight: 700, cursor: 'pointer' }}>検索</button>
+              <button type="button" onClick={() => applyFilter(activePreset)} style={{ width: 72, height: 36, borderRadius: 6, background: 'transparent', border: `0.5px solid ${MU_M.gold}`, color: MU_M.goldDeep, fontSize: 11, fontWeight: 700, cursor: 'pointer' }}>検索</button>
             </div>
             {filterError ? <div style={{ marginTop: 6, fontSize: 10, color: MU_M.rouge }}>{filterError}</div> : null}
           </div>
         ) : null}
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           {items.map((item, index) => (
             <div key={`${item.title}-${item.date}-${index}`} style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none' }}>
-              <div style={{ width: 52, height: 52, borderRadius: 12, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: 52, height: 52, borderRadius: 6, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {renderGiftIcon(item.icon)}
               </div>
               <div style={{ flex: 1 }}>
@@ -1715,24 +1757,24 @@ function MU_MyVisitHistory() {
     <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="VISIT HISTORY" title="来店履歴" />
-        <div style={{ margin: '14px 20px 0', padding: 4, borderRadius: 18, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex' }}>
+        <div style={{ margin: '14px 20px 0', padding: 4, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex' }}>
           {[
             { id: 'completed', label: '完了' },
             { id: 'upcoming', label: '来店待ち' },
           ].map((tab) => {
             const active = tab.id === activeTab;
             return (
-              <button key={tab.id} type="button" onClick={() => setActiveTab(tab.id)} style={{ flex: 1, height: 34, borderRadius: 14, background: active ? MU_M.gradGold : 'transparent', color: active ? '#1A2C31' : MU_M.inkMid, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
+              <button key={tab.id} type="button" onClick={() => setActiveTab(tab.id)} style={{ flex: 1, height: 34, borderRadius: 8, background: active ? MU_M.bgAlt : 'transparent', color: active ? MU_M.ink : MU_M.inkMid, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
                 {tab.label}
               </button>
             );
           })}
         </div>
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>SUMMARY</div>
           <div style={{ marginTop: 5, fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink, letterSpacing: '0.05em' }}>{activeTab === 'completed' ? '直近30日で6回来店、最も多いエリアは銀座' : '現在2件の来店待ち予約があり、最短で48時間以内に開始'}</div>
         </div>
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           {visitMap[activeTab].map((item, index) => (
             <div key={`${item.title}-${index}`} style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none' }}>
               <MU_BookingThumb src={item.thumb} size={52} radius={10} />
@@ -1765,92 +1807,67 @@ function MU_VerificationDocIcon({ type }) {
 }
 
 function MU_MyVerification() {
-  const documents = [
-    { id: 'license', title: '運転免許証', icon: 'license' },
-    { id: 'passport', title: 'パスポート', icon: 'passport' },
-    { id: 'number', title: 'マイナンバーカード表面のみ', icon: 'number' },
+  const rows = [
+    {
+      id: 'card',
+      title: 'クレジットカードを登録する',
+      status: 'done',
+      statusText: '登録済み',
+      note: 'クレジットカード登録により料金が自動的に発生する事はありません。',
+      target: 'mypage-payment-binding',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
+          <rect x="3" y="6" width="18" height="13" rx="1.5" />
+          <path d="M3 10h18M7 15h3" strokeLinecap="round" />
+        </svg>
+      ),
+    },
+    {
+      id: 'id',
+      title: '顔付き身分証明書の写真を送る',
+      status: 'warn',
+      statusText: '未提出',
+      note: 'クレジットカードをお持ちでない場合は「muchunavi」へ顔付き身分証明書の写真を送っていただく事でご利用可能です。',
+      target: 'mypage-verification-upload',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
+          <rect x="3" y="5" width="18" height="14" rx="1.5" />
+          <circle cx="9" cy="11" r="2" />
+          <path d="M5 17c1-2 3-3 4-3s3 1 4 3M15 9h3M15 12h3M15 15h2" strokeLinecap="round" />
+        </svg>
+      ),
+    },
   ];
 
   return (
     <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
-      <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 60 }}>
+      <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="IDENTITY" title="本人確認" />
 
-        <div style={{ margin: '14px 20px 0', padding: 18, borderRadius: 20, background: MU_M.gradRouge, border: `0.5px solid ${MU_M.rougeSoft}`, position: 'relative', overflow: 'hidden', boxShadow: '0 16px 34px rgba(201,122,122,0.14)' }}>
-          <div style={{ position: 'absolute', right: -34, top: -38, width: 130, height: 130, borderRadius: '50%', background: 'radial-gradient(circle, rgba(234,212,167,0.2), transparent 70%)' }} />
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 88px', gap: 12, alignItems: 'center', position: 'relative' }}>
-            <div>
-              <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: 'rgba(234,212,167,0.86)', letterSpacing: '0.24em' }}>SECURE VERIFY</div>
-              <div style={{ marginTop: 8, fontFamily: MU_M.fontSerif, fontSize: 20, color: '#F6F2EF', lineHeight: 1.45, letterSpacing: '0.04em' }}>安心・安全にご利用いただくため、本人確認をお願いします</div>
-              <div style={{ marginTop: 10, fontSize: 11, color: 'rgba(251,247,244,0.76)', lineHeight: 1.6 }}>審査は通常約3分で完了します。本人確認以外の目的では使用しません。</div>
-            </div>
-            <div style={{ height: 88, position: 'relative' }}>
-              <div style={{ position: 'absolute', left: 4, top: 28, width: 56, height: 38, borderRadius: 12, background: 'rgba(234,212,167,0.18)', transform: 'rotate(-24deg)' }} />
-              <div style={{ position: 'absolute', right: 0, top: 10, width: 72, height: 52, borderRadius: 12, border: '1px solid rgba(234,212,167,0.58)', background: 'rgba(251,247,244,0.14)', backdropFilter: 'blur(6px)' }}>
-                <div style={{ position: 'absolute', left: 12, top: 14, width: 18, height: 22, borderRadius: 6, background: MU_M.goldLight }} />
-                <div style={{ position: 'absolute', left: 38, top: 15, width: 22, height: 3, borderRadius: 3, background: 'rgba(251,247,244,0.54)' }} />
-                <div style={{ position: 'absolute', left: 38, top: 25, width: 18, height: 3, borderRadius: 3, background: 'rgba(251,247,244,0.36)' }} />
-              </div>
-              <div style={{ position: 'absolute', right: 4, bottom: 8, width: 30, height: 30, borderRadius: 10, background: MU_M.gradGold, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: MU_M.shadowGold }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1A2C31" strokeWidth="2.4"><rect x="6" y="10" width="12" height="9" rx="2" /><path d="M8 10V7a4 4 0 018 0v3" /></svg>
-              </div>
-            </div>
-          </div>
+        <div style={{ margin: '8px 20px 0', fontFamily: MU_M.fontSerif, fontSize: 12, lineHeight: 1.75, letterSpacing: '0.04em', color: MU_M.inkMid }}>
+          ご本人様確認のため、以下のいずれかをご登録ください。<br />
+          確認完了後、すべてのサービスをご利用いただけます。
         </div>
 
-        <div style={{ margin: '14px 20px 0', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-          {[
-            ['約3分', 'スムーズに審査完了'],
-            ['メッセージ可', '認証後にやり取りを開始'],
-            ['審査専用', '第三者には表示されません'],
-            ['安全保護', '不正利用を防止します'],
-          ].map(([title, sub]) => (
-            <div key={title} style={{ padding: '12px 12px', borderRadius: 14, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: MU_M.ink, fontWeight: 800 }}>
-                <span style={{ color: MU_M.goldDeep }}>✓</span>
-                <span>{title}</span>
-              </div>
-              <div style={{ marginTop: 5, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.5 }}>{sub}</div>
+        <div style={{ margin: '18px 20px 0' }}>
+          {rows.map((r, i) => (
+            <div key={r.id} style={{ borderTop: i === 0 ? `0.5px solid ${MU_M.hairline}` : 'none', borderBottom: `0.5px solid ${MU_M.hairline}` }}>
+              <button
+                type="button"
+                onClick={() => window.__nav?.open(r.target)}
+                style={{ width: '100%', padding: '16px 0', display: 'flex', alignItems: 'center', gap: 12, background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left' }}
+              >
+                <span style={{ color: MU_M.gold, flexShrink: 0 }}>{r.icon}</span>
+                <span style={{ flex: 1, fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.ink, letterSpacing: '0.03em', fontWeight: 500 }}>{r.title}</span>
+                <span style={{ fontFamily: MU_M.fontSerif, fontSize: 11, color: r.status === 'done' ? MU_M.goldDeep : MU_M.rouge, letterSpacing: '0.06em' }}>{r.statusText}</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={MU_M.inkLow} strokeWidth="1.5"><path d="M9 6 L15 12 L9 18" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </button>
+              <div style={{ padding: '0 0 14px 32px', fontFamily: MU_M.fontSerif, fontSize: 10.5, lineHeight: 1.75, color: MU_M.inkMid, letterSpacing: '0.02em' }}>{r.note}</div>
             </div>
           ))}
         </div>
 
-        <div style={{ margin: '20px 20px 0', display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
-          <div>
-            <div style={{ fontFamily: MU_M.fontSerif, fontSize: 17, color: MU_M.ink }}>確認書類を選択してください</div>
-            <div style={{ marginTop: 4, fontSize: 10, color: MU_M.inkMid }}>以下の3種類のみ利用できます</div>
-          </div>
-          <div style={{ fontSize: 10, color: MU_M.goldDeep, fontWeight: 700 }}>18歳以上</div>
-        </div>
-
-        <div style={{ margin: '12px 20px 0', display: 'grid', gap: 10 }}>
-          {documents.map((doc) => {
-            return (
-              <button
-                key={doc.title}
-                type="button"
-                onClick={() => window.__nav?.open('mypage-verification-upload')}
-                style={{ minHeight: 64, borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, color: MU_M.ink, display: 'flex', alignItems: 'center', gap: 12, padding: '0 14px', fontSize: 14, fontWeight: 800, cursor: 'pointer', boxShadow: MU_M.shadowSm, textAlign: 'left', width: '100%' }}
-              >
-                <div style={{ width: 62, height: 42, borderRadius: 12, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
-                  <MU_VerificationDocIcon type={doc.icon} />
-                </div>
-                <span style={{ flex: 1, minWidth: 0 }}>
-                  <span style={{ display: 'block' }}>{doc.title}</span>
-                  <span style={{ marginTop: 4, display: 'block', fontSize: 10, color: MU_M.inkMid, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    タップしてアップロード画面へ
-                  </span>
-                </span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={MU_M.goldDeep} strokeWidth="1.8"><path d="M9 6 L15 12 L9 18" strokeLinecap="round" strokeLinejoin="round" /></svg>
-              </button>
-            );
-          })}
-        </div>
-
-        <div style={{ margin: '16px 20px 0', padding: 14, borderRadius: 14, background: MU_M.bgSoft, border: `0.5px solid ${MU_M.hairline}`, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.8 }}>
-          <div style={{ color: MU_M.ink, fontWeight: 700 }}>本人確認書類として利用できない例</div>
-          <div style={{ marginTop: 6 }}>健康保険証および健康保険資格確認書</div>
-        </div>
+        <div style={{ height: 20 }} />
       </div>
     </div>
   );
@@ -1878,7 +1895,7 @@ function MU_MyVerificationUpload() {
           下記の本人確認書類をアップロードしてください。内容確認後、順次審査を進めます。
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: '18px 16px', borderRadius: 18, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, boxShadow: MU_M.shadowSm }}>
+        <div style={{ margin: '14px 20px 0', padding: '18px 16px', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
           <div style={{ fontSize: 11, color: MU_M.inkMid, lineHeight: 1.6 }}>有効な本人確認書類</div>
           <div style={{ marginTop: 12, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
             {[
@@ -1886,7 +1903,7 @@ function MU_MyVerificationUpload() {
               { key: 'passport', label: 'パスポート', round: true },
               { key: 'number', label: 'マイナンバー', round: false },
             ].map((item) => (
-              <div key={item.key} style={{ padding: '12px 8px 10px', borderRadius: 14, background: MU_M.bgSoft, border: `0.5px solid ${MU_M.hairline}`, textAlign: 'center' }}>
+              <div key={item.key} style={{ padding: '12px 8px 10px', borderRadius: 8, background: MU_M.bgSoft, border: `0.5px solid ${MU_M.hairline}`, textAlign: 'center' }}>
                 <div style={{ width: 52, height: 34, margin: '0 auto', borderRadius: 8, background: '#fff', border: `0.5px solid ${MU_M.hairlineStrong}`, position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', left: 6, top: 7, width: 14, height: 14, borderRadius: item.round ? 999 : 4, background: 'rgba(164,150,115,0.24)', border: '0.5px solid rgba(138,99,71,0.24)' }} />
                   <div style={{ position: 'absolute', left: 25, top: 8, width: 18, height: 2, borderRadius: 2, background: 'rgba(138,99,71,0.34)' }} />
@@ -1899,7 +1916,7 @@ function MU_MyVerificationUpload() {
           </div>
         </div>
 
-        <div style={{ margin: '16px 20px 0', borderRadius: 22, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden', boxShadow: MU_M.shadowSm }}>
+        <div style={{ margin: '16px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           <label style={{ display: 'block', padding: '26px 18px 18px', cursor: 'pointer' }}>
             <input
               type="file"
@@ -1923,12 +1940,12 @@ function MU_MyVerificationUpload() {
               }}
               style={{ display: 'none' }}
             />
-            <div style={{ minHeight: 186, borderRadius: 20, border: `1.5px dashed ${uploadedCount ? 'rgba(201,122,122,0.28)' : 'rgba(164,150,115,0.32)'}`, background: uploadedCount ? 'linear-gradient(180deg, rgba(201,122,122,0.03) 0%, rgba(251,247,244,0.9) 100%)' : '#FCF9F6', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: uploadedCount ? '16px 14px' : '24px 18px' }}>
+            <div style={{ minHeight: 186, borderRadius: 8, border: `1.5px dashed ${uploadedCount ? 'rgba(201,122,122,0.28)' : 'rgba(164,150,115,0.32)'}`, background: uploadedCount ? 'linear-gradient(180deg, rgba(201,122,122,0.03) 0%, rgba(251,247,244,0.9) 100%)' : '#FCF9F6', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: uploadedCount ? '16px 14px' : '24px 18px' }}>
               {uploadedCount ? (
                 <>
                   <div style={{ width: '100%', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
                     {uploadedFiles.map((file) => (
-                      <div key={file.id} style={{ aspectRatio: '1 / 1', borderRadius: 14, overflow: 'hidden', background: '#EFE7E0', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+                      <div key={file.id} style={{ aspectRatio: '1 / 1', borderRadius: 8, overflow: 'hidden', background: '#EFE7E0', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
                         <img src={file.previewUrl} alt={file.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                       </div>
                     ))}
@@ -1938,7 +1955,7 @@ function MU_MyVerificationUpload() {
                 </>
               ) : (
                 <>
-                  <div style={{ width: 44, height: 44, borderRadius: 22, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.goldDeep }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.goldDeep }}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                       <path d="M12 5V19" strokeLinecap="round" />
                       <path d="M5 12H19" strokeLinecap="round" />
@@ -1960,20 +1977,20 @@ function MU_MyVerificationUpload() {
           </div>
         </div>
 
-        <div style={{ margin: '18px 16px 0', padding: '14px 14px 12px', borderRadius: 18, background: 'rgba(255,255,255,0.92)', border: '1px solid rgba(226, 212, 198, 0.92)', boxShadow: '0 10px 24px rgba(93, 66, 44, 0.04)' }}>
+        <div style={{ margin: '18px 16px 0', padding: '14px 14px 12px', borderRadius: 8, background: 'rgba(255,255,255,0.92)', border: '1px solid rgba(226, 212, 198, 0.92)' }}>
           <div style={{ fontSize: 10, color: '#7E6B5E', fontWeight: 700, letterSpacing: '0.02em' }}>氏名</div>
           <div style={{ marginTop: 10, display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 8 }}>
             <input
               value={familyName}
               onChange={(event) => setFamilyName(event.target.value)}
               placeholder="姓"
-              style={{ width: '100%', minWidth: 0, height: 40, borderRadius: 14, border: '1px solid rgba(230, 219, 207, 0.96)', background: '#F8F4F0', padding: '0 14px', fontSize: 14, fontWeight: 500, color: MU_M.ink, outline: 'none', boxSizing: 'border-box' }}
+              style={{ width: '100%', minWidth: 0, height: 40, borderRadius: 8, border: '1px solid rgba(230, 219, 207, 0.96)', background: '#F8F4F0', padding: '0 14px', fontSize: 14, fontWeight: 500, color: MU_M.ink, outline: 'none', boxSizing: 'border-box' }}
             />
             <input
               value={givenName}
               onChange={(event) => setGivenName(event.target.value)}
               placeholder="名"
-              style={{ width: '100%', minWidth: 0, height: 40, borderRadius: 14, border: '1px solid rgba(230, 219, 207, 0.96)', background: '#F8F4F0', padding: '0 14px', fontSize: 14, fontWeight: 500, color: MU_M.ink, outline: 'none', boxSizing: 'border-box' }}
+              style={{ width: '100%', minWidth: 0, height: 40, borderRadius: 8, border: '1px solid rgba(230, 219, 207, 0.96)', background: '#F8F4F0', padding: '0 14px', fontSize: 14, fontWeight: 500, color: MU_M.ink, outline: 'none', boxSizing: 'border-box' }}
             />
           </div>
           <div style={{ marginTop: 10, fontSize: 9, color: '#8F7C6F', lineHeight: 1.6 }}>
@@ -1989,18 +2006,18 @@ function MU_MyVerificationUpload() {
             type="button"
             disabled={!uploadedCount}
             onClick={() => setReviewStatus('reviewing')}
-            style={{ height: 40, padding: '0 16px', borderRadius: 20, background: uploadedCount ? MU_M.gradGold : MU_M.bgSoft, color: uploadedCount ? '#1A2C31' : MU_M.inkMid, fontSize: 12, fontWeight: 800, cursor: uploadedCount ? 'pointer' : 'not-allowed', boxShadow: uploadedCount ? MU_M.shadowGold : 'none' }}
+            style={{ height: 40, padding: '0 16px', borderRadius: 8, background: 'transparent', border: `0.5px solid ${uploadedCount ? MU_M.gold : MU_M.hairline}`, color: uploadedCount ? MU_M.goldDeep : MU_M.inkLow, fontSize: 12, fontWeight: 800, cursor: uploadedCount ? 'pointer' : 'not-allowed' }}
           >
             {reviewStatus === 'reviewing' ? '審査中' : '審査に提出'}
           </button>
         </div>
         {reviewStatus === 'reviewing' ? (
-          <div style={{ margin: '10px 20px 0', padding: '10px 12px', borderRadius: 12, background: 'rgba(164,150,115,0.12)', color: MU_M.goldDeep, fontSize: 11, fontWeight: 700, lineHeight: 1.6 }}>
+          <div style={{ margin: '10px 20px 0', padding: '10px 12px', borderRadius: 6, background: 'rgba(164,150,115,0.12)', color: MU_M.goldDeep, fontSize: 11, fontWeight: 700, lineHeight: 1.6 }}>
             書類を提出しました。本人確認の審査中です。完了後、メッセージや予約関連機能をご利用いただけます。
           </div>
         ) : null}
 
-        <div style={{ margin: '16px 20px 0', padding: 14, borderRadius: 14, background: MU_M.bgSoft, border: `0.5px solid ${MU_M.hairline}`, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.8 }}>
+        <div style={{ margin: '16px 20px 0', padding: 14, borderRadius: 8, background: MU_M.bgSoft, border: `0.5px solid ${MU_M.hairline}`, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.8 }}>
           <div style={{ color: MU_M.ink, fontWeight: 700 }}>本人確認書類として利用できない例</div>
           <div style={{ marginTop: 6 }}>健康保険証および健康保険資格確認書、加工済み画像、期限切れの書類</div>
         </div>
@@ -2022,7 +2039,7 @@ function MU_MySupport() {
     <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="SUPPORT" title="カスタマーサポート" />
-        <div style={{ margin: '14px 20px 0', padding: 4, borderRadius: 18, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex' }}>
+        <div style={{ margin: '14px 20px 0', padding: 4, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex' }}>
           {[
             { id: 'chat', label: 'オンラインサポート' },
             { id: 'order', label: '注文対応' },
@@ -2030,7 +2047,7 @@ function MU_MySupport() {
           ].map((item) => {
             const active = item.id === activeChannel;
             return (
-              <button key={item.id} type="button" onClick={() => setActiveChannel(item.id)} style={{ flex: 1, height: 34, borderRadius: 14, background: active ? MU_M.gradGold : 'transparent', color: active ? '#1A2C31' : MU_M.inkMid, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
+              <button key={item.id} type="button" onClick={() => setActiveChannel(item.id)} style={{ flex: 1, height: 34, borderRadius: 8, background: active ? MU_M.bgAlt : 'transparent', color: active ? MU_M.ink : MU_M.inkMid, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
                 {item.label}
               </button>
             );
@@ -2043,17 +2060,17 @@ function MU_MySupport() {
             { id: 'order', title: '注文専用窓口', sub: '予約変更 / キャンセル' },
             { id: 'gift', title: 'ギフトサポート', sub: '高額ギフト申請' },
           ].map((item) => (
-            <button key={item.title} type="button" onClick={() => setActiveChannel(item.id)} style={{ padding: '16px 14px', borderRadius: 16, background: activeChannel === item.id ? 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)' : MU_M.surface, border: `0.5px solid ${activeChannel === item.id ? MU_M.hairlineStrong : MU_M.hairline}`, textAlign: 'left', cursor: 'pointer' }}>
+            <button key={item.title} type="button" onClick={() => setActiveChannel(item.id)} style={{ padding: '16px 14px', borderRadius: 8, background: activeChannel === item.id ? '#FBF8F4' : MU_M.surface, border: `0.5px solid ${activeChannel === item.id ? MU_M.hairlineStrong : MU_M.hairline}`, textAlign: 'left', cursor: 'pointer' }}>
               <div style={{ fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.ink }}>{item.title}</div>
               <div style={{ marginTop: 6, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.5 }}>{item.sub}</div>
             </button>
           ))}
         </div>
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>CURRENT CHANNEL</div>
           <div style={{ marginTop: 5, fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink }}>{activeChannel === 'phone' ? '電話サポートは現在混雑中、3分以内に接続予定です' : activeChannel === 'order' ? '注文専用窓口では日程変更、返金、来店トラブルを優先対応します' : activeChannel === 'gift' ? 'ギフトサポートでは高額ギフトや誤送信申請を優先対応します' : 'オンラインサポートは現在2名待ちです。すぐに相談を開始できます'}</div>
         </div>
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           {faqs.map((item, index) => (
             <button key={item.title} type="button" onClick={() => setOpenFaq(openFaq === index ? -1 : index)} style={{ width: '100%', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none', textAlign: 'left', cursor: 'pointer' }}>
               <div style={{ flex: 1, minWidth: 0 }}>
@@ -2064,7 +2081,7 @@ function MU_MySupport() {
             </button>
           ))}
         </div>
-        <div style={{ margin: '14px 20px 0', height: 44, borderRadius: 14, background: MU_M.gradGold, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1A2C31', fontSize: 12, fontWeight: 700, letterSpacing: '0.12em' }}>{activeChannel === 'phone' ? 'サポートへ発信' : 'オンライン相談を開始'}</div>
+        <div style={{ margin: '14px 20px 0', height: 44, borderRadius: 8, background: 'transparent', border: `0.5px solid ${MU_M.gold}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.goldDeep, fontSize: 12, fontWeight: 500, letterSpacing: '0.12em' }}>{activeChannel === 'phone' ? 'サポートへ発信' : 'オンライン相談を開始'}</div>
         <div style={{ height: 20 }} />
       </div>
     </div>
@@ -2083,7 +2100,7 @@ function MU_MyBusiness() {
     <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="BUSINESS" title="ビジネス提携" />
-        <div style={{ margin: '14px 20px 0', padding: 4, borderRadius: 18, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex' }}>
+        <div style={{ margin: '14px 20px 0', padding: 4, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, display: 'flex' }}>
           {[
             { id: 'merchant', label: '店舗掲載' },
             { id: 'brand', label: 'ブランド提携' },
@@ -2091,20 +2108,20 @@ function MU_MyBusiness() {
           ].map((item) => {
             const active = item.id === activeType;
             return (
-              <button key={item.id} type="button" onClick={() => setActiveType(item.id)} style={{ flex: 1, height: 34, borderRadius: 14, background: active ? MU_M.gradGold : 'transparent', color: active ? '#1A2C31' : MU_M.inkMid, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
+              <button key={item.id} type="button" onClick={() => setActiveType(item.id)} style={{ flex: 1, height: 34, borderRadius: 8, background: active ? MU_M.bgAlt : 'transparent', color: active ? MU_M.ink : MU_M.inkMid, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
                 {item.label}
               </button>
             );
           })}
         </div>
-        <div style={{ margin: '14px 20px 0', padding: 18, borderRadius: 18, background: 'linear-gradient(135deg, #1A2C31 0%, #4A3024 100%)', border: `0.5px solid ${MU_M.goldDeep}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 18, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.goldDeep}` }}>
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldLight, letterSpacing: '0.24em' }}>MUCHU PARTNERS</div>
           <div style={{ marginTop: 6, fontFamily: MU_M.fontSerif, fontSize: 20, color: '#F6F2EF', lineHeight: 1.45 }}>{activeType === 'merchant' ? 'ナイトスポット事業者の掲載を歓迎します。予約、キャスト出勤、コースを一元管理できます。' : activeType === 'brand' ? '酒類、イベント、ライフスタイルブランド向けにコラボ露出とテーマ企画を提供します。' : '地域代理店、販路提携、ビジネス開発チームとのローカル連携を支援します。'}</div>
         </div>
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           {benefits.map((item, index) => (
             <div key={item.title} style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none' }}>
-              <div style={{ width: 48, height: 48, borderRadius: 14, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.gold, boxShadow: '0 4px 10px rgba(0,0,0,0.02)' }}>
+              <div style={{ width: 48, height: 48, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.gold }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1 3-6z" />
                 </svg>
@@ -2116,7 +2133,7 @@ function MU_MyBusiness() {
             </div>
           ))}
         </div>
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: MU_M.inkMid }}>
             <span>ビジネスメール</span>
             <span style={{ color: MU_M.ink }}>bd@muchu.jp</span>
@@ -2125,7 +2142,7 @@ function MU_MyBusiness() {
             <span>提携ホットライン</span>
             <span style={{ color: MU_M.ink }}>03-6688-1024</span>
           </div>
-          <div style={{ marginTop: 14, height: 42, borderRadius: 14, background: MU_M.gradGold, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1A2C31', fontSize: 12, fontWeight: 700, letterSpacing: '0.12em' }}>提携相談を送信</div>
+          <div style={{ marginTop: 14, height: 42, borderRadius: 8, background: 'transparent', border: `0.5px solid ${MU_M.gold}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.goldDeep, fontSize: 12, fontWeight: 500, letterSpacing: '0.12em' }}>提携相談を送信</div>
         </div>
         <div style={{ height: 20 }} />
       </div>
@@ -2176,43 +2193,38 @@ function MU_MyInvite() {
     <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="INVITE FRIENDS" title="友だち招待" />
-        <div style={{ margin: '14px 20px 0', padding: '18px 18px 40px', borderRadius: 22, background: 'linear-gradient(160deg, #A85C5C 0%, #6B6147 42%, #1A2C31 100%)', border: `0.5px solid ${MU_M.rougeSoft}`, boxShadow: '0 20px 40px rgba(80,32,45,0.18)', position: 'relative', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 18% 20%, rgba(255,255,255,0.18), transparent 22%), radial-gradient(circle at 82% 18%, rgba(243,195,134,0.22), transparent 20%), radial-gradient(circle at 50% 100%, rgba(251,247,244,0.12), transparent 38%)', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', top: -40, right: -24, width: 140, height: 140, borderRadius: 999, background: 'rgba(255,255,255,0.06)', filter: 'blur(2px)', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', left: -22, bottom: -48, width: 168, height: 168, borderRadius: 999, background: 'rgba(243,195,134,0.08)', pointerEvents: 'none' }} />
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 14 }}>
-              <div>
-                <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: 'rgba(234, 212, 167, 0.82)', letterSpacing: '0.28em' }}>MUCHU INVITE POSTER</div>
-                <div style={{ marginTop: 10, fontFamily: MU_M.fontSerif, fontSize: 24, color: '#F6F2EF', lineHeight: 1.35, letterSpacing: '0.04em' }}>QRコードから登録</div>
-              </div>
-              <div style={{ padding: '6px 10px', borderRadius: 999, background: 'rgba(251,247,244,0.14)', border: '0.5px solid rgba(251,247,244,0.16)', fontSize: 10, color: '#F6F2EF', letterSpacing: '0.08em' }}>NEW USER +1000PT</div>
+        <div style={{ margin: '14px 20px 0', padding: '22px 22px 24px', borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairline}` }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 14 }}>
+            <div>
+              <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.3em', textTransform: 'uppercase', fontWeight: 500 }}>MUCHU INVITE POSTER</div>
+              <div style={{ marginTop: 10, fontFamily: MU_M.fontSerif, fontSize: 20, color: MU_M.ink, lineHeight: 1.35, letterSpacing: '0.04em' }}>QRコードから登録</div>
             </div>
-            <div style={{ marginTop: 18, display: 'flex', justifyContent: 'center' }}>
-              <div style={{ width: 152, height: 152, padding: 10, borderRadius: 18, background: '#FFFFFF', boxShadow: '0 10px 24px rgba(18,10,12,0.18)' }}>
-                <div style={{ width: '100%', height: '100%', display: 'grid', gridTemplateColumns: 'repeat(21, 1fr)', gridTemplateRows: 'repeat(21, 1fr)', gap: 1 }}>
-                  {qrCells.map((filled, index) => (
-                    <div key={index} style={{ background: filled ? '#1A2C31' : 'transparent', borderRadius: 1 }} />
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div style={{ marginTop: 24, paddingBottom: 20, fontSize: 10, color: 'rgba(251,247,244,0.78)', lineHeight: 1.7, textAlign: 'center', letterSpacing: '0.08em' }}>MUCHU 厳選ナイトライフ</div>
+            <div style={{ padding: '4px 10px', borderRadius: 999, border: `0.5px solid ${MU_M.hairlineStrong}`, color: MU_M.goldDeep, fontFamily: MU_M.fontSerif, fontSize: 10, letterSpacing: '0.06em' }}>NEW USER +1000PT</div>
           </div>
-          {inviteState !== 'idle' ? <div style={{ marginTop: 12, display: 'inline-flex', padding: '4px 10px', borderRadius: 999, background: 'rgba(251,247,244,0.68)', color: MU_M.ink, fontSize: 10, fontWeight: 700 }}>{inviteState === 'copied' ? '招待コードをコピーしました' : '共有パネルを準備しました'}</div> : null}
+          <div style={{ marginTop: 18, display: 'flex', justifyContent: 'center' }}>
+            <div style={{ width: 152, height: 152, padding: 10, borderRadius: 6, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
+              <div style={{ width: '100%', height: '100%', display: 'grid', gridTemplateColumns: 'repeat(21, 1fr)', gridTemplateRows: 'repeat(21, 1fr)', gap: 1 }}>
+                {qrCells.map((filled, index) => (
+                  <div key={index} style={{ background: filled ? MU_M.ink : 'transparent', borderRadius: 1 }} />
+                ))}
+              </div>
+            </div>
+          </div>
+          <div style={{ marginTop: 16, fontFamily: MU_M.fontSerif, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.7, textAlign: 'center', letterSpacing: '0.08em' }}>MUCHU 厳選ナイトライフ</div>
+          {inviteState !== 'idle' ? <div style={{ marginTop: 12, fontFamily: MU_M.fontSerif, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.04em', textAlign: 'center' }}>{inviteState === 'copied' ? '招待コードをコピーしました' : '共有パネルを準備しました'}</div> : null}
         </div>
         <div style={{ margin: '14px 20px 0', display: 'flex', gap: 10 }}>
-          <button type="button" onClick={() => setInviteState('shared')} style={{ flex: 1, height: 42, borderRadius: 14, background: MU_M.gradGold, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1A2C31', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>今すぐシェア</button>
-          <button type="button" onClick={() => setInviteState('copied')} style={{ flex: 1, height: 42, borderRadius: 14, background: MU_M.bgSoft, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.ink, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>アルバムに保存</button>
+          <button type="button" onClick={() => setInviteState('shared')} style={{ flex: 1, height: 42, borderRadius: 8, background: 'transparent', border: `0.5px solid ${MU_M.gold}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.goldDeep, fontSize: 12, fontWeight: 500, cursor: 'pointer' }}>今すぐシェア</button>
+          <button type="button" onClick={() => setInviteState('copied')} style={{ flex: 1, height: 42, borderRadius: 8, background: MU_M.bgSoft, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_M.ink, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>アルバムに保存</button>
         </div>
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>INVITE RECORDS</div>
           <div style={{ marginTop: 6, fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink, letterSpacing: '0.05em' }}>最近の招待 {inviteRecords.length} 名、累計 1,900PT</div>
         </div>
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           {inviteRecords.map((item, index) => (
             <div key={`${item.name}-${item.meta}`} style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none' }}>
-              <img src={item.avatar} alt="" style={{ width: 42, height: 42, borderRadius: 21, objectFit: 'cover', display: 'block', border: `0.5px solid ${MU_M.hairlineStrong}`, boxShadow: '0 2px 8px rgba(164,150,115,0.1)', background: '#EFEBE7', flexShrink: 0 }} />
+              <img src={item.avatar} alt="" style={{ width: 42, height: 42, borderRadius: 21, objectFit: 'cover', display: 'block', border: `0.5px solid ${MU_M.hairlineStrong}`, background: '#EFEBE7', flexShrink: 0 }} />
               <div style={{ flex: 1 }}>
                 <div style={{ fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.ink }}>{maskInviteName(item.name)}</div>
                 <div style={{ marginTop: 4, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.5 }}>{item.meta}</div>
@@ -2322,7 +2334,7 @@ function MU_MyRecharge() {
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 124 }}>
         <MU_SubpageHeader eyebrow="RECHARGE" title="チャージ" />
 
-        <div style={{ margin: '14px 20px 0', padding: 18, borderRadius: 18, background: 'linear-gradient(135deg, #1A2C31 0%, #4A3024 100%)', border: `0.5px solid ${MU_M.goldDeep}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 18, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.goldDeep}` }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
             <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldLight, letterSpacing: '0.24em' }}>MUCHU PT WALLET</div>
             <button type="button" onClick={() => window.__nav?.open('mypage-recharge-records')} style={{ height: 28, padding: '0 10px', borderRadius: 999, background: 'rgba(251,247,244,0.12)', border: '0.5px solid rgba(251,247,244,0.16)', color: '#F6F2EF', fontSize: 10, fontWeight: 700, cursor: 'pointer' }}>チャージ明細</button>
@@ -2352,15 +2364,15 @@ function MU_MyRecharge() {
                   key={item.amount}
                   type="button"
                   onClick={() => setSelectedAmount(item.amount)}
-                  style={{ padding: '14px 14px 12px', borderRadius: 16, background: active ? 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)' : MU_M.surface, border: `0.5px solid ${active ? MU_M.hairlineStrong : MU_M.hairline}`, textAlign: 'left', cursor: 'pointer', boxShadow: active ? MU_M.shadowSm : 'none' }}
+                  style={{ padding: '14px 14px 12px', borderRadius: 8, background: active ? '#FBF8F4' : MU_M.surface, border: `0.5px solid ${active ? MU_M.hairlineStrong : MU_M.hairline}`, textAlign: 'left', cursor: 'pointer' }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
                     <div style={{ fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink }}>¥{new Intl.NumberFormat('ja-JP').format(item.amount)}</div>
-                    <div style={{ padding: '2px 8px', borderRadius: 999, background: active ? MU_M.gradGold : MU_M.bgSoft, color: active ? '#1A2C31' : MU_M.goldDeep, fontSize: 8, fontWeight: 700, letterSpacing: '0.08em' }}>{item.tag}</div>
+                    <div style={{ padding: '2px 8px', borderRadius: 999, background: active ? MU_M.bgAlt : 'transparent', color: active ? '#1A2C31' : MU_M.goldDeep, fontSize: 8, fontWeight: 700, letterSpacing: '0.08em' }}>{item.tag}</div>
                   </div>
                   <div style={{ marginTop: 6, fontSize: 10, color: MU_M.inkMid }}>ボーナス {new Intl.NumberFormat('ja-JP').format(item.bonus)} PT</div>
                   <div style={{ marginTop: 8, height: 4, borderRadius: 999, background: MU_M.bgSoft, overflow: 'hidden' }}>
-                    <div style={{ width: `${Math.min(100, 24 + item.bonus / 800)}%`, height: '100%', background: MU_M.gradGold }} />
+                    <div style={{ width: `${Math.min(100, 24 + item.bonus / 800)}%`, height: '100%', background: MU_M.gold }} />
                   </div>
                 </button>
               );
@@ -2368,11 +2380,11 @@ function MU_MyRecharge() {
             <button
               type="button"
               onClick={() => setSelectedAmount('custom')}
-              style={{ padding: '14px 14px 12px', borderRadius: 16, background: selectedAmount === 'custom' ? 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)' : MU_M.surface, border: `0.5px solid ${selectedAmount === 'custom' ? MU_M.hairlineStrong : MU_M.hairline}`, textAlign: 'left', cursor: 'pointer', boxShadow: selectedAmount === 'custom' ? MU_M.shadowSm : 'none' }}
+              style={{ padding: '14px 14px 12px', borderRadius: 8, background: selectedAmount === 'custom' ? '#FBF8F4' : MU_M.surface, border: `0.5px solid ${selectedAmount === 'custom' ? MU_M.hairlineStrong : MU_M.hairline}`, textAlign: 'left', cursor: 'pointer' }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
                 <div style={{ fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink }}>任意金額</div>
-                <div style={{ padding: '2px 8px', borderRadius: 999, background: selectedAmount === 'custom' ? MU_M.gradGold : MU_M.bgSoft, color: selectedAmount === 'custom' ? '#1A2C31' : MU_M.goldDeep, fontSize: 8, fontWeight: 700, letterSpacing: '0.08em' }}>INPUT</div>
+                <div style={{ padding: '2px 8px', borderRadius: 999, background: 'transparent', border: `0.5px solid ${selectedAmount === 'custom' ? MU_M.gold : MU_M.hairline}`, color: MU_M.goldDeep, fontSize: 8, fontWeight: 700, letterSpacing: '0.08em' }}>INPUT</div>
               </div>
               <div style={{ marginTop: 6, fontSize: 10, color: MU_M.inkMid }}>1,000 円以上の任意金額を自由入力</div>
             </button>
@@ -2380,9 +2392,9 @@ function MU_MyRecharge() {
         </div>
 
         {selectedAmount === 'custom' ? (
-          <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
+          <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}` }}>
             <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>CUSTOM AMOUNT</div>
-            <div style={{ marginTop: 10, display: 'flex', alignItems: 'center', gap: 10, height: 48, padding: '0 14px', borderRadius: 14, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+            <div style={{ marginTop: 10, display: 'flex', alignItems: 'center', gap: 10, height: 48, padding: '0 14px', borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
               <div style={{ fontFamily: MU_M.fontSerif, fontSize: 20, color: MU_M.goldDeep }}>¥</div>
               <input
                 value={customAmount}
@@ -2398,7 +2410,7 @@ function MU_MyRecharge() {
           </div>
         ) : null}
 
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           <div style={{ padding: '14px 16px 10px', fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>PAYMENT METHOD</div>
           {methods.map((method, index) => {
             const active = method.id === selectedMethod;
@@ -2409,7 +2421,7 @@ function MU_MyRecharge() {
                 onClick={() => setSelectedMethod(method.id)}
                 style={{ width: '100%', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none', textAlign: 'left', cursor: 'pointer' }}
               >
-                <div style={{ width: 44, height: 44, borderRadius: 14, background: active ? MU_M.gradGold : '#FFFFFF', border: `0.5px solid ${active ? 'transparent' : MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: active ? '0 4px 10px rgba(164,150,115,0.2)' : 'none', transition: 'all 0.2s ease' }}>
+                <div style={{ width: 44, height: 44, borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${active ? MU_M.gold : MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'border-color 0.2s ease' }}>
                   {renderPaymentIcon(method.id, active)}
                 </div>
                 <div style={{ flex: 1, marginLeft: 2 }}>
@@ -2417,7 +2429,7 @@ function MU_MyRecharge() {
                   <div style={{ marginTop: 4, fontSize: 11, color: MU_M.inkMid, lineHeight: 1.5, opacity: 0.8 }}>{method.desc}</div>
                 </div>
                 <div style={{ width: 22, height: 22, borderRadius: 11, border: `1.5px solid ${active ? MU_M.goldDeep : MU_M.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', background: active ? 'transparent' : '#F6F2EF' }}>
-                  {active ? <div style={{ width: 10, height: 10, borderRadius: 999, background: MU_M.gradGold, boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} /> : null}
+                  {active ? <div style={{ width: 10, height: 10, borderRadius: 999, background: MU_M.goldDeep }} /> : null}
                 </div>
               </button>
             );
@@ -2425,7 +2437,7 @@ function MU_MyRecharge() {
         </div>
 
         {selectedMethod === 'bank' ? (
-          <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden', boxShadow: MU_M.shadowSm }}>
+          <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
             <div style={{ padding: '14px 16px', background: MU_M.bgSoft, borderBottom: `0.5px solid ${MU_M.hairline}` }}>
               <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>BANK TRANSFER</div>
               <div style={{ marginTop: 4, fontFamily: MU_M.fontSerif, fontSize: 16, color: MU_M.ink }}>銀行振込情報</div>
@@ -2448,7 +2460,7 @@ function MU_MyRecharge() {
               <div style={{ fontSize: 11, color: MU_M.inkMid }}>お振込み金額</div>
               <div style={{ fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink, fontWeight: 700 }}>{new Intl.NumberFormat('ja-JP').format(total.amount)}円</div>
             </div>
-            <div style={{ margin: '0 16px 14px', padding: '10px 12px', borderRadius: 10, background: 'rgba(201,122,122,0.08)', border: `0.5px solid ${MU_M.rougeSoft}`, fontSize: 10, color: MU_M.rouge, lineHeight: 1.6 }}>
+            <div style={{ margin: '0 16px 14px', padding: '10px 12px', borderRadius: 6, background: 'rgba(201,122,122,0.08)', border: `0.5px solid ${MU_M.rougeSoft}`, fontSize: 10, color: MU_M.rouge, lineHeight: 1.6 }}>
               振込名義には必ず「{bankTransfer.transferCode}」をご記入ください。未記入の場合、自動で入金確認できないことがあります。
             </div>
 
@@ -2470,7 +2482,7 @@ function MU_MyRecharge() {
           </div>
         ) : null}
 
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           <div style={{ padding: '14px 16px 10px', fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>RECENT RECHARGES</div>
           {records.map((item, index) => (
             <div key={`${item.date}-${index}`} style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none' }}>
@@ -2490,12 +2502,12 @@ function MU_MyRecharge() {
 
       <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: '14px 20px calc(env(safe-area-inset-bottom, 0px) + 12px)', background: 'linear-gradient(180deg, rgba(251,247,244,0) 0%, rgba(251,247,244,0.94) 20%, rgba(251,247,244,0.98) 100%)' }}>
         <div style={{ display: 'flex', gap: 10 }}>
-          <button type="button" onClick={() => window.__nav?.open('mypage-support')} style={{ flex: 1, height: 42, borderRadius: 14, background: MU_M.bgSoft, color: MU_M.ink, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>チャージヘルプ</button>
+          <button type="button" onClick={() => window.__nav?.open('mypage-support')} style={{ flex: 1, height: 42, borderRadius: 8, background: MU_M.bgSoft, color: MU_M.ink, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>チャージヘルプ</button>
           <button
             type="button"
             disabled={rechargeDisabled}
             onClick={() => setNotice(selectedMethod === 'bank' ? `銀行振込情報を発行しました：${bankTransfer.transferCode}` : `¥${new Intl.NumberFormat('ja-JP').format(total.amount)} をチャージ`)}
-            style={{ flex: 1.4, height: 42, borderRadius: 14, background: rechargeDisabled ? MU_M.bgDeep : MU_M.gradGold, color: rechargeDisabled ? MU_M.inkLow : '#1A2C31', fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', cursor: rechargeDisabled ? 'not-allowed' : 'pointer' }}
+            style={{ flex: 1.4, height: 42, borderRadius: 8, background: 'transparent', border: `0.5px solid ${rechargeDisabled ? MU_M.hairline : MU_M.gold}`, color: rechargeDisabled ? MU_M.inkLow : MU_M.goldDeep, fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', cursor: rechargeDisabled ? 'not-allowed' : 'pointer' }}
           >
             {selectedMethod === 'bank' ? '振込情報を発行' : '今すぐチャージ'}
           </button>
@@ -2539,27 +2551,27 @@ function MU_MyRechargeRecords() {
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="RECHARGE LOGS" title="チャージ明細" />
 
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>DATE FILTER</div>
           <div style={{ marginTop: 10, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
               <div style={{ marginBottom: 6, fontSize: 10, color: MU_M.inkMid }}>開始日</div>
-              <input type="date" value={draftDateFrom} onChange={(event) => setDraftDateFrom(event.target.value)} style={{ width: '100%', height: 42, padding: '0 12px', borderRadius: 12, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, color: MU_M.ink, fontSize: 12 }} />
+              <input type="date" value={draftDateFrom} onChange={(event) => setDraftDateFrom(event.target.value)} style={{ width: '100%', height: 42, padding: '0 12px', borderRadius: 6, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, color: MU_M.ink, fontSize: 12 }} />
             </div>
             <div>
               <div style={{ marginBottom: 6, fontSize: 10, color: MU_M.inkMid }}>終了日</div>
-              <input type="date" value={draftDateTo} onChange={(event) => setDraftDateTo(event.target.value)} style={{ width: '100%', height: 42, padding: '0 12px', borderRadius: 12, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, color: MU_M.ink, fontSize: 12 }} />
+              <input type="date" value={draftDateTo} onChange={(event) => setDraftDateTo(event.target.value)} style={{ width: '100%', height: 42, padding: '0 12px', borderRadius: 6, background: '#FFFFFF', border: `0.5px solid ${MU_M.hairlineStrong}`, color: MU_M.ink, fontSize: 12 }} />
             </div>
           </div>
           <div style={{ marginTop: 12, display: 'flex', gap: 10 }}>
-            <button type="button" onClick={resetFilter} style={{ flex: 1, height: 40, borderRadius: 12, background: MU_M.bgSoft, color: MU_M.ink, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>リセット</button>
-            <button type="button" onClick={applyFilter} style={{ flex: 1.2, height: 40, borderRadius: 12, background: MU_M.gradGold, color: '#1A2C31', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>検索</button>
+            <button type="button" onClick={resetFilter} style={{ flex: 1, height: 40, borderRadius: 6, background: MU_M.bgSoft, color: MU_M.ink, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>リセット</button>
+            <button type="button" onClick={applyFilter} style={{ flex: 1.2, height: 40, borderRadius: 6, background: 'transparent', border: `0.5px solid ${MU_M.gold}`, color: MU_M.goldDeep, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>検索</button>
           </div>
           {filterError ? <div style={{ marginTop: 8, fontSize: 10, color: MU_M.rouge }}>{filterError}</div> : null}
           <div style={{ marginTop: 10, fontSize: 11, color: MU_M.inkMid }}>現在 {items.length} 件のチャージ履歴があります</div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
           {items.map((item, index) => (
             <button
               key={`${item.date}-${item.time}-${index}`}
@@ -2620,7 +2632,7 @@ function MU_MyFinanceDetail() {
           <div style={{ marginTop: 8, height: 22, padding: '0 12px', borderRadius: 999, background: 'rgba(221, 174, 188, 0.48)', color: '#D89E9E', fontSize: 10, fontWeight: 800, display: 'flex', alignItems: 'center' }}>{detail.detailTag}</div>
         </div>
 
-        <div style={{ margin: '18px 20px 0', borderRadius: 18, background: 'rgba(255,255,255,0.97)', border: '1px solid rgba(231, 220, 209, 0.96)', overflow: 'hidden', boxShadow: '0 10px 28px rgba(126, 98, 74, 0.06)' }}>
+        <div style={{ margin: '18px 20px 0', borderRadius: 8, background: '#FBF8F4', border: '1px solid rgba(231, 220, 209, 0.96)', overflow: 'hidden' }}>
           {[
             ['消費ポイント', <span style={{ fontFamily: MU_M.fontSerif, fontSize: 18, color: amountColor, fontWeight: 700 }}>{amountPrefix}{new Intl.NumberFormat('ja-JP').format(detail.amount)} <span style={{ fontSize: 11 }}>PT</span></span>],
             ['ステータス', <span style={{ height: 24, padding: '0 10px', borderRadius: 999, background: '#8F6B56', color: '#FFFFFF', fontSize: 10, fontWeight: 800, display: 'inline-flex', alignItems: 'center' }}>{detail.status}</span>],
@@ -2640,8 +2652,8 @@ function MU_MyFinanceDetail() {
           </div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', borderRadius: 18, background: 'rgba(255,255,255,0.97)', border: '1px solid rgba(231, 220, 209, 0.96)', overflow: 'hidden', boxShadow: '0 10px 28px rgba(126, 98, 74, 0.05)' }}>
-          <div style={{ margin: '12px 12px 0', height: 36, borderRadius: 10, background: '#F6F0EA', display: 'flex', alignItems: 'center', padding: '0 14px', fontSize: 12, color: '#5A473D', fontWeight: 800 }}>ご利用内容</div>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: '#FBF8F4', border: '1px solid rgba(231, 220, 209, 0.96)', overflow: 'hidden' }}>
+          <div style={{ margin: '12px 12px 0', height: 36, borderRadius: 6, background: '#F6F0EA', display: 'flex', alignItems: 'center', padding: '0 14px', fontSize: 12, color: '#5A473D', fontWeight: 800 }}>ご利用内容</div>
           {[
             ['利用店舗', detail.shopName],
             ['商品名', detail.productName],
@@ -2662,67 +2674,600 @@ function MU_MyFinanceDetail() {
 }
 
 function MU_MySettings() {
-  const [settings, setSettings] = useState({
-    notifyBooking: true,
-    notifyGift: true,
-    notifyMarketing: false,
-    incognito: false,
-  });
-  const [cacheSize, setCacheSize] = useState('128 MB');
-  const [logoutArmed, setLogoutArmed] = useState(false);
+  const [deleteArmed, setDeleteArmed] = useState(false);
   const rows = [
-    { key: 'notifyBooking', label: '予約通知', desc: '予約確定、変更、来店リマインド' },
-    { key: 'notifyGift', label: 'チャットとギフト通知', desc: '新着メッセージ、ギフト状況、返信通知' },
-    { key: 'notifyMarketing', label: 'イベントおすすめ', desc: '店舗イベント、ランキング、限定クーポンを受信' },
-    { key: 'incognito', label: 'ステルスモード', desc: '最近の訪問履歴とオンライン状態を非表示' },
+    {
+      id: 'support',
+      label: 'カスタマーサポート',
+      target: 'mypage-support',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
+          <path d="M21 12c0-5-4-9-9-9s-9 4-9 9v5a2 2 0 0 0 2 2h2v-7H5M21 12v5a2 2 0 0 1-2 2h-2v-7h2" strokeLinejoin="round" />
+          <path d="M12 19v1c0 1 1 2 2 2h3" strokeLinecap="round" />
+        </svg>
+      ),
+    },
+    {
+      id: 'business',
+      label: 'ビジネス提携',
+      target: 'mypage-business',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
+          <path d="M4 9h16v11H4zM9 9V5h6v4M2 13h20" strokeLinejoin="round" />
+        </svg>
+      ),
+    },
+    {
+      id: 'phone',
+      label: 'ログイン・携帯番号変更',
+      target: 'mypage-phone-change',
+      value: '090-****-1234',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
+          <rect x="6" y="2" width="12" height="20" rx="2" />
+          <circle cx="12" cy="18" r="1" fill="currentColor" stroke="none" />
+        </svg>
+      ),
+    },
   ];
 
   return (
     <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
         <MU_SubpageHeader eyebrow="SETTINGS" title="設定" />
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
-          {rows.map((row, index) => {
-            const active = settings[row.key];
-            return (
-              <div key={row.key} style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none' }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.ink }}>{row.label}</div>
-                  <div style={{ marginTop: 4, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.5 }}>{row.desc}</div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setSettings((prev) => ({ ...prev, [row.key]: !prev[row.key] }))}
-                  style={{ width: 44, height: 26, borderRadius: 999, background: active ? MU_M.gradGold : '#D7CEC5', padding: 3, cursor: 'pointer', display: 'flex', justifyContent: active ? 'flex-end' : 'flex-start' }}
-                >
-                  <div style={{ width: 20, height: 20, borderRadius: 999, background: '#F6F2EF', boxShadow: '0 2px 6px rgba(26,44,49,0.18)' }} />
-                </button>
-              </div>
-            );
-          })}
-        </div>
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_M.surface, border: `0.5px solid ${MU_M.hairline}`, overflow: 'hidden' }}>
-          {[
-            ['言語', '日本語'],
-            ['通貨', 'JPY 円'],
-            ['支払い方法', 'JCB 末尾1024'],
-            ['キャッシュ削除', cacheSize],
-          ].map(([label, value], index) => (
-            <button key={label} type="button" onClick={() => { if (label === 'キャッシュ削除') setCacheSize('0 MB'); }} style={{ width: '100%', padding: '14px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: index > 0 ? `0.5px solid ${MU_M.hairline}` : 'none', cursor: label === 'キャッシュ削除' ? 'pointer' : 'default' }}>
-              <span style={{ fontSize: 12, color: MU_M.ink }}>{label}</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontSize: 11, color: MU_M.inkMid }}>{value}</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={MU_M.inkLow} strokeWidth="1.8"><path d="M9 6 L15 12 L9 18" /></svg>
-              </div>
+
+        <div style={{ margin: '14px 20px 0' }}>
+          {rows.map((r, i) => (
+            <button
+              key={r.id}
+              type="button"
+              onClick={() => window.__nav?.open(r.target)}
+              style={{ width: '100%', padding: '16px 0', display: 'flex', alignItems: 'center', gap: 12, background: 'transparent', border: 'none', borderTop: i === 0 ? `0.5px solid ${MU_M.hairline}` : 'none', borderBottom: `0.5px solid ${MU_M.hairline}`, cursor: 'pointer', textAlign: 'left' }}
+            >
+              <span style={{ color: MU_M.gold, flexShrink: 0 }}>{r.icon}</span>
+              <span style={{ flex: 1, fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.ink, letterSpacing: '0.03em', fontWeight: 500 }}>{r.label}</span>
+              {r.value ? <span style={{ fontFamily: MU_M.fontSerif, fontSize: 11, color: MU_M.inkMid, letterSpacing: '0.06em' }}>{r.value}</span> : null}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={MU_M.inkLow} strokeWidth="1.5"><path d="M9 6 L15 12 L9 18" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
           ))}
         </div>
-        <button type="button" onClick={() => setLogoutArmed((prev) => !prev)} style={{ margin: '14px 20px 0', width: 'calc(100% - 40px)', height: 42, borderRadius: 14, background: logoutArmed ? MU_M.rouge : MU_M.rougeTint, display: 'flex', alignItems: 'center', justifyContent: 'center', color: logoutArmed ? '#F6F2EF' : MU_M.rouge, fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', cursor: 'pointer' }}>{logoutArmed ? 'もう一度押してログアウト' : 'ログアウト'}</button>
-        {cacheSize === '0 MB' || logoutArmed ? (
-          <div style={{ margin: '10px 20px 0', fontSize: 10, color: MU_M.inkMid, lineHeight: 1.6 }}>
-            {cacheSize === '0 MB' ? 'キャッシュを削除しました。画像とチャットサムネイルは次回アクセス時に再読み込みされます。' : 'ログアウト後もお気に入り、注文、認証情報は保持されますが、この端末の通知は停止されます。'}
+
+        <button
+          type="button"
+          onClick={() => setDeleteArmed((v) => !v)}
+          style={{ margin: '24px 20px 0', width: 'calc(100% - 40px)', padding: '18px 0', borderTop: `0.5px solid ${MU_M.hairline}`, borderBottom: `0.5px solid ${MU_M.hairline}`, borderLeft: 'none', borderRight: 'none', background: deleteArmed ? MU_M.rougeTint : 'transparent', color: MU_M.rouge, fontFamily: MU_M.fontSerif, fontSize: 13, letterSpacing: '0.25em', cursor: 'pointer' }}
+        >
+          {deleteArmed ? 'もう一度押して账号注销を確定' : '账号注销'}
+        </button>
+        {deleteArmed ? (
+          <div style={{ margin: '10px 20px 0', fontFamily: MU_M.fontSerif, fontSize: 10.5, lineHeight: 1.75, color: MU_M.inkMid, letterSpacing: '0.02em' }}>
+            注销账号后,残高ポイント · クーポン · 履歴 · 認証情報はすべて永久に消去され、復元できません。
           </div>
         ) : null}
+
+        <div style={{ height: 20 }} />
+      </div>
+    </div>
+  );
+}
+
+const MU_BENEFIT_TIERS = [
+  { id: 'welcome', name: 'MUCHUNAVI WELCOME', shortName: 'WELCOME', lvRange: 'Lv.1-13', exp: '544,000', mark: '達成' },
+  { id: 'repeater', name: 'MUCHUNAVI リピーター', shortName: 'リピーター', lvRange: 'Lv.14-26', exp: '1,792,000', mark: '達成' },
+  { id: 'platinum', name: 'MUCHUNAVI プラチナ', shortName: 'プラチナ', lvRange: 'Lv.27-39', exp: '8,000,000', mark: '達成' },
+  { id: 'thevip', name: 'MUCHUNAVI THE VIP', shortName: 'THE VIP', lvRange: 'Lv.40-52', exp: '32,000,000', mark: '達成' },
+  { id: 'thevipplus', name: 'MUCHUNAVI THE VIP+', shortName: 'THE VIP+', lvRange: 'Lv.53-64', exp: '80,000,000', mark: '達成' },
+  { id: 'owner', name: 'MUCHUNAVI オーナー', shortName: 'オーナー', lvRange: 'Lv.65-76', exp: '160,000,000', mark: '達成' },
+  { id: 'gm', name: 'MUCHUNAVI グランドマスター', shortName: 'グランドマスター', lvRange: 'Lv.77 / 77', exp: '160,000,000', mark: 'MAX 達成' },
+];
+
+const MU_BENEFIT_DEFS = [
+  { name: '購入ボーナス', sub: 'ポイント購入で、無償ポイントも一緒に獲得。' },
+  { name: '毎月限定ポイント', sub: 'キープ条件クリアで、翌月10日に付与' },
+  { name: 'ランクアップ特典' },
+  { name: 'ランキングブースト', sub: 'ギフトランキング集計倍率アップ' },
+  { name: 'ホームテロップバッジ', sub: 'ギフトを送るとホーム上部へアイコンを表示' },
+  { name: 'ランクアイコンエフェクト', sub: 'プロフィールやチャット画面が華やかに変化' },
+  { name: 'ギフトエフェクト', sub: 'ギフト送信時の演出がもっと豪華にグレードアップ' },
+  { name: '専属コンシェルジュ', sub: 'お困りごとはいつでも優先窓口でおまかせ' },
+  { name: '送迎サービス', sub: '指定エリア内・無料' },
+  { name: '店舗予約代行', sub: 'コンシェルジュにおまかせで簡単予約' },
+  { name: '公式アドバイザー相談', sub: '運営スタッフとの定期面談' },
+  { name: '年次最高位感謝ギフト', sub: '年に一度の特別贈呈' },
+  { name: '専用カスタムギフト', sub: '最高ランク限定のオーダーメイド 3D ギフト' },
+  { name: 'マンスリー無料ギフト', sub: 'お気に入りのキャストへプレゼント' },
+  { name: '特典クーポン', sub: '店舗ページから今すぐGET', tierPrefix: true },
+  { name: 'muchuポン', sub: 'キャストとのチャット画面で購入できる', tierPrefix: true, suffixForm: true },
+  { name: '店舗イベント招待状', sub: '優先招待・限定枠' },
+];
+
+const MU_BENEFIT_MATRIX = [
+  [{t:'val',v:'+3%'},{t:'val',v:'+6%'},{t:'val',v:'+9%'},{t:'val',v:'+12%'},{t:'val',v:'+15%'},{t:'val',v:'+17%'},{t:'val',v:'+18%'}],
+  [{t:'lock',v:'リピーター'},{t:'claim',v:'12,000 PT'},{t:'claim',v:'38,000 PT'},{t:'claim',v:'77,000 PT'},{t:'claim',v:'118,000 PT'},{t:'claim',v:'220,000 PT'},{t:'claim',v:'390,000 PT',hasKeep:true}],
+  [{t:'lock',v:'リピーター'},{t:'claim',v:'1,050 PT',doneText:'GET済み'},{t:'claim',v:'4,500 PT',doneText:'GET済み'},{t:'claim',v:'24,000 PT',doneText:'GET済み'},{t:'claim',v:'96,000 PT',doneText:'GET済み'},{t:'claim',v:'240,000 PT',doneText:'GET済み'},{t:'claim',v:'480,000 PT',doneText:'GET済み'}],
+  [{t:'val',v:'×1.0'},{t:'val',v:'×1.1'},{t:'val',v:'×1.3'},{t:'val',v:'×1.6'},{t:'val',v:'×2.0'},{t:'val',v:'×2.5'},{t:'val',v:'×3.0'}],
+  [{t:'lock',v:'リピーター'},{t:'switch'},{t:'switch'},{t:'switch'},{t:'switch'},{t:'switch'},{t:'switch'}],
+  [{t:'lock',v:'プラチナ'},{t:'lock',v:'プラチナ'},{t:'switch'},{t:'switch'},{t:'switch'},{t:'switch'},{t:'switch'}],
+  [{t:'lock',v:'THE VIP'},{t:'lock',v:'THE VIP'},{t:'lock',v:'THE VIP'},{t:'text',v:'ON'},{t:'text',v:'ON'},{t:'text',v:'ON'},{t:'text',v:'ON'}],
+  [{t:'lock',v:'オーナー'},{t:'lock',v:'オーナー'},{t:'lock',v:'オーナー'},{t:'lock',v:'オーナー'},{t:'lock',v:'オーナー'},{t:'text',v:'利用可能'},{t:'text',v:'利用可能'}],
+  [{t:'lock',v:'オーナー'},{t:'lock',v:'オーナー'},{t:'lock',v:'オーナー'},{t:'lock',v:'オーナー'},{t:'lock',v:'オーナー'},{t:'text',v:'月 3 回'},{t:'text',v:'月 8 回'}],
+  [{t:'lock',v:'THE VIP'},{t:'lock',v:'THE VIP'},{t:'lock',v:'THE VIP'},{t:'text',v:'利用可能'},{t:'text',v:'利用可能'},{t:'text',v:'利用可能'},{t:'text',v:'利用可能'}],
+  [{t:'lock',v:'グランドマスター'},{t:'lock',v:'グランドマスター'},{t:'lock',v:'グランドマスター'},{t:'lock',v:'グランドマスター'},{t:'lock',v:'グランドマスター'},{t:'lock',v:'グランドマスター'},{t:'text',v:'利用可能'}],
+  [{t:'lock',v:'グランドマスター'},{t:'lock',v:'グランドマスター'},{t:'lock',v:'グランドマスター'},{t:'lock',v:'グランドマスター'},{t:'lock',v:'グランドマスター'},{t:'lock',v:'グランドマスター'},{t:'text',v:'年 1 回'}],
+  [{t:'lock',v:'オーナー'},{t:'lock',v:'オーナー'},{t:'lock',v:'オーナー'},{t:'lock',v:'オーナー'},{t:'lock',v:'オーナー'},{t:'claim',v:'特注する',doneText:'特注済み'},{t:'claim',v:'特注する',doneText:'特注済み'}],
+  [{t:'lock',v:'リピーター'},{t:'text',v:'受取済'},{t:'text',v:'受取済'},{t:'text',v:'受取済'},{t:'text',v:'受取済'},{t:'text',v:'受取済'},{t:'text',v:'今月 受取済'}],
+  [{t:'text',v:'受取済'},{t:'text',v:'受取済'},{t:'text',v:'受取済'},{t:'text',v:'受取済'},{t:'text',v:'受取済'},{t:'text',v:'受取済'},{t:'text',v:'受取可能'}],
+  [{t:'text',v:'購入済'},{t:'text',v:'購入済'},{t:'text',v:'購入済'},{t:'text',v:'購入済'},{t:'text',v:'購入済'},{t:'text',v:'購入済'},{t:'text',v:'購入可能'}],
+  [{t:'lock',v:'リピーター'},{t:'text',v:'月 1 件'},{t:'text',v:'月 1 件'},{t:'text',v:'月 2 件'},{t:'text',v:'月 2 件'},{t:'text',v:'月 3 件'},{t:'text',v:'月 10 件'}],
+];
+
+function MU_BenefitRow({ tier, def, cell, idx, claimedMap, onToggleClaim, switchMap, onToggleSwitch }) {
+  const locked = cell.t === 'lock';
+  const labelMuted = locked ? MU_M.inkLow : MU_M.ink;
+  const subMuted = locked ? MU_M.inkLow : MU_M.inkMid;
+  const numColor = locked ? MU_M.inkLow : MU_M.goldDeep;
+  const displayName = def.tierPrefix
+    ? (def.suffixForm ? `${tier.shortName}${def.name}` : `${tier.shortName}${def.name}`)
+    : def.name;
+
+  let trailing = null;
+  if (cell.t === 'val') {
+    trailing = <span style={{ fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.goldDeep, letterSpacing: '0.04em', fontWeight: 500 }}>{cell.v}</span>;
+  } else if (cell.t === 'text') {
+    trailing = <span style={{ fontFamily: MU_M.fontSerif, fontSize: 11, color: MU_M.goldDeep, letterSpacing: '0.04em' }}>{cell.v}</span>;
+  } else if (cell.t === 'lock') {
+    trailing = (
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontFamily: MU_M.fontSerif, fontSize: 10.5, color: MU_M.inkLow, letterSpacing: '0.04em' }}>
+        {cell.v}
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4"><rect x="6" y="11" width="12" height="9" rx="1.5" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg>
+      </span>
+    );
+  } else if (cell.t === 'switch') {
+    const on = switchMap[idx] ?? true;
+    trailing = (
+      <button
+        type="button"
+        onClick={() => onToggleSwitch(idx)}
+        style={{ width: 34, height: 19, borderRadius: 999, padding: 2, background: on ? MU_M.gold : 'rgba(31, 42, 68, 0.15)', border: 'none', cursor: 'pointer', display: 'flex', justifyContent: on ? 'flex-end' : 'flex-start', transition: 'background 220ms ease' }}
+      >
+        <div style={{ width: 15, height: 15, borderRadius: 999, background: '#FBF7F4', boxShadow: '0 0.5px 2px rgba(31, 42, 68, 0.18)' }} />
+      </button>
+    );
+  } else if (cell.t === 'claim') {
+    const claimed = claimedMap[idx] ?? true;
+    const doneText = cell.doneText || '受取済み';
+    if (claimed) {
+      trailing = (
+        <button type="button" onClick={() => onToggleClaim(idx)} style={{ background: 'transparent', border: 'none', padding: '4px 0', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 5, fontFamily: MU_M.fontSerif, fontSize: 11, color: MU_M.inkLow, letterSpacing: '0.06em' }}>
+          {doneText === 'GET済み'
+            ? <span style={{ fontFamily: MU_M.fontBrand, letterSpacing: '0.2em' }}>{doneText}</span>
+            : <>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M5 12l5 5 9-11" /></svg>
+                <span>{doneText}</span>
+              </>}
+        </button>
+      );
+    } else {
+      trailing = (
+        <button
+          type="button"
+          onClick={() => onToggleClaim(idx)}
+          style={{ padding: '6px 12px', border: `0.5px solid ${MU_M.gold}`, borderRadius: 999, background: 'transparent', color: MU_M.goldDeep, fontFamily: MU_M.fontSerif, fontSize: 11, letterSpacing: '0.06em', cursor: 'pointer', whiteSpace: 'nowrap' }}
+        >
+          {cell.v}{doneText === 'GET済み' ? ' 受け取る' : ' 受け取る'}
+        </button>
+      );
+    }
+  }
+
+  const hasKeepRow = cell.t === 'claim' && cell.hasKeep;
+
+  return (
+    <>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 18px', borderTop: idx === 0 ? 'none' : `0.5px solid ${MU_M.hairline}` }}>
+        <span style={{ fontFamily: MU_M.fontBrand, fontSize: 11, color: numColor, letterSpacing: '0.06em', width: 22, flexShrink: 0 }}>{String(idx + 1).padStart(2, '0')}</span>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontFamily: MU_M.fontSerif, fontSize: 13, color: labelMuted, letterSpacing: '0.02em' }}>{displayName}</div>
+          {def.sub ? <div style={{ marginTop: 3, fontSize: 10, color: subMuted, lineHeight: 1.5 }}>{def.sub}</div> : null}
+        </div>
+        <div style={{ flexShrink: 0 }}>{trailing}</div>
+      </div>
+      {hasKeepRow ? (
+        <div style={{ padding: '2px 18px 12px 52px', borderTop: 'none' }}>
+          <div style={{ height: 2, borderRadius: 1.5, background: 'rgba(184, 137, 107, 0.18)', overflow: 'hidden' }}>
+            <div style={{ width: '60%', height: '100%', background: MU_M.gold }} />
+          </div>
+          <div style={{ marginTop: 5, display: 'flex', alignItems: 'center', gap: 6, fontFamily: MU_M.fontSerif, fontSize: 10.5, color: MU_M.inkMid, letterSpacing: '0.02em' }}>
+            <span style={{ fontFamily: MU_M.fontBrand, fontSize: 9, color: MU_M.goldDeep, letterSpacing: '0.18em' }}>KEEP</span>
+            <span style={{ color: MU_M.goldDeep, fontWeight: 500 }}>1,920,000</span>
+            <span style={{ color: MU_M.inkMid }}> EXP / 3,200,000 EXP</span>
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+}
+
+function MU_TierIntroCard({ tier, isActive }) {
+  return (
+    <div
+      data-tier-slide
+      style={{
+        flex: '0 0 calc(100% - 40px)',
+        scrollSnapAlign: 'center',
+        marginRight: 12,
+        padding: '22px 22px 18px',
+        borderRadius: 8,
+        background: '#FBF8F4',
+        border: `0.5px solid ${isActive ? MU_M.hairlineStrong : MU_M.hairline}`,
+        opacity: isActive ? 1 : 0.55,
+        transform: isActive ? 'scale(1)' : 'scale(0.96)',
+        transformOrigin: 'center',
+        transition: 'opacity 280ms cubic-bezier(0.22, 0.61, 0.36, 1), transform 280ms cubic-bezier(0.22, 0.61, 0.36, 1), border-color 240ms ease',
+      }}
+    >
+      <div style={{ fontFamily: MU_M.fontSerif, fontSize: 18, color: MU_M.ink, letterSpacing: '0.08em', fontWeight: 400, lineHeight: 1.2 }}>{tier.name}</div>
+      <div style={{ marginTop: 6, fontFamily: MU_M.fontSerif, fontSize: 13, color: MU_M.inkMid, letterSpacing: '0.12em' }}>{tier.lvRange}</div>
+      <div style={{ marginTop: 16, height: 0.5, background: MU_M.hairline }} />
+      <div style={{ marginTop: 14, height: 3, border: `0.5px solid ${MU_M.hairline}`, borderRadius: 2, overflow: 'hidden' }}>
+        <div style={{ width: '100%', height: '100%', background: MU_M.gold }} />
+      </div>
+      <div style={{ marginTop: 8, display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', fontFamily: MU_M.fontSerif, fontSize: 12, color: MU_M.inkMid, letterSpacing: '0.04em' }}>
+        <span>累計 <span style={{ color: MU_M.goldDeep, fontWeight: 500 }}>{tier.exp}</span> EXP</span>
+        <span style={{ color: MU_M.goldDeep, fontWeight: 500, letterSpacing: '0.1em' }}>{tier.mark}</span>
+      </div>
+    </div>
+  );
+}
+
+function MU_MyBenefits() {
+  const [tab, setTab] = useState('benefits');
+  const [activeTier, setActiveTier] = useState(MU_BENEFIT_TIERS.findIndex((t) => t.id === 'gm'));
+  const [claimedMap, setClaimedMap] = useState({});
+  const [switchMap, setSwitchMap] = useState({});
+  const swiperRef = useRef(null);
+  const scrollFrame = useRef(0);
+  const benefitsTabCount = MU_BENEFIT_DEFS.length;
+
+  const tierKey = (rowIdx) => `${activeTier}-${rowIdx}`;
+  const handleToggleClaim = (rowIdx) => {
+    const k = tierKey(rowIdx);
+    setClaimedMap((m) => ({ ...m, [k]: !(m[k] ?? true) }));
+  };
+  const handleToggleSwitch = (rowIdx) => {
+    const k = tierKey(rowIdx);
+    setSwitchMap((m) => ({ ...m, [k]: !(m[k] ?? true) }));
+  };
+  const rowClaimedMap = {};
+  const rowSwitchMap = {};
+  MU_BENEFIT_DEFS.forEach((_, idx) => {
+    const k = tierKey(idx);
+    if (k in claimedMap) rowClaimedMap[idx] = claimedMap[k];
+    if (k in switchMap) rowSwitchMap[idx] = switchMap[k];
+  });
+
+  useEffect(() => {
+    if (tab !== 'benefits') return;
+    const el = swiperRef.current;
+    if (!el) return;
+    const slides = el.querySelectorAll('[data-tier-slide]');
+    const slide = slides[activeTier];
+    if (slide) {
+      const target = slide.offsetLeft - (el.clientWidth - slide.offsetWidth) / 2;
+      el.scrollTo({ left: target, behavior: 'auto' });
+    }
+  }, [tab]);
+
+  const handleSwiperScroll = () => {
+    if (scrollFrame.current) return;
+    scrollFrame.current = requestAnimationFrame(() => {
+      scrollFrame.current = 0;
+      const el = swiperRef.current;
+      if (!el) return;
+      const slides = el.querySelectorAll('[data-tier-slide]');
+      if (!slides.length) return;
+      const center = el.scrollLeft + el.clientWidth / 2;
+      let bestIdx = 0;
+      let bestDist = Infinity;
+      slides.forEach((slide, idx) => {
+        const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+        const dist = Math.abs(slideCenter - center);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestIdx = idx;
+        }
+      });
+      setActiveTier((prev) => (prev === bestIdx ? prev : bestIdx));
+    });
+  };
+
+  const currentTier = MU_BENEFIT_TIERS[activeTier];
+
+  return (
+    <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
+        <MU_SubpageHeader eyebrow="BENEFITS" title="会員特典" />
+
+        <div style={{ margin: '6px 20px 0', display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: `0.5px solid ${MU_M.hairline}` }}>
+          {[
+            { id: 'benefits', label: '会員特典', count: `${benefitsTabCount} / ${benefitsTabCount}` },
+            { id: 'tasks', label: '期間限定ミッション', count: '8 / 14' },
+          ].map((t) => {
+            const active = tab === t.id;
+            return (
+              <button key={t.id} type="button" onClick={() => setTab(t.id)} style={{ padding: '14px 0', background: 'transparent', border: 'none', position: 'relative', cursor: 'pointer', fontFamily: MU_M.fontSerif, fontSize: 13, color: active ? MU_M.ink : MU_M.inkLow, letterSpacing: '0.06em', display: 'inline-flex', alignItems: 'baseline', justifyContent: 'center', gap: 6 }}>
+                <span>{t.label}</span>
+                <span style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.inkLow, letterSpacing: '0.04em' }}>{t.count}</span>
+                {active ? <span style={{ position: 'absolute', bottom: -0.5, left: '50%', transform: 'translateX(-50%)', width: 40, height: 1.2, background: MU_M.gold }} /> : null}
+              </button>
+            );
+          })}
+        </div>
+
+        {tab === 'benefits' ? (
+          <>
+            <div style={{ marginTop: 16 }}>
+              <style>{`.mu-tier-swiper::-webkit-scrollbar{display:none}`}</style>
+              <div
+                ref={swiperRef}
+                className="mu-tier-swiper"
+                onScroll={handleSwiperScroll}
+                style={{ width: '100%', overflowX: 'auto', overflowY: 'visible', scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}
+              >
+                <div style={{ display: 'flex', padding: '4px 0', paddingLeft: 20, paddingRight: 8 }}>
+                  {MU_BENEFIT_TIERS.map((tier, idx) => (
+                    <MU_TierIntroCard key={tier.id} tier={tier} isActive={idx === activeTier} />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div style={{ marginTop: 14, display: 'flex', justifyContent: 'center', gap: 6 }}>
+              {MU_BENEFIT_TIERS.map((tier, idx) => (
+                <button
+                  key={tier.id}
+                  type="button"
+                  onClick={() => {
+                    const el = swiperRef.current;
+                    if (!el) return;
+                    const slide = el.querySelectorAll('[data-tier-slide]')[idx];
+                    if (!slide) return;
+                    el.scrollTo({ left: slide.offsetLeft - (el.clientWidth - slide.offsetWidth) / 2, behavior: 'smooth' });
+                  }}
+                  aria-label={tier.name}
+                  style={{ width: idx === activeTier ? 20 : 6, height: 3, padding: 0, borderRadius: 999, background: idx === activeTier ? MU_M.gold : MU_M.hairlineStrong, border: 'none', cursor: 'pointer', transition: 'width 240ms cubic-bezier(0.22, 0.61, 0.36, 1), background 240ms ease' }}
+                />
+              ))}
+            </div>
+
+            <div key={`benefits-${activeTier}`} style={{ margin: '18px 20px 0', background: '#FBF8F4', border: `0.5px solid ${MU_M.hairline}`, borderRadius: 8, overflow: 'hidden', animation: 'muBenefitFade 280ms cubic-bezier(0.22, 0.61, 0.36, 1) both' }}>
+              <style>{`@keyframes muBenefitFade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}`}</style>
+              {MU_BENEFIT_DEFS.map((def, idx) => {
+                const cell = MU_BENEFIT_MATRIX[idx][activeTier];
+                return <MU_BenefitRow key={idx} tier={currentTier} def={def} cell={cell} idx={idx} claimedMap={rowClaimedMap} onToggleClaim={handleToggleClaim} switchMap={rowSwitchMap} onToggleSwitch={handleToggleSwitch} />;
+              })}
+            </div>
+          </>
+        ) : (
+          <MU_MyBenefitsTasks />
+        )}
+
+        <div style={{ height: 20 }} />
+      </div>
+    </div>
+  );
+}
+
+function MU_MyBenefitsTasks() {
+  const [taskState, setTaskState] = useState({
+    register: 'done',
+    profile: 'done',
+    verify: 'done',
+    login: 'done',
+    castFollow: 'progress',
+    shopFollow: 'progress',
+    couponGet: 'progress',
+    referral: 3,
+    gift10k: 8,
+    muchupon: 12,
+    muchupay: 3,
+    multiCast: 3,
+    levelUp: 10,
+    giftCount: 45,
+  });
+  const setOne = (key, val) => setTaskState((s) => ({ ...s, [key]: val }));
+
+  const SimpleTaskRow = ({ name, reward, stateKey, claimText = '受け取る', doneText = '受け取り済み' }) => {
+    const state = taskState[stateKey];
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 20px', borderTop: `0.5px solid ${MU_M.hairline}` }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontFamily: MU_M.fontSerif, fontSize: 13, color: MU_M.ink, letterSpacing: '0.02em' }}>{name}</div>
+          <div style={{ marginTop: 3, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.5 }}>{reward}</div>
+        </div>
+        {state === 'done' ? (
+          <button type="button" onClick={() => setOne(stateKey, 'claim')} style={{ background: 'transparent', border: 'none', padding: '4px 0', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 5, fontFamily: MU_M.fontSerif, fontSize: 11, color: MU_M.inkLow, letterSpacing: '0.04em' }}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M5 12l5 5 9-11" /></svg>
+            <span>{doneText}</span>
+          </button>
+        ) : (
+          <button type="button" onClick={() => setOne(stateKey, 'done')} style={{ padding: '6px 12px', border: `0.5px solid ${MU_M.gold}`, borderRadius: 999, background: 'transparent', color: MU_M.goldDeep, fontFamily: MU_M.fontSerif, fontSize: 11, letterSpacing: '0.06em', cursor: 'pointer', whiteSpace: 'nowrap' }}>
+            {claimText}
+          </button>
+        )}
+      </div>
+    );
+  };
+
+  const MilestoneRow = ({ name, reward, stateKey, current, target, unit }) => {
+    const state = taskState[stateKey];
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 20px', borderTop: `0.5px solid ${MU_M.hairline}` }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontFamily: MU_M.fontSerif, fontSize: 13, color: MU_M.ink, letterSpacing: '0.02em' }}>{name}</div>
+          <div style={{ marginTop: 3, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.5 }}>{reward}</div>
+        </div>
+        {state === 'done' ? (
+          <span style={{ fontFamily: MU_M.fontSerif, fontSize: 11, color: MU_M.inkLow, letterSpacing: '0.02em' }}>{current} / {target} {unit}(済)</span>
+        ) : state === 'claim' ? (
+          <button type="button" onClick={() => setOne(stateKey, 'done')} style={{ padding: '6px 12px', border: `0.5px solid ${MU_M.gold}`, borderRadius: 999, background: 'transparent', color: MU_M.goldDeep, fontFamily: MU_M.fontSerif, fontSize: 11, letterSpacing: '0.06em', cursor: 'pointer', whiteSpace: 'nowrap' }}>受け取る</button>
+        ) : (
+          <button type="button" onClick={() => setOne(stateKey, 'claim')} style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer', fontFamily: MU_M.fontSerif, fontSize: 13, color: MU_M.goldDeep, letterSpacing: '0.04em' }}>{current} / {target} {unit}</button>
+        )}
+      </div>
+    );
+  };
+
+  const RepeatRow = ({ name, reward, stateKey, count, carry }) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 20px', borderTop: `0.5px solid ${MU_M.hairline}` }}>
+      <div style={{ flex: 1 }}>
+        <div style={{ fontFamily: MU_M.fontSerif, fontSize: 13, color: MU_M.ink, letterSpacing: '0.02em' }}>{name}</div>
+        <div style={{ marginTop: 3, fontSize: 10, color: MU_M.inkMid, lineHeight: 1.5 }}>{reward}</div>
+      </div>
+      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 3 }}>
+        <button type="button" onClick={() => setOne(stateKey, Math.max(0, count - 1))} style={{ padding: '6px 12px', border: `0.5px solid ${MU_M.gold}`, borderRadius: 999, background: 'transparent', color: MU_M.goldDeep, fontFamily: MU_M.fontSerif, fontSize: 11, letterSpacing: '0.06em', cursor: 'pointer', whiteSpace: 'nowrap', position: 'relative' }}>
+          受け取る
+          {count > 0 ? <span style={{ position: 'absolute', top: -6, right: -6, minWidth: 16, height: 16, padding: '0 4px', borderRadius: 999, background: MU_M.gold, color: '#FBF7F4', fontSize: 9, fontWeight: 700, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>{count}</span> : null}
+        </button>
+        {carry ? <span style={{ fontSize: 9, color: MU_M.inkLow, letterSpacing: '0.02em' }}>{carry}</span> : null}
+      </div>
+    </div>
+  );
+
+  return (
+    <div style={{ marginTop: 8 }}>
+      <div style={{ margin: '0 0 8px', borderTop: `0.5px solid transparent` }}>
+        <SimpleTaskRow name="新規登録完了" reward="+20,000 EXP" stateKey="register" claimText="受け取る" doneText="クリア" />
+        <SimpleTaskRow name="プロフィール完成" reward="+10,000 EXP" stateKey="profile" claimText="受け取る" doneText="クリア" />
+        <SimpleTaskRow name="本人確認" reward="+30,000 EXP / クレカ・身分証いずれか" stateKey="verify" claimText="認証する" doneText="達成" />
+        <SimpleTaskRow name="毎日ログイン" reward="+1,000 EXP / 日" stateKey="login" claimText="受け取る" doneText="受け取り済み" />
+        <MilestoneRow name="キャストをフォロー" reward="マンスリー限定ミッション · +6,000 EXP" stateKey="castFollow" current={30} target={30} unit="人" />
+        <MilestoneRow name="店舗をフォロー" reward="マンスリー限定ミッション · +6,000 EXP" stateKey="shopFollow" current={30} target={30} unit="店" />
+        <MilestoneRow name="店舗クーポンをGET" reward="+1,000 EXP / 回 · 月 10 回まで" stateKey="couponGet" current={5} target={10} unit="" />
+      </div>
+
+      <div style={{ margin: '14px 0 8px', paddingTop: 14, borderTop: `0.5px solid ${MU_M.hairline}` }}>
+        <RepeatRow name="友達紹介ミッション" reward="1人紹介ごとに +20,000 EXP（累計無制限）" stateKey="referral" count={taskState.referral} />
+      </div>
+
+      <div style={{ margin: '14px 0 0', paddingTop: 14, borderTop: `0.5px solid ${MU_M.hairline}` }}>
+        <RepeatRow name="1万円以上のギフトを送信" reward="マンスリー限定 · +2,000 EXP / 件" stateKey="gift10k" count={taskState.gift10k} />
+        <RepeatRow name="muchuポンを購入" reward="+3,000 EXP / 枚" stateKey="muchupon" count={taskState.muchupon} />
+        <RepeatRow name="muchupayでお支払い" reward="+3,000 EXP / 回（1日最大 3 回まで）" stateKey="muchupay" count={taskState.muchupay} />
+        <RepeatRow name="いろんなキャストへギフトを送信" reward="初めて送るキャストごと +1,000 EXP" stateKey="multiCast" count={taskState.multiCast} />
+        <RepeatRow name="ポイント購入で無限レベルUP" reward="10,000円ごと +2,000 EXP（何度ももらえる）" stateKey="levelUp" count={taskState.levelUp} carry="次回まであと ¥5,000" />
+        <RepeatRow name="ギフト送付回数" reward="+1,000 EXP / 回" stateKey="giftCount" count={taskState.giftCount} />
+      </div>
+    </div>
+  );
+}
+
+function MU_MyPointDetail() {
+  const summary = { total: '128,600', paid: '90,600', free: '30,000', limited: '8,000' };
+  const history = [
+    { tag: '限定', tone: 'limited', source: '月間限定ポイント', amount: '8,000', got: '2026.05.10', expire: '2026.05.30', expireWarn: true },
+    { tag: '有償', tone: 'paid', source: 'ポイント購入', amount: '50,000', got: '2026.05.08', expire: '2026.11.04' },
+    { tag: '無償', tone: 'free', source: '購入ボーナス (+18%)', amount: '9,000', got: '2026.05.08', expire: '2026.11.04' },
+    { tag: '有償', tone: 'paid', source: 'ポイント購入', amount: '40,600', got: '2026.04.20', expire: '2026.10.17' },
+    { tag: '無償', tone: 'free', source: '購入ボーナス (+18%)', amount: '7,300', got: '2026.04.20', expire: '2026.10.17' },
+    { tag: '無償', tone: 'free', source: 'ランクアップ特典 (GM)', amount: '13,700', got: '2026.04.10', expire: '2026.10.07' },
+  ];
+
+  const tagStyle = (tone) => {
+    if (tone === 'paid') return { background: MU_M.goldDeep, color: '#FBF7F4', border: 'none', padding: '2px 7px' };
+    if (tone === 'limited') return { background: 'rgba(184, 137, 107, 0.08)', color: MU_M.goldDeep, border: `0.5px solid ${MU_M.hairlineStrong}`, padding: '1.5px 6.5px' };
+    return { background: 'transparent', color: MU_M.goldDeep, border: `0.5px solid ${MU_M.hairline}`, padding: '1.5px 6.5px' };
+  };
+
+  return (
+    <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
+        <MU_SubpageHeader eyebrow="POINT" title="ポイント明細" />
+
+        <div style={{ margin: '14px 20px 0', padding: '22px 22px 18px', borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairline}` }}>
+          <div style={{ fontFamily: MU_M.fontSerif, fontSize: 11, color: MU_M.goldDeep, letterSpacing: '0.24em', fontWeight: 500 }}>総保有ポイント</div>
+          <div style={{ marginTop: 8, display: 'flex', alignItems: 'baseline', gap: 6 }}>
+            <div style={{ fontFamily: MU_M.fontSerif, fontSize: 32, color: MU_M.ink, letterSpacing: '0.03em', fontWeight: 500, lineHeight: 1 }}>{summary.total}</div>
+            <div style={{ fontFamily: MU_M.fontBrand, fontSize: 11, color: MU_M.inkMid, letterSpacing: '0.18em' }}>PT</div>
+          </div>
+          <div style={{ marginTop: 14, height: 1, background: MU_M.hairline }} />
+          <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {[
+              { label: '有償', val: summary.paid },
+              { label: '無償', val: summary.free },
+              { label: '限定', val: summary.limited, expiry: '今月末失効' },
+            ].map((it) => (
+              <div key={it.label} style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
+                <span style={{ fontFamily: MU_M.fontSerif, fontSize: 11, color: MU_M.inkMid, letterSpacing: '0.06em', minWidth: 34 }}>{it.label}</span>
+                <span style={{ fontFamily: MU_M.fontSerif, fontSize: 15, color: MU_M.ink, fontWeight: 500 }}>{it.val}<span style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.inkLow, marginLeft: 4 }}>PT</span></span>
+                {it.expiry ? <span style={{ marginLeft: 'auto', fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.04em' }}>{it.expiry}</span> : null}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ margin: '22px 20px 8px', fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.3em' }}>取得明細</div>
+
+        <div style={{ margin: '0 20px' }}>
+          {history.map((row, i) => (
+            <div key={i} style={{ padding: '14px 0', borderBottom: i < history.length - 1 ? `0.5px solid ${MU_M.hairline}` : 'none' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+                <span style={{ display: 'inline-block', borderRadius: 2, fontFamily: MU_M.fontSerif, fontSize: 9.5, letterSpacing: '0.06em', lineHeight: 1.5, flexShrink: 0, ...tagStyle(row.tone) }}>{row.tag}</span>
+                <span style={{ flex: 1, fontFamily: MU_M.fontSerif, fontSize: 13, color: MU_M.ink, letterSpacing: '0.02em' }}>{row.source}</span>
+                <span style={{ fontFamily: MU_M.fontSerif, fontSize: 16, color: MU_M.ink, letterSpacing: '0.03em', fontWeight: 500, flexShrink: 0 }}>{row.amount}<span style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.inkMid, marginLeft: 2 }}>PT</span></span>
+              </div>
+              <div style={{ marginTop: 5, display: 'flex', gap: 14, fontFamily: MU_M.fontBrand, fontSize: 9.5, color: MU_M.inkLow, letterSpacing: '0.04em' }}>
+                <span>取得 {row.got}</span>
+                <span style={{ color: row.expireWarn ? MU_M.goldDeep : MU_M.inkLow }}>失効 {row.expire}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ height: 20 }} />
+      </div>
+    </div>
+  );
+}
+
+function MU_MyMuchuponHistory() {
+  const records = [
+    { date: '2026-05-12', time: '21:08', name: 'リピーターmuchuポン', cast: 'YUKA · LOUNGE ARIA', price: '8,000', status: '使用済み' },
+    { date: '2026-05-05', time: '20:44', name: 'プラチナmuchuポン', cast: 'AYA · LOUNGE ARIA', price: '15,000', status: '使用済み' },
+    { date: '2026-04-28', time: '23:20', name: 'THE VIPmuchuポン', cast: 'NANA · CLUB MIRROR', price: '28,000', status: '保留中', warn: true },
+  ];
+  return (
+    <div style={{ width: '100%', height: '100%', background: MU_M.bg, position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 90 }}>
+        <MU_SubpageHeader eyebrow="MUCHU PASS" title="muchuポン購入履歴" />
+
+        <div style={{ margin: '14px 20px 0', padding: '20px 22px 18px', borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_M.hairline}`, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+          <div>
+            <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.goldDeep, letterSpacing: '0.24em' }}>TOTAL</div>
+            <div style={{ marginTop: 4, fontFamily: MU_M.fontSerif, fontSize: 22, color: MU_M.ink, fontWeight: 500 }}>{records.length}<span style={{ fontSize: 11, color: MU_M.inkMid, marginLeft: 4 }}>件</span></div>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ fontFamily: MU_M.fontBrand, fontSize: 10, color: MU_M.inkMid, letterSpacing: '0.18em' }}>AMOUNT</div>
+            <div style={{ marginTop: 4, fontFamily: MU_M.fontSerif, fontSize: 16, color: MU_M.goldDeep, fontWeight: 500 }}>¥ 51,000</div>
+          </div>
+        </div>
+
+        <div style={{ margin: '14px 20px 0' }}>
+          {records.map((r, i) => (
+            <div key={i} style={{ padding: '14px 0', borderTop: i > 0 ? `0.5px solid ${MU_M.hairline}` : 'none' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+                <span style={{ flex: 1, fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.ink, letterSpacing: '0.02em' }}>{r.name}</span>
+                <span style={{ fontFamily: MU_M.fontSerif, fontSize: 14, color: MU_M.goldDeep, fontWeight: 500 }}>¥ {r.price}</span>
+              </div>
+              <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', gap: 10, fontSize: 10.5, color: MU_M.inkMid }}>
+                <span>{r.cast}</span>
+                <span style={{ marginLeft: 'auto', color: r.warn ? MU_M.rouge : MU_M.inkLow, fontFamily: MU_M.fontBrand, letterSpacing: '0.06em' }}>{r.status}</span>
+              </div>
+              <div style={{ marginTop: 3, fontFamily: MU_M.fontBrand, fontSize: 9.5, color: MU_M.inkLow, letterSpacing: '0.04em' }}>{r.date} {r.time}</div>
+            </div>
+          ))}
+        </div>
+
         <div style={{ height: 20 }} />
       </div>
     </div>
@@ -2756,6 +3301,9 @@ Object.assign(window, {
   MU_MyRechargeRecords,
   MU_MyFinanceDetail,
   MU_MySettings,
+  MU_MyBenefits,
+  MU_MyPointDetail,
+  MU_MyMuchuponHistory,
 });
 
 
