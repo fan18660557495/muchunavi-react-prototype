@@ -48,8 +48,8 @@ function MU_Login() {
           <div style={{ marginTop: 8, fontSize: 11, color: MU_T.inkMid, letterSpacing: '0.2em' }}>LOG IN TO UNLOCK</div>
         </div>
 
-        <div style={{ background: 'rgba(255, 255, 255, 0.75)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: `0.5px solid ${MU_T.hairlineStrong}`, borderRadius: 20, padding: 22, boxShadow: MU_T.shadowLg }}>
-          <button style={{ width: '100%', height: 50, border: 'none', borderRadius: 12, background: '#06C755', color: '#fff', fontSize: 14, fontWeight: 600, fontFamily: MU_T.fontSans, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+        <div style={{ background: 'rgba(255, 255, 255, 0.75)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: `0.5px solid ${MU_T.hairlineStrong}`, borderRadius: 8, padding: 22 }}>
+          <button style={{ width: '100%', height: 50, border: 'none', borderRadius: 6, background: '#06C755', color: '#fff', fontSize: 14, fontWeight: 600, fontFamily: MU_T.fontSans, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 5.66 2 10.2c0 4.07 3.55 7.48 8.35 8.12.33.07.77.22.88.5.1.26.07.67.03.94l-.14.86c-.04.26-.2 1.01.89.55 1.09-.46 5.87-3.46 8.01-5.92C21.52 13.55 22 11.95 22 10.2 22 5.66 17.52 2 12 2z" /></svg>
             LINEでログイン
           </button>
@@ -62,7 +62,7 @@ function MU_Login() {
 
           <div style={{ marginBottom: 12 }}>
             <div style={{ fontSize: 10, color: MU_T.inkMid, marginBottom: 6, letterSpacing: '0.15em' }}>PHONE</div>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center', background: '#FFFFFF', borderRadius: 10, padding: '0 14px', height: 44, border: `0.5px solid ${MU_T.hairlineStrong}` }}>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', background: '#FFFFFF', borderRadius: 6, padding: '0 14px', height: 44, border: `0.5px solid ${MU_T.hairlineStrong}` }}>
               <span style={{ fontSize: 13, color: MU_T.goldDeep, fontWeight: 500 }}>+81</span>
               <div style={{ width: 1, height: 14, background: MU_T.hairlineStrong }} />
               <span style={{ fontSize: 14, color: MU_T.ink, letterSpacing: '0.05em' }}>90 1234 5678</span>
@@ -83,7 +83,7 @@ function MU_Login() {
             </div>
           </div>
 
-          <button style={{ width: '100%', height: 48, border: 'none', borderRadius: 12, background: MU_T.gradGold, color: '#F6F2EF', fontSize: 14, fontWeight: 700, letterSpacing: '0.2em', boxShadow: MU_T.shadowGold }}>
+          <button style={{ width: '100%', height: 48, border: 'none', borderRadius: 6, background: 'transparent', border: `0.5px solid ${MU_T.gold}`, color: MU_T.goldDeep, fontSize: 14, fontWeight: 700, letterSpacing: '0.2em' }}>
             ログイン / 会員登録
           </button>
 

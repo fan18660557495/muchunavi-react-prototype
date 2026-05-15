@@ -203,24 +203,24 @@ function MU_CastDetail() {
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, transparent 20%, transparent 55%, rgba(26, 44, 49, 0.75) 100%)' }} />
 
           <div style={{ position: 'absolute', top: MU_TOP_SPACING, left: 0, right: 0, padding: '8px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ width: 36, height: 36, borderRadius: 18, background: 'rgba(255, 255, 255, 0.6)', border: `0.5px solid ${MU_CD.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} onClick={() => window.__nav?.back()}>
+            <div style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(255, 255, 255, 0.6)', border: `0.5px solid ${MU_CD.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} onClick={() => window.__nav?.back()}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={MU_CD.ink} strokeWidth="2"><path d="M15 6 L9 12 L15 18" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
-              <div style={{ width: 36, height: 36, borderRadius: 18, background: 'rgba(255, 255, 255, 0.6)', border: `0.5px solid ${MU_CD.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(255, 255, 255, 0.6)', border: `0.5px solid ${MU_CD.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={MU_CD.ink} strokeWidth="1.6"><path d="M4 12 V18 A2 2 0 0 0 6 20 H18 A2 2 0 0 0 20 18 V12" strokeLinecap="round" /><path d="M16 6 L12 2 L8 6" strokeLinecap="round" strokeLinejoin="round" /><path d="M12 2 V14" strokeLinecap="round" /></svg>
               </div>
               <button
                 type="button"
                 onClick={() => setFollowing(MU_toggleFollowingCast(cast))}
-                style={{ width: 36, height: 36, borderRadius: 18, background: following ? MU_CD.gradGold : 'rgba(255, 255, 255, 0.6)', border: `0.5px solid ${following ? 'transparent' : MU_CD.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: following ? MU_CD.shadowGold : 'none', cursor: 'pointer' }}
+                style={{ width: 36, height: 36, borderRadius: 8, background: 'transparent', border: `0.5px solid ${following ? MU_CD.gold : MU_CD.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill={following ? '#1A2C31' : 'none'} stroke={following ? '#1A2C31' : MU_CD.gold} strokeWidth="1.8"><path d="M12 21 C5 15 2 11 2 7 A5 5 0 0 1 12 5 A5 5 0 0 1 22 7 C22 11 19 15 12 21 Z" strokeLinejoin="round" /></svg>
               </button>
             </div>
           </div>
 
-          <div style={{ position: 'absolute', top: 108, right: 20, padding: '5px 10px', borderRadius: 12, background: 'rgba(255, 255, 255, 0.7)', border: `0.5px solid ${MU_CD.hairlineStrong}`, fontSize: 10, color: MU_CD.gold, letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: 4 }}>
+          <div style={{ position: 'absolute', top: 108, right: 20, padding: '5px 10px', borderRadius: 6, background: 'transparent', border: `0.5px solid ${MU_CD.hairlineStrong}`, fontSize: 10, color: MU_CD.gold, letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: 4 }}>
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={MU_CD.gold} strokeWidth="2"><path d="M12 2 C8 2 5 5 5 9 C5 14 12 22 12 22 C12 22 19 14 19 9 C19 5 16 2 12 2 Z" /><circle cx="12" cy="9" r="2" /></svg>
             {cast.distance}
           </div>
@@ -249,7 +249,7 @@ function MU_CastDetail() {
             </div>
           </div>
 
-          <div style={{ marginTop: 18, padding: 14, borderRadius: 14, background: MU_CD.surface, border: `0.5px solid ${MU_CD.hairline}`, display: 'flex', gap: 12, alignItems: 'center', cursor: 'pointer' }} onClick={() => window.__nav?.open('shop-detail')}>
+          <div style={{ marginTop: 18, padding: 14, borderRadius: 8, background: MU_CD.surface, border: `0.5px solid ${MU_CD.hairline}`, display: 'flex', gap: 12, alignItems: 'center', cursor: 'pointer' }} onClick={() => window.__nav?.open('shop-detail')}>
             <MU_CastPhoto src={MU_CAST_IMAGES.shop} w={48} h={48} radius={8} />
             <div style={{ flex: 1 }}>
               <div style={{ fontFamily: MU_CD.fontBrand, fontSize: 9, color: MU_CD.goldDeep, letterSpacing: '0.3em' }}>SHOP</div>
@@ -259,7 +259,7 @@ function MU_CastDetail() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={MU_CD.gold} strokeWidth="1.8"><path d="M9 6 L15 12 L9 18" /></svg>
           </div>
 
-          <div style={{ marginTop: 14, padding: '14px 0', display: 'flex', borderRadius: 14, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_CD.hairlineStrong}` }}>
+          <div style={{ marginTop: 14, padding: '14px 0', display: 'flex', borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_CD.hairlineStrong}` }}>
             {[
               { label: 'AREA RANK', value: '3', unit: '位', sub: 'TOP 5' },
               { label: 'GIFTS', value: '248', unit: '件', sub: '¥4.2M' },
@@ -306,7 +306,7 @@ function MU_CastDetail() {
 
               <div style={{ padding: '24px 0 0' }}>
                 <div style={{ fontSize: 12, fontWeight: 600, color: MU_CD.ink, marginBottom: 10, letterSpacing: '0.05em' }}>好み・相性</div>
-                <div style={{ background: MU_CD.surface, borderRadius: 16, padding: '4px 16px', border: `0.5px solid ${MU_CD.hairline}` }}>
+                <div style={{ background: MU_CD.surface, borderRadius: 8, padding: '4px 16px', border: `0.5px solid ${MU_CD.hairline}` }}>
                   {preferences.map(([label, value], index) => (
                     <div key={label} style={{ display: 'flex', alignItems: 'center', padding: '14px 0', borderBottom: index < preferences.length - 1 ? `0.5px solid ${MU_CD.hairline}` : 'none', gap: 12 }}>
                       <div style={{ width: 120, flexShrink: 0, fontSize: 13, color: MU_CD.inkMid, fontWeight: 500 }}>{label}</div>
@@ -320,7 +320,7 @@ function MU_CastDetail() {
 
             {activeTab === 'album' ? (
               <>
-              <div style={{ marginTop: 16, padding: '12px 14px', borderRadius: 14, background: MU_CD.surface, border: `0.5px solid ${MU_CD.hairline}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+              <div style={{ marginTop: 16, padding: '12px 14px', borderRadius: 8, background: MU_CD.surface, border: `0.5px solid ${MU_CD.hairline}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
                 <div>
                   <div style={{ fontFamily: MU_CD.fontBrand, fontSize: 10, color: MU_CD.goldDeep, letterSpacing: '0.25em' }}>GALLERY</div>
                   <div style={{ marginTop: 3, fontFamily: MU_CD.fontSerif, fontSize: 14, color: MU_CD.ink, letterSpacing: '0.04em' }}>出勤シーンと私服アルバム</div>
@@ -329,7 +329,7 @@ function MU_CastDetail() {
               </div>
 
               <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: '1.12fr 0.88fr', gap: 10 }}>
-                <button type="button" onClick={() => setPreviewIndex(0)} style={{ position: 'relative', minHeight: 322, borderRadius: 18, overflow: 'hidden', border: `0.5px solid ${MU_CD.hairline}`, boxShadow: MU_CD.shadowMd, cursor: 'pointer' }}>
+                <button type="button" onClick={() => setPreviewIndex(0)} style={{ position: 'relative', minHeight: 322, borderRadius: 8, overflow: 'hidden', border: `0.5px solid ${MU_CD.hairline}`, cursor: 'pointer' }}>
                   <MU_CastPhoto src={gallery[0].src} w="100%" h={322} radius={0} />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(26, 44, 49, 0.05) 0%, rgba(26, 44, 49, 0.7) 100%)' }} />
                   <div style={{ position: 'absolute', top: 12, right: 12, height: 24, padding: '0 10px', borderRadius: 999, background: 'rgba(251, 247, 244, 0.88)', color: MU_CD.goldDeep, fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', display: 'flex', alignItems: 'center' }}>タップで拡大</div>
@@ -341,7 +341,7 @@ function MU_CastDetail() {
 
                 <div style={{ display: 'grid', gridTemplateRows: '1fr 1fr', gap: 10 }}>
                   {gallery.slice(1, 3).map((item, index) => (
-                    <button key={item.id} type="button" onClick={() => setPreviewIndex(index + 1)} style={{ position: 'relative', borderRadius: 16, overflow: 'hidden', border: `0.5px solid ${MU_CD.hairline}`, boxShadow: MU_CD.shadowSm, cursor: 'pointer' }}>
+                    <button key={item.id} type="button" onClick={() => setPreviewIndex(index + 1)} style={{ position: 'relative', borderRadius: 8, overflow: 'hidden', border: `0.5px solid ${MU_CD.hairline}`, cursor: 'pointer' }}>
                       <MU_CastPhoto src={item.src} w="100%" h={156} radius={0} />
                       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(26, 44, 49, 0.02) 25%, rgba(26, 44, 49, 0.58) 100%)' }} />
                       <div style={{ position: 'absolute', left: 10, right: 10, bottom: 10, textAlign: 'left' }}>
@@ -355,7 +355,7 @@ function MU_CastDetail() {
 
               <div style={{ marginTop: 10, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
                 {gallery.slice(3).map((item, index) => (
-                  <button key={item.id} type="button" onClick={() => setPreviewIndex(index + 3)} style={{ borderRadius: 14, overflow: 'hidden', background: MU_CD.surface, border: `0.5px solid ${MU_CD.hairline}`, boxShadow: MU_CD.shadowSm, cursor: 'pointer', textAlign: 'left' }}>
+                  <button key={item.id} type="button" onClick={() => setPreviewIndex(index + 3)} style={{ borderRadius: 8, overflow: 'hidden', background: MU_CD.surface, border: `0.5px solid ${MU_CD.hairline}`, cursor: 'pointer', textAlign: 'left' }}>
                     <MU_CastPhoto src={item.src} w="100%" h={132} radius={0} />
                     <div style={{ padding: '9px 9px 10px' }}>
                       <div style={{ fontFamily: MU_CD.fontSerif, fontSize: 11, color: MU_CD.ink, letterSpacing: '0.04em' }}>{item.title}</div>
@@ -371,7 +371,7 @@ function MU_CastDetail() {
               <>
               <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {reviews.map((review) => (
-                  <div key={review.id} style={{ padding: '14px 16px', borderRadius: 14, background: MU_CD.surface, border: `0.5px solid ${MU_CD.hairline}` }}>
+                  <div key={review.id} style={{ padding: '14px 16px', borderRadius: 8, background: MU_CD.surface, border: `0.5px solid ${MU_CD.hairline}` }}>
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
                       <div style={{ width: 38, height: 38, borderRadius: 19, overflow: 'hidden', border: `0.5px solid ${MU_CD.hairlineStrong}`, background: MU_CD.bgSoft, flexShrink: 0 }}>
                         <img src={review.avatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
@@ -409,14 +409,14 @@ function MU_CastDetail() {
       </div>
 
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '14px 20px 28px', background: 'linear-gradient(180deg, rgba(251, 247, 244, 0) 0%, rgba(251, 247, 244, 0.95) 40%)', display: 'flex', gap: 10, alignItems: 'center', zIndex: 40 }}>
-        <div style={{ width: 44, height: 44, borderRadius: 22, border: `0.5px solid ${MU_CD.hairlineStrong}`, background: MU_CD.surface, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: 44, height: 44, borderRadius: 8, border: `0.5px solid ${MU_CD.hairlineStrong}`, background: MU_CD.surface, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={MU_CD.gold} strokeWidth="1.6"><path d="M12 21 C5 15 2 11 2 7 A5 5 0 0 1 12 5 A5 5 0 0 1 22 7 C22 11 19 15 12 21 Z" strokeLinejoin="round" /></svg>
         </div>
-        <div style={{ flex: 1, height: 48, borderRadius: 24, background: MU_CD.rouge, border: `0.5px solid ${MU_CD.rougeSoft}`, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+        <div style={{ flex: 1, height: 48, borderRadius: 8, background: MU_CD.rouge, border: `0.5px solid ${MU_CD.rougeSoft}`, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F6F2EF" strokeWidth="1.8"><path d="M12 2 L15 9 L22 10 L17 15 L18 22 L12 19 L6 22 L7 15 L2 10 L9 9 Z" /></svg>
           <span style={{ fontSize: 13, color: '#F6F2EF', fontWeight: 600, letterSpacing: '0.12em', fontFamily: MU_CD.fontSerif }}>ギフトを送る</span>
         </div>
-        <div style={{ flex: 1.3, height: 48, borderRadius: 24, background: MU_CD.gradGold, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, boxShadow: MU_CD.shadowGold, cursor: 'pointer' }} onClick={() => window.__nav?.open('chat')}>
+        <div style={{ flex: 1.3, height: 48, borderRadius: 8, background: 'transparent', border: `0.5px solid ${MU_CD.gold}`, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, color: MU_CD.goldDeep, cursor: 'pointer' }} onClick={() => window.__nav?.open('chat')}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F6F2EF" strokeWidth="2"><path d="M4 5 H20 A1 1 0 0 1 21 6 V17 A1 1 0 0 1 20 18 H10 L5 21 V18 H4 A1 1 0 0 1 3 17 V6 A1 1 0 0 1 4 5 Z" strokeLinejoin="round" /></svg>
           <span style={{ fontSize: 13, color: '#F6F2EF', fontWeight: 700, letterSpacing: '0.15em' }}>メッセージ</span>
         </div>
@@ -433,7 +433,7 @@ function MU_CastDetail() {
               <button type="button" onClick={() => setPreviewIndex(null)} style={{ width: 34, height: 34, borderRadius: 17, background: 'rgba(251, 247, 244, 0.12)', border: '1px solid rgba(251, 247, 244, 0.16)', color: '#F6F2EF', fontSize: 18, cursor: 'pointer' }}>×</button>
             </div>
 
-            <div style={{ position: 'relative', borderRadius: 22, overflow: 'hidden', background: '#120f0d', boxShadow: '0 24px 80px rgba(0,0,0,0.45)' }}>
+            <div style={{ position: 'relative', borderRadius: 8, overflow: 'hidden', background: '#120f0d' }}>
               <MU_CastPhoto src={previewPhoto.src} w="100%" h={520} radius={0} />
               <div style={{ position: 'absolute', inset: 0, boxShadow: 'inset 0 0 0 1px rgba(251, 247, 244, 0.08)' }} />
               <button
@@ -465,7 +465,7 @@ function MU_CastDetail() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
               <button type="button" onClick={() => setPreviewIndex((previewIndex - 1 + gallery.length) % gallery.length)} style={{ flex: 1, height: 42, borderRadius: 21, background: 'rgba(251, 247, 244, 0.1)', border: '1px solid rgba(251, 247, 244, 0.12)', color: '#F6F2EF', cursor: 'pointer', fontSize: 12, letterSpacing: '0.08em' }}>前へ</button>
               <div style={{ fontSize: 11, color: 'rgba(251, 247, 244, 0.72)', letterSpacing: '0.12em' }}>{previewIndex + 1} / {gallery.length}</div>
-              <button type="button" onClick={() => setPreviewIndex((previewIndex + 1) % gallery.length)} style={{ flex: 1, height: 42, borderRadius: 21, background: MU_CD.gradGold, border: 'none', color: '#1A2C31', cursor: 'pointer', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', boxShadow: MU_CD.shadowGold }}>次へ</button>
+              <button type="button" onClick={() => setPreviewIndex((previewIndex + 1) % gallery.length)} style={{ flex: 1, height: 42, borderRadius: 21, background: 'transparent', border: 'none', color: MU_M.goldDeep, cursor: 'pointer', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em' }}>次へ</button>
             </div>
 
             <div className="mu-hide-scrollbar" style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 2 }}>
@@ -476,7 +476,7 @@ function MU_CastDetail() {
                     key={item.id}
                     type="button"
                     onClick={() => setPreviewIndex(index)}
-                    style={{ width: 78, flexShrink: 0, borderRadius: 14, overflow: 'hidden', border: active ? `1.5px solid ${MU_CD.gold}` : '1px solid rgba(251, 247, 244, 0.08)', boxShadow: active ? MU_CD.shadowGold : 'none', cursor: 'pointer', opacity: active ? 1 : 0.58, transform: active ? 'translateY(-1px)' : 'translateY(0)', transition: 'all 180ms ease' }}
+                    style={{ width: 78, flexShrink: 0, borderRadius: 8, overflow: 'hidden', border: active ? `1.5px solid ${MU_CD.gold}` : '1px solid rgba(251, 247, 244, 0.08)', boxShadow: active ? MU_CD.shadowGold : 'none', cursor: 'pointer', opacity: active ? 1 : 0.58, transform: active ? 'translateY(-1px)' : 'translateY(0)', transition: 'all 180ms ease' }}
                   >
                     <MU_CastPhoto src={item.src} w={78} h={94} radius={0} />
                   </button>

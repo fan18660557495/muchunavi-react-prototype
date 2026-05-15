@@ -593,7 +593,7 @@ const renderStatusIndicator = (isOnline = true, compact = false) => {
 function MU_WallCard({ name, shop, area, src, height, compact = false, badge, isOnline = true }) {
   const cast = MU_buildHomeCast({ name, shop, src });
   return (
-    <div style={{ position: 'relative', borderRadius: 12, overflow: 'hidden', height, cursor: 'pointer', background: '#0f0d0c', boxShadow: '0 4px 15px rgba(0,0,0,0.1)' }} onClick={() => { window.MU_setCastContext?.(cast); window.__nav?.open('cast-detail'); }}>
+    <div style={{ position: 'relative', borderRadius: 6, overflow: 'hidden', height, cursor: 'pointer', background: '#0f0d0c' }} onClick={() => { window.MU_setCastContext?.(cast); window.__nav?.open('cast-detail'); }}>
       <MU_HomePhoto src={src} w="100%" h={height} radius={0} fullSize />
       <div style={{ position: 'absolute', inset: 0, background: compact ? 'linear-gradient(180deg, transparent 40%, rgba(18, 14, 12, 0.85) 100%)' : 'linear-gradient(180deg, rgba(18, 14, 12, 0.05) 0%, rgba(18, 14, 12, 0.8) 100%)' }} />
       <MU_FollowHeart cast={cast} />
@@ -612,7 +612,7 @@ function MU_WallCard({ name, shop, area, src, height, compact = false, badge, is
           </div>
         ) : null}
       </div>
-      <div style={{ position: 'absolute', inset: 0, border: '0.5px solid rgba(255,255,255,0.08)', borderRadius: 12, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', inset: 0, border: '0.5px solid rgba(255,255,255,0.08)', borderRadius: 6, pointerEvents: 'none' }} />
     </div>
   );
 }
@@ -659,8 +659,8 @@ function MU_Home() {
         <div style={{ height: MU_TOP_SPACING }} />
 
         <div style={{ padding: '8px 20px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', zIndex: 10 }}>
-          <button type="button" onClick={() => window.__nav?.open('city-selector')} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '6px 14px 6px 8px', borderRadius: 20, background: 'rgba(251,247,244,0.4)', border: `0.5px solid ${MU_H.hairline}`, backdropFilter: 'blur(20px)', boxShadow: '0 4px 15px rgba(26,44,49,0.04)' }}>
-            <div style={{ width: 32, height: 32, borderRadius: 16, background: MU_H.gradGold, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(164,150,115,0.3)' }}>
+          <button type="button" onClick={() => window.__nav?.open('city-selector')} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '6px 14px 6px 8px', borderRadius: 8, background: 'rgba(251,247,244,0.4)', border: `0.5px solid ${MU_H.hairline}`, backdropFilter: 'blur(20px)' }}>
+            <div style={{ width: 32, height: 32, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_H.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_H.goldDeep }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A2C31" strokeWidth="2">
                 <path d="M12 2 C8 2 5 5 5 9 C5 14 12 22 12 22 C12 22 19 14 19 9 C19 5 16 2 12 2 Z" />
                 <circle cx="12" cy="9" r="2.5" />
@@ -675,13 +675,13 @@ function MU_Home() {
             </div>
           </button>
           <div style={{ display: 'flex', gap: 12 }}>
-            <button type="button" onClick={() => window.__nav?.open('home-search')} style={{ width: 40, height: 40, borderRadius: 20, border: `0.5px solid ${MU_H.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(10px)', cursor: 'pointer', boxShadow: '0 2px 10px rgba(0,0,0,0.03)' }}>
+            <button type="button" onClick={() => window.__nav?.open('home-search')} style={{ width: 40, height: 40, borderRadius: 8, border: `0.5px solid ${MU_H.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(10px)', cursor: 'pointer' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={MU_H.gold} strokeWidth="1.8">
                 <circle cx="11" cy="11" r="7" />
                 <path d="M16 16 L20 20" strokeLinecap="round" />
               </svg>
             </button>
-            <button type="button" onClick={() => window.__nav?.open('home-filter')} style={{ width: 40, height: 40, borderRadius: 20, border: `0.5px solid ${MU_H.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(10px)', boxShadow: '0 2px 10px rgba(0,0,0,0.03)', cursor: 'pointer' }}>
+            <button type="button" onClick={() => window.__nav?.open('home-filter')} style={{ width: 40, height: 40, borderRadius: 8, border: `0.5px solid ${MU_H.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(10px)', cursor: 'pointer' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={MU_H.gold} strokeWidth="1.8">
                 <path d="M4 7 H20" strokeLinecap="round" />
                 <path d="M7 12 H17" strokeLinecap="round" />
@@ -694,9 +694,9 @@ function MU_Home() {
           </div>
         </div>
 
-        <div style={{ margin: '0 20px 16px', height: 44, borderRadius: 22, background: 'rgba(251,247,244,0.6)', border: `0.5px solid ${MU_H.hairline}`, backdropFilter: 'blur(20px)', display: 'flex', alignItems: 'center', gap: 10, position: 'relative', overflow: 'hidden', boxShadow: '0 4px 20px rgba(26,44,49,0.06)' }}>
-          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 4, background: MU_H.gradGold }} />
-          <div style={{ marginLeft: 16, fontFamily: MU_H.fontBrand, fontSize: 10, color: '#FFFFFF', letterSpacing: '0.18em', padding: '3px 8px', background: MU_H.rouge, borderRadius: 4, flexShrink: 0, fontWeight: 700, boxShadow: '0 2px 6px rgba(201,122,122,0.25)' }}>LIVE</div>
+        <div style={{ margin: '0 20px 16px', height: 44, borderRadius: 8, background: 'rgba(251,247,244,0.6)', border: `0.5px solid ${MU_H.hairline}`, backdropFilter: 'blur(20px)', display: 'flex', alignItems: 'center', gap: 10, position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 4, background: MU_H.goldDeep }} />
+          <div style={{ marginLeft: 16, fontFamily: MU_H.fontBrand, fontSize: 10, color: '#FFFFFF', letterSpacing: '0.18em', padding: '3px 8px', background: MU_H.rouge, borderRadius: 4, flexShrink: 0, fontWeight: 700 }}>LIVE</div>
           <div style={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
             <div style={{ fontSize: 12, color: MU_H.ink, letterSpacing: '0.02em', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)', opacity: liveVisible ? 1 : 0, transform: liveVisible ? 'translateX(0)' : 'translateX(12px)' }}>
               <span style={{ color: MU_H.rouge, fontWeight: 800 }}>{activeLive.user}</span>
@@ -740,10 +740,10 @@ function MU_Home() {
             showDots={false}
             renderItem={(p, i) => (
               <div style={{ width: 110, cursor: 'pointer' }} onClick={() => { window.MU_setCastContext?.(MU_buildHomeCast({ name: p.name, shop: p.shop, src: p.src })); window.__nav?.open('cast-detail'); }}>
-                <div style={{ position: 'relative', width: 110, height: 140, borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 24px rgba(26,44,49,0.12)' }}>
+                <div style={{ position: 'relative', width: 110, height: 140, borderRadius: 6, overflow: 'hidden' }}>
                   <MU_HomePhoto src={p.src} w={110} h={140} radius={0} fullSize />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 60%, rgba(26,44,49,0.8) 100%)' }} />
-                  <div style={{ position: 'absolute', inset: 0, border: '0.5px solid rgba(255,255,255,0.12)', borderRadius: 12, pointerEvents: 'none' }} />
+                  <div style={{ position: 'absolute', inset: 0, border: '0.5px solid rgba(255,255,255,0.12)', borderRadius: 6, pointerEvents: 'none' }} />
                   <MU_FollowHeart cast={MU_buildHomeCast({ name: p.name, shop: p.shop, src: p.src })} />
                   {renderRankingBadge(i + 1)}
                   <div style={{ position: 'absolute', bottom: 8, left: 8, right: 8, fontSize: 9, color: '#FFFFFF', fontWeight: 700, letterSpacing: '0.04em', display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -758,8 +758,8 @@ function MU_Home() {
           />
         </div>
 
-        <div onClick={() => window.__nav?.switchTab('rank')} style={{ margin: '4px 20px 24px', padding: '16px 18px', borderRadius: 18, background: MU_H.couponBg, border: `0.5px solid ${MU_H.couponBorder}`, display: 'flex', alignItems: 'center', gap: 14, position: 'relative', overflow: 'hidden', cursor: 'pointer', boxShadow: 'none' }}>
-          <div style={{ width: 44, height: 44, borderRadius: 22, background: 'rgba(255,255,255,0.5)', border: `0.5px solid ${MU_H.couponBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <div onClick={() => window.__nav?.switchTab('rank')} style={{ margin: '4px 20px 24px', padding: '16px 18px', borderRadius: 8, background: MU_H.couponBg, border: `0.5px solid ${MU_H.couponBorder}`, display: 'flex', alignItems: 'center', gap: 14, position: 'relative', overflow: 'hidden', cursor: 'pointer', boxShadow: 'none' }}>
+          <div style={{ width: 44, height: 44, borderRadius: 8, background: 'rgba(255,255,255,0.5)', border: `0.5px solid ${MU_H.couponBorder}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={MU_H.goldDeep} strokeWidth="1.5">
               <path d="M12 15l-2 5 2-1 2 1-2-5z" fill={MU_H.goldDeep} fillOpacity="0.2" />
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" strokeLinejoin="round" />
@@ -769,7 +769,7 @@ function MU_Home() {
             <div style={{ fontFamily: MU_H.fontBrand, fontSize: 10, color: MU_H.goldDeep, letterSpacing: '0.28em', fontWeight: 700 }}>GIFT RANKING · {new Date().toLocaleString('en-US', { month: 'long' }).toUpperCase()}</div>
             <div style={{ fontFamily: MU_H.fontSerif, fontSize: 16, color: MU_H.ink, letterSpacing: '0.04em', marginTop: 4 }}>エリアギフトランキングを見る</div>
           </div>
-          <div style={{ width: 32, height: 32, borderRadius: 16, background: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={MU_H.goldDeep} strokeWidth="2.5"><path d="M9 18l6-6-6-6" /></svg>
           </div>
         </div>
@@ -819,9 +819,9 @@ function MU_Home() {
           onClick={() => setGiftModal(null)}
           style={{ position: 'absolute', inset: 0, background: 'rgba(26,44,49,0.48)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 30 }}
         >
-          <div onClick={(event) => event.stopPropagation()} style={{ width: '100%', maxWidth: 320, borderRadius: 22, background: MU_H.surface, border: `0.5px solid ${MU_H.hairlineStrong}`, boxShadow: '0 22px 60px rgba(26,44,49,0.24)', overflow: 'hidden' }}>
+          <div onClick={(event) => event.stopPropagation()} style={{ width: '100%', maxWidth: 320, borderRadius: 8, background: MU_H.surface, border: `0.5px solid ${MU_H.hairlineStrong}`, overflow: 'hidden' }}>
             <div style={{ padding: 22, background: MU_H.gradRouge, textAlign: 'center', position: 'relative' }}>
-              <button type="button" onClick={() => setGiftModal(null)} style={{ position: 'absolute', top: 12, right: 12, width: 28, height: 28, borderRadius: 14, background: 'rgba(251,247,244,0.12)', color: '#F6F2EF', fontSize: 16, cursor: 'pointer' }}>×</button>
+              <button type="button" onClick={() => setGiftModal(null)} style={{ position: 'absolute', top: 12, right: 12, width: 28, height: 28, borderRadius: 8, background: 'rgba(251,247,244,0.12)', color: '#F6F2EF', fontSize: 16, cursor: 'pointer' }}>×</button>
               <div style={{ width: 74, height: 74, margin: '0 auto', borderRadius: 26, background: 'rgba(251,247,244,0.12)', border: '1px solid rgba(251,247,244,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 38 }}>{giftModal.emoji}</div>
               <div style={{ marginTop: 12, fontFamily: MU_H.fontSerif, fontSize: 20, color: '#F6F2EF', letterSpacing: '0.04em' }}>{giftModal.title}</div>
               <div style={{ marginTop: 6, fontSize: 16, color: MU_H.gold, fontWeight: 800 }}>{giftModal.price}</div>
@@ -838,7 +838,7 @@ function MU_Home() {
                   <div style={{ flex: 1, fontSize: 12, color: MU_H.ink, lineHeight: 1.6, fontWeight: 600 }}>{value}</div>
                 </div>
               ))}
-              <button type="button" onClick={() => setGiftModal(null)} style={{ marginTop: 10, width: '100%', height: 42, borderRadius: 21, background: MU_H.gradGold, color: '#1A2C31', fontSize: 12, fontWeight: 800, cursor: 'pointer' }}>了解</button>
+              <button type="button" onClick={() => setGiftModal(null)} style={{ marginTop: 10, width: '100%', height: 42, borderRadius: 21, background: 'transparent', border: `0.5px solid ${MU_H.gold}`, color: MU_H.goldDeep, fontSize: 12, fontWeight: 800, cursor: 'pointer' }}>了解</button>
             </div>
           </div>
         </div>
@@ -913,14 +913,14 @@ function MU_CitySelector() {
   const renderMenuButton = (label, value, menuKey, options, onSelect) => (
     <div style={{ position: 'relative', minWidth: 0 }}>
       <div style={{ marginBottom: 8, fontSize: 10, color: MU_H.inkLow, letterSpacing: '0.06em' }}>{label}</div>
-      <button type="button" onClick={() => setActiveMenu((prev) => (prev === menuKey ? null : menuKey))} style={{ width: '100%', height: 42, padding: '0 12px', borderRadius: 12, background: '#FFFFFF', border: `0.5px solid ${menuKey === 'area' ? MU_H.gold : MU_H.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 14, color: MU_H.ink, boxShadow: menuKey === 'area' ? MU_H.shadowSm : 'none', cursor: 'pointer' }}>
+      <button type="button" onClick={() => setActiveMenu((prev) => (prev === menuKey ? null : menuKey))} style={{ width: '100%', height: 42, padding: '0 12px', borderRadius: 6, background: '#FFFFFF', border: `0.5px solid ${menuKey === 'area' ? MU_H.gold : MU_H.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 14, color: MU_H.ink, cursor: 'pointer' }}>
         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{value}</span>
         <svg width="10" height="10" viewBox="0 0 12 12" fill={MU_H.inkLow}><path d="M2 4 L6 8 L10 4" /></svg>
       </button>
       {activeMenu === menuKey ? (
-        <div style={{ position: 'absolute', left: 0, right: 0, top: 'calc(100% + 8px)', zIndex: 10, background: '#FFFFFF', borderRadius: 14, border: `0.5px solid ${MU_H.hairlineStrong}`, boxShadow: MU_H.shadowMd, padding: 6 }}>
+        <div style={{ position: 'absolute', left: 0, right: 0, top: 'calc(100% + 8px)', zIndex: 10, background: '#FFFFFF', borderRadius: 8, border: `0.5px solid ${MU_H.hairlineStrong}`, padding: 6 }}>
           {options.map((option) => (
-            <button key={option} type="button" onClick={() => onSelect(option)} style={{ width: '100%', minHeight: 36, padding: '0 10px', borderRadius: 10, textAlign: 'left', background: value === option ? 'rgba(164, 150, 115, 0.1)' : 'transparent', color: value === option ? MU_H.goldDeep : MU_H.inkMid, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+            <button key={option} type="button" onClick={() => onSelect(option)} style={{ width: '100%', minHeight: 36, padding: '0 10px', borderRadius: 6, textAlign: 'left', background: value === option ? 'rgba(164, 150, 115, 0.1)' : 'transparent', color: value === option ? MU_H.goldDeep : MU_H.inkMid, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
               {option}
             </button>
           ))}
@@ -936,7 +936,7 @@ function MU_CitySelector() {
         <div style={{ padding: 'calc(env(safe-area-inset-top, 0px) + 10px) 12px 0' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
             <div style={{ height: 34, padding: '0 12px', borderRadius: 17, background: 'rgba(255,255,255,0.72)', border: `0.5px solid ${MU_H.hairline}`, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-              <div style={{ width: 20, height: 20, borderRadius: 10, background: MU_H.gradGold, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1A2C31' }}>
+              <div style={{ width: 20, height: 20, borderRadius: 6, background: 'transparent', border: `0.5px solid ${MU_H.gold}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_H.goldDeep }}>
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2 C8 2 5 5 5 9 C5 14 12 22 12 22 C12 22 19 14 19 9 C19 5 16 2 12 2 Z" /><circle cx="12" cy="9" r="2.5" /></svg>
               </div>
               <div style={{ fontSize: 12, color: MU_H.inkMid }}>{`${selectedPrefecture} · ${selectedCity} · ${selectedArea}`}</div>
@@ -944,7 +944,7 @@ function MU_CitySelector() {
             </div>
           </div>
 
-          <div style={{ background: 'rgba(255,255,255,0.88)', border: `0.5px solid ${MU_H.hairline}`, borderRadius: 24, boxShadow: MU_H.shadowMd, overflow: 'visible' }}>
+          <div style={{ background: 'rgba(255,255,255,0.88)', border: `0.5px solid ${MU_H.hairline}`, borderRadius: 8, overflow: 'visible' }}>
             <div style={{ padding: '16px 16px 14px', borderBottom: `0.5px solid ${MU_H.hairline}` }}>
               <div style={{ fontFamily: MU_H.fontBrand, fontSize: 10, color: MU_H.goldDeep, letterSpacing: '0.24em' }}>AREA SELECT</div>
               <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -998,13 +998,13 @@ function MU_CitySelector() {
                             {shownAreas.map((area) => {
                               const active = selectedCity === city.name && selectedArea === area;
                               return (
-                                <button key={area} type="button" onClick={() => chooseArea(area, city.name)} style={{ minWidth: 50, height: 28, padding: '0 12px', borderRadius: 14, background: active ? 'rgba(212,188,140,0.26)' : '#FFFFFF', color: active ? MU_H.goldDeep : MU_H.inkLow, border: `0.5px solid ${active ? MU_H.goldLight : MU_H.hairline}`, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
+                                <button key={area} type="button" onClick={() => chooseArea(area, city.name)} style={{ minWidth: 50, height: 28, padding: '0 12px', borderRadius: 8, background: active ? 'rgba(212,188,140,0.26)' : '#FFFFFF', color: active ? MU_H.goldDeep : MU_H.inkLow, border: `0.5px solid ${active ? MU_H.goldLight : MU_H.hairline}`, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
                                   {area}
                                 </button>
                               );
                             })}
                             {city.areas.length > 4 ? (
-                              <button type="button" onClick={() => toggleExpanded(city.name)} style={{ height: 28, padding: '0 12px', borderRadius: 14, background: '#FFFFFF', color: MU_H.inkLow, border: `0.5px solid ${MU_H.hairline}`, fontSize: 11, cursor: 'pointer' }}>
+                              <button type="button" onClick={() => toggleExpanded(city.name)} style={{ height: 28, padding: '0 12px', borderRadius: 8, background: '#FFFFFF', color: MU_H.inkLow, border: `0.5px solid ${MU_H.hairline}`, fontSize: 11, cursor: 'pointer' }}>
                                 もっと見る
                               </button>
                             ) : null}
@@ -1026,7 +1026,7 @@ function MU_CitySelector() {
       </div>
 
       <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: '14px 18px calc(env(safe-area-inset-bottom, 0px) + 10px)', background: 'linear-gradient(180deg, rgba(251,247,244,0) 0%, rgba(251,247,244,0.94) 18%, rgba(251,247,244,0.98) 100%)' }}>
-        <button type="button" onClick={confirmLocation} style={{ width: '100%', height: 48, borderRadius: 24, background: MU_H.gradGold, color: '#F6F2EF', fontSize: 16, fontWeight: 800, boxShadow: MU_H.shadowGold, cursor: 'pointer' }}>
+        <button type="button" onClick={confirmLocation} style={{ width: '100%', height: 48, borderRadius: 8, background: 'transparent', border: `0.5px solid ${MU_H.gold}`, color: MU_H.goldDeep, fontSize: 16, fontWeight: 800, cursor: 'pointer' }}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2 C8 2 5 5 5 9 C5 14 12 22 12 22 C12 22 19 14 19 9 C19 5 16 2 12 2 Z" /><circle cx="12" cy="9" r="2.5" /></svg>
             このエリアに決定
@@ -1045,7 +1045,7 @@ function MU_HomeGiftDetail() {
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 40 }}>
         <div style={{ paddingTop: MU_TOP_SPACING }}>
           <div style={{ padding: '8px 20px', display: 'flex', alignItems: 'center', gap: 12 }}>
-            <button type="button" onClick={() => window.__nav?.back()} style={{ width: 36, height: 36, borderRadius: 18, background: '#FFFFFF', border: `0.5px solid ${MU_H.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            <button type="button" onClick={() => window.__nav?.back()} style={{ width: 36, height: 36, borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_H.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={MU_H.ink} strokeWidth="2"><path d="M15 6 L9 12 L15 18" strokeLinecap="round" /></svg>
             </button>
             <div style={{ flex: 1, textAlign: 'center' }}>
@@ -1056,7 +1056,7 @@ function MU_HomeGiftDetail() {
           </div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 22, borderRadius: 22, background: MU_H.gradRouge, border: `0.5px solid ${MU_H.rougeSoft}`, boxShadow: '0 18px 40px rgba(201,122,122,0.16)', textAlign: 'center' }}>
+        <div style={{ margin: '14px 20px 0', padding: 22, borderRadius: 8, background: MU_H.gradRouge, border: `0.5px solid ${MU_H.rougeSoft}`, textAlign: 'center' }}>
           <div style={{ width: 86, height: 86, margin: '0 auto', borderRadius: 30, background: 'rgba(251,247,244,0.12)', border: '1px solid rgba(251,247,244,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 42 }}>
             {detail.emoji}
           </div>
@@ -1064,7 +1064,7 @@ function MU_HomeGiftDetail() {
           <div style={{ marginTop: 8, fontSize: 18, color: MU_H.gold, fontWeight: 800 }}>{detail.price}</div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', borderRadius: 16, background: MU_H.surface, border: `0.5px solid ${MU_H.hairline}`, overflow: 'hidden' }}>
+        <div style={{ margin: '14px 20px 0', borderRadius: 8, background: MU_H.surface, border: `0.5px solid ${MU_H.hairline}`, overflow: 'hidden' }}>
           {[
             ['贈ったユーザー', detail.sender],
             ['受け取ったキャスト', detail.castName],
@@ -1082,14 +1082,14 @@ function MU_HomeGiftDetail() {
           <button
             type="button"
             onClick={() => window.__nav?.open('cast-detail')}
-            style={{ flex: 1, height: 44, borderRadius: 22, background: MU_H.surface, border: `0.5px solid ${MU_H.hairlineStrong}`, color: MU_H.goldDeep, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}
+            style={{ flex: 1, height: 44, borderRadius: 8, background: MU_H.surface, border: `0.5px solid ${MU_H.hairlineStrong}`, color: MU_H.goldDeep, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}
           >
             キャストを見る
           </button>
           <button
             type="button"
             onClick={() => window.__nav?.open('chat')}
-            style={{ flex: 1.2, height: 44, borderRadius: 22, background: MU_H.gradGold, color: '#1A2C31', fontSize: 12, fontWeight: 800, cursor: 'pointer' }}
+            style={{ flex: 1.2, height: 44, borderRadius: 8, background: 'transparent', border: `0.5px solid ${MU_H.gold}`, color: MU_H.goldDeep, fontSize: 12, fontWeight: 800, cursor: 'pointer' }}
           >
             ギフトを送る
           </button>
@@ -1139,7 +1139,7 @@ function MU_HomeSearch() {
         <div style={{ paddingTop: MU_TOP_SPACING }}>
           <div style={{ padding: '8px 20px', display: 'flex', alignItems: 'center', gap: 12 }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={MU_H.ink} strokeWidth="2" style={{ cursor: 'pointer' }} onClick={() => window.__nav?.back()}><path d="M15 6 L9 12 L15 18" strokeLinecap="round" /></svg>
-            <div style={{ flex: 1, padding: '10px 14px', borderRadius: 16, background: '#FFFFFF', border: `0.5px solid ${MU_H.hairlineStrong}`, display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ flex: 1, padding: '10px 14px', borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_H.hairlineStrong}`, display: 'flex', alignItems: 'center', gap: 10 }}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={MU_H.goldDeep} strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M16 16 L20 20" strokeLinecap="round" /></svg>
               <input value={keyword} onChange={(event) => setKeyword(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') submitKeyword(keyword); }} placeholder="店舗・キャスト・イベント・求人を検索" style={{ flex: 1, minWidth: 0, fontSize: 12, color: MU_H.ink, background: 'transparent' }} />
             </div>
@@ -1147,7 +1147,7 @@ function MU_HomeSearch() {
           </div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 16, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_H.hairlineStrong}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_H.hairlineStrong}` }}>
           <div style={{ fontFamily: MU_H.fontBrand, fontSize: 10, color: MU_H.goldDeep, letterSpacing: '0.24em' }}>SEARCH HUB</div>
           <div style={{ marginTop: 5, fontFamily: MU_H.fontSerif, fontSize: 18, color: MU_H.ink }}>{`${storedLocation.prefecture}の店舗、キャスト、イベントをすばやく検索`}</div>
         </div>
@@ -1173,17 +1173,17 @@ function MU_HomeSearch() {
         {resultGroups.map((group) => (
           <div key={group.key}>
             <window.MU_SectionTitle ja={group.title} en={group.key.toUpperCase()} pad="8px 20px 0" />
-            <div style={{ margin: '0 20px 14px', borderRadius: 16, overflow: 'hidden', background: MU_H.surface, border: `0.5px solid ${MU_H.hairline}` }}>
+            <div style={{ margin: '0 20px 14px', borderRadius: 8, overflow: 'hidden', background: MU_H.surface, border: `0.5px solid ${MU_H.hairline}` }}>
               {group.items.map((item, index) => (
                 <button key={item.title} type="button" onClick={() => window.__nav?.open(item.target)} style={{ width: '100%', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderTop: index > 0 ? `0.5px solid ${MU_H.hairline}` : 'none', textAlign: 'left', cursor: 'pointer' }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 14, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_H.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 10px rgba(0,0,0,0.02)' }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_H.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {renderSearchIcon(group.key)}
                   </div>
                   <div style={{ flex: 1, marginLeft: 2 }}>
                     <div style={{ fontFamily: MU_H.fontSerif, fontSize: 15, color: MU_H.ink, fontWeight: 600 }}>{item.title}</div>
                     <div style={{ marginTop: 4, fontSize: 11, color: MU_H.inkMid, opacity: 0.8 }}>{item.sub}</div>
                   </div>
-                  <div style={{ width: 28, height: 28, borderRadius: 14, background: MU_H.bgSoft, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ width: 28, height: 28, borderRadius: 8, background: MU_H.bgSoft, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={MU_H.inkLow} strokeWidth="2.5"><path d="M9 6 L15 12 L9 18" /></svg>
                   </div>
                 </button>
@@ -1226,7 +1226,7 @@ function MU_HomeFilter() {
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 118 }}>
         <div style={{ padding: 'calc(env(safe-area-inset-top, 0px) + 14px) 16px 0', position: 'sticky', top: 0, zIndex: 20, background: 'rgba(251,247,244,0.92)', backdropFilter: 'blur(12px)' }}>
           <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingBottom: 14 }}>
-            <button type="button" onClick={() => window.__nav?.back()} style={{ position: 'absolute', left: 0, width: 36, height: 36, borderRadius: 18, background: MU_H.surface, border: `0.5px solid ${MU_H.hairlineStrong}`, color: MU_H.inkMid, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            <button type="button" onClick={() => window.__nav?.back()} style={{ position: 'absolute', left: 0, width: 36, height: 36, borderRadius: 8, background: MU_H.surface, border: `0.5px solid ${MU_H.hairlineStrong}`, color: MU_H.inkMid, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 6 L9 12 L15 18" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
             <div style={{ fontFamily: MU_H.fontSerif, fontSize: 28, fontWeight: 700, color: MU_H.ink, letterSpacing: '0.02em' }}>絞り込み</div>
@@ -1234,22 +1234,22 @@ function MU_HomeFilter() {
         </div>
 
         <div style={{ padding: '22px 20px 0' }}>
-          <div style={{ borderRadius: 28, background: 'linear-gradient(180deg, #FFFFFF 0%, #F6F2EF 100%)', boxShadow: MU_H.shadowLg, border: `0.5px solid ${MU_H.hairlineStrong}`, padding: '20px 16px' }}>
+          <div style={{ borderRadius: 28, background: '#FBF8F4', border: `0.5px solid ${MU_H.hairlineStrong}`, padding: '20px 16px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16, fontSize: 15 }}>
               {topFields.map((field) => (
                 <div key={field.key} style={{ display: 'grid', gridTemplateColumns: '72px minmax(0, 1fr)', alignItems: 'center', gap: 12 }}>
                   <div style={{ fontSize: 14, fontWeight: 700, color: MU_H.goldDeep }}>{field.label}</div>
                   <div style={{ position: 'relative' }}>
-                    <button type="button" onClick={() => setActiveMenu((prev) => (prev === field.key ? null : field.key))} style={{ width: '100%', height: 44, padding: '0 14px', borderRadius: 16, border: `0.5px solid ${MU_H.hairlineStrong}`, background: MU_H.surface, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 15, fontWeight: 700, color: MU_H.inkMid, cursor: 'pointer' }}>
+                    <button type="button" onClick={() => setActiveMenu((prev) => (prev === field.key ? null : field.key))} style={{ width: '100%', height: 44, padding: '0 14px', borderRadius: 8, border: `0.5px solid ${MU_H.hairlineStrong}`, background: MU_H.surface, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 15, fontWeight: 700, color: MU_H.inkMid, cursor: 'pointer' }}>
                       <span>{values[field.key]}</span>
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={MU_H.inkLow} strokeWidth="2"><path d="M6 9 L12 15 L18 9" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     </button>
                     {activeMenu === field.key ? (
-                      <div style={{ position: 'absolute', left: 0, right: 0, top: 'calc(100% + 8px)', zIndex: 5, borderRadius: 16, border: `0.5px solid ${MU_H.hairlineStrong}`, background: '#FFFFFF', padding: 8, boxShadow: MU_H.shadowMd }}>
+                      <div style={{ position: 'absolute', left: 0, right: 0, top: 'calc(100% + 8px)', zIndex: 5, borderRadius: 8, border: `0.5px solid ${MU_H.hairlineStrong}`, background: '#FFFFFF', padding: 8 }}>
                         {field.options.map((option) => {
                           const active = values[field.key] === option;
                           return (
-                            <button key={option} type="button" onClick={() => setField(field.key, option)} style={{ width: '100%', minHeight: 38, padding: '0 10px', borderRadius: 12, textAlign: 'left', background: active ? 'rgba(164, 150, 115, 0.1)' : 'transparent', color: active ? MU_H.goldDeep : MU_H.inkMid, fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
+                            <button key={option} type="button" onClick={() => setField(field.key, option)} style={{ width: '100%', minHeight: 38, padding: '0 10px', borderRadius: 6, textAlign: 'left', background: active ? 'rgba(164, 150, 115, 0.1)' : 'transparent', color: active ? MU_H.goldDeep : MU_H.inkMid, fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
                               {option}
                             </button>
                           );
@@ -1263,18 +1263,18 @@ function MU_HomeFilter() {
               <div style={{ display: 'grid', gridTemplateColumns: '72px minmax(0, 1fr)', alignItems: 'center', gap: 12 }}>
                 <div style={{ fontSize: 14, fontWeight: 700, color: MU_H.goldDeep }}>年齢</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
-                  <input value={values.ageMin} onChange={(event) => setValues((prev) => ({ ...prev, ageMin: event.target.value }))} inputMode="numeric" placeholder="MIN" style={{ flex: '1 1 0', width: 0, minWidth: 0, height: 44, padding: '0 14px', borderRadius: 16, border: `0.5px solid ${MU_H.hairlineStrong}`, background: '#FFFFFF', fontSize: 14, color: MU_H.ink }} />
+                  <input value={values.ageMin} onChange={(event) => setValues((prev) => ({ ...prev, ageMin: event.target.value }))} inputMode="numeric" placeholder="MIN" style={{ flex: '1 1 0', width: 0, minWidth: 0, height: 44, padding: '0 14px', borderRadius: 8, border: `0.5px solid ${MU_H.hairlineStrong}`, background: '#FFFFFF', fontSize: 14, color: MU_H.ink }} />
                   <span style={{ color: MU_H.inkLow }}>—</span>
-                  <input value={values.ageMax} onChange={(event) => setValues((prev) => ({ ...prev, ageMax: event.target.value }))} inputMode="numeric" placeholder="MAX" style={{ flex: '1 1 0', width: 0, minWidth: 0, height: 44, padding: '0 14px', borderRadius: 16, border: `0.5px solid ${MU_H.hairlineStrong}`, background: '#FFFFFF', fontSize: 14, color: MU_H.ink }} />
+                  <input value={values.ageMax} onChange={(event) => setValues((prev) => ({ ...prev, ageMax: event.target.value }))} inputMode="numeric" placeholder="MAX" style={{ flex: '1 1 0', width: 0, minWidth: 0, height: 44, padding: '0 14px', borderRadius: 8, border: `0.5px solid ${MU_H.hairlineStrong}`, background: '#FFFFFF', fontSize: 14, color: MU_H.ink }} />
                 </div>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '72px minmax(0, 1fr)', alignItems: 'center', gap: 12 }}>
                 <div style={{ fontSize: 14, fontWeight: 700, color: MU_H.goldDeep }}>身長</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
-                  <input value={values.heightMin} onChange={(event) => setValues((prev) => ({ ...prev, heightMin: event.target.value }))} inputMode="numeric" placeholder="MIN" style={{ flex: '1 1 0', width: 0, minWidth: 0, height: 44, padding: '0 14px', borderRadius: 16, border: `0.5px solid ${MU_H.hairlineStrong}`, background: '#FFFFFF', fontSize: 14, color: MU_H.ink }} />
+                  <input value={values.heightMin} onChange={(event) => setValues((prev) => ({ ...prev, heightMin: event.target.value }))} inputMode="numeric" placeholder="MIN" style={{ flex: '1 1 0', width: 0, minWidth: 0, height: 44, padding: '0 14px', borderRadius: 8, border: `0.5px solid ${MU_H.hairlineStrong}`, background: '#FFFFFF', fontSize: 14, color: MU_H.ink }} />
                   <span style={{ color: MU_H.inkLow }}>—</span>
-                  <input value={values.heightMax} onChange={(event) => setValues((prev) => ({ ...prev, heightMax: event.target.value }))} inputMode="numeric" placeholder="MAX" style={{ flex: '1 1 0', width: 0, minWidth: 0, height: 44, padding: '0 14px', borderRadius: 16, border: `0.5px solid ${MU_H.hairlineStrong}`, background: '#FFFFFF', fontSize: 14, color: MU_H.ink }} />
+                  <input value={values.heightMax} onChange={(event) => setValues((prev) => ({ ...prev, heightMax: event.target.value }))} inputMode="numeric" placeholder="MAX" style={{ flex: '1 1 0', width: 0, minWidth: 0, height: 44, padding: '0 14px', borderRadius: 8, border: `0.5px solid ${MU_H.hairlineStrong}`, background: '#FFFFFF', fontSize: 14, color: MU_H.ink }} />
                 </div>
               </div>
 
@@ -1282,16 +1282,16 @@ function MU_HomeFilter() {
                 <div key={field.key} style={{ display: 'grid', gridTemplateColumns: '72px minmax(0, 1fr)', alignItems: 'center', gap: 12 }}>
                   <div style={{ fontSize: 14, fontWeight: 700, color: MU_H.goldDeep }}>{field.label}</div>
                   <div style={{ position: 'relative' }}>
-                    <button type="button" onClick={() => setActiveMenu((prev) => (prev === field.key ? null : field.key))} style={{ width: '100%', height: 44, padding: '0 14px', borderRadius: 16, border: `0.5px solid ${MU_H.hairlineStrong}`, background: MU_H.surface, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 15, fontWeight: 700, color: MU_H.inkMid, cursor: 'pointer' }}>
+                    <button type="button" onClick={() => setActiveMenu((prev) => (prev === field.key ? null : field.key))} style={{ width: '100%', height: 44, padding: '0 14px', borderRadius: 8, border: `0.5px solid ${MU_H.hairlineStrong}`, background: MU_H.surface, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 15, fontWeight: 700, color: MU_H.inkMid, cursor: 'pointer' }}>
                       <span>{values[field.key]}</span>
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={MU_H.inkLow} strokeWidth="2"><path d="M6 9 L12 15 L18 9" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     </button>
                     {activeMenu === field.key ? (
-                      <div style={{ position: 'absolute', left: 0, right: 0, top: 'calc(100% + 8px)', zIndex: 5, borderRadius: 16, border: `0.5px solid ${MU_H.hairlineStrong}`, background: '#FFFFFF', padding: 8, boxShadow: MU_H.shadowMd }}>
+                      <div style={{ position: 'absolute', left: 0, right: 0, top: 'calc(100% + 8px)', zIndex: 5, borderRadius: 8, border: `0.5px solid ${MU_H.hairlineStrong}`, background: '#FFFFFF', padding: 8 }}>
                         {field.options.map((option) => {
                           const active = values[field.key] === option;
                           return (
-                            <button key={option} type="button" onClick={() => setField(field.key, option)} style={{ width: '100%', minHeight: 38, padding: '0 10px', borderRadius: 12, textAlign: 'left', background: active ? 'rgba(164, 150, 115, 0.1)' : 'transparent', color: active ? MU_H.goldDeep : MU_H.inkMid, fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
+                            <button key={option} type="button" onClick={() => setField(field.key, option)} style={{ width: '100%', minHeight: 38, padding: '0 10px', borderRadius: 6, textAlign: 'left', background: active ? 'rgba(164, 150, 115, 0.1)' : 'transparent', color: active ? MU_H.goldDeep : MU_H.inkMid, fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
                               {option}
                             </button>
                           );
@@ -1309,7 +1309,7 @@ function MU_HomeFilter() {
                 {MU_HOME_FILTER_TAGS.map((tag) => {
                   const active = selectedTags.includes(tag.value);
                   return (
-                    <button key={tag.value} type="button" onClick={() => toggleTag(tag.value)} style={{ padding: '10px 16px', borderRadius: 16, border: `0.5px solid ${active ? 'rgba(164, 150, 115, 0.34)' : MU_H.hairlineStrong}`, background: active ? 'linear-gradient(180deg, rgba(212,188,140,0.22), rgba(255,255,255,0.92))' : '#FFFFFF', color: active ? MU_H.goldDeep : MU_H.inkMid, fontSize: 13, fontWeight: 700, boxShadow: active ? MU_H.shadowGold : MU_H.shadowSm, cursor: 'pointer' }}>
+                    <button key={tag.value} type="button" onClick={() => toggleTag(tag.value)} style={{ padding: '10px 16px', borderRadius: 8, border: `0.5px solid ${active ? 'rgba(164, 150, 115, 0.34)' : MU_H.hairlineStrong}`, background: active ? 'linear-gradient(180deg, rgba(212,188,140,0.22), rgba(255,255,255,0.92))' : '#FFFFFF', color: active ? MU_H.goldDeep : MU_H.inkMid, fontSize: 13, fontWeight: 700, boxShadow: active ? MU_H.shadowGold : MU_H.shadowSm, cursor: 'pointer' }}>
                       {tag.label}
                     </button>
                   );
@@ -1323,7 +1323,7 @@ function MU_HomeFilter() {
       <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: '16px 24px calc(env(safe-area-inset-bottom, 0px) + 10px)', background: 'rgba(251,247,244,0.96)', backdropFilter: 'blur(12px)', borderTop: `0.5px solid ${MU_H.hairline}` }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <button type="button" onClick={resetFilters} style={{ flex: 1, height: 48, borderRadius: 999, border: `1px solid ${MU_H.gold}`, background: '#FFFFFF', color: MU_H.goldDeep, fontSize: 16, fontWeight: 800, cursor: 'pointer' }}>リセット</button>
-          <button type="button" onClick={() => window.__nav?.back()} style={{ flex: 2.1, height: 48, borderRadius: 999, background: MU_H.gradGold, color: '#F6F2EF', fontSize: 16, fontWeight: 800, boxShadow: MU_H.shadowGold, cursor: 'pointer' }}>適用</button>
+          <button type="button" onClick={() => window.__nav?.back()} style={{ flex: 2.1, height: 48, borderRadius: 999, background: 'transparent', border: `0.5px solid ${MU_H.gold}`, color: MU_H.goldDeep, fontSize: 16, fontWeight: 800, cursor: 'pointer' }}>適用</button>
         </div>
       </div>
     </div>

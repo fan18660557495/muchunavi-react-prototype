@@ -171,8 +171,8 @@ function MU_Ranking() {
           <div style={{ fontFamily: MU_R.fontBrand, fontSize: 10, color: MU_R.goldDeep, letterSpacing: '0.4em' }}>GIFT RANKING · MAY 2026</div>
           <div style={{ marginTop: 4, fontFamily: MU_R.fontSerif, fontSize: 20, color: MU_R.ink, letterSpacing: '0.1em' }}>今月のギフトランキング</div>
           <div style={{ marginTop: 10, display: 'flex', justifyContent: 'center' }}>
-            <button type="button" onClick={() => window.__nav?.open('city-selector')} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '6px 14px 6px 8px', borderRadius: 20, background: 'rgba(251,247,244,0.4)', border: `0.5px solid ${MU_R.hairline}`, backdropFilter: 'blur(20px)', boxShadow: '0 4px 15px rgba(26,44,49,0.04)' }}>
-              <div style={{ width: 32, height: 32, borderRadius: 16, background: MU_R.gradGold, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(164,150,115,0.3)' }}>
+            <button type="button" onClick={() => window.__nav?.open('city-selector')} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', padding: '6px 14px 6px 8px', borderRadius: 8, background: 'rgba(251,247,244,0.4)', border: `0.5px solid ${MU_R.hairline}`, backdropFilter: 'blur(20px)' }}>
+              <div style={{ width: 32, height: 32, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_R.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_R.goldDeep }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A2C31" strokeWidth="2">
                   <path d="M12 2 C8 2 5 5 5 9 C5 14 12 22 12 22 C12 22 19 14 19 9 C19 5 16 2 12 2 Z" />
                   <circle cx="12" cy="9" r="2.5" />
@@ -220,10 +220,10 @@ function MU_Ranking() {
                   )}
 
                   <div style={{ position: 'relative', display: 'inline-block' }}>
-                    <div style={{ width: item.cardW, margin: '0 auto', padding: 3, borderRadius: 16, background: '#FFFFFF', border: `0.5px solid ${item.edge}`, boxShadow: item.rank === 1 ? '0 16px 40px rgba(164, 150, 115, 0.28), 0 4px 12px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.8)' : '0 10px 24px rgba(26, 44, 49, 0.1), inset 0 0 0 1px rgba(255,255,255,0.6)' }}>
+                    <div style={{ width: item.cardW, margin: '0 auto', padding: 3, borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${item.edge}`, boxShadow: item.rank === 1 ? '0 16px 40px rgba(164, 150, 115, 0.28), 0 4px 12px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.8)' : '0 10px 24px rgba(26, 44, 49, 0.1), inset 0 0 0 1px rgba(255,255,255,0.6)' }}>
                       <MU_RankAvatar src={item.src} w={item.cardW - 6} h={item.cardH - 6} radius={13} />
                     </div>
-                    <div style={{ position: 'absolute', top: -13, left: '50%', transform: 'translateX(-50%)', width: item.rank === 1 ? 32 : 26, height: item.rank === 1 ? 32 : 26, borderRadius: 999, background: item.rank === 1 ? MU_R.gradGold : item.rank === 2 ? 'linear-gradient(135deg, #E6E0D8, #BCB1A5)' : 'linear-gradient(135deg, #D8A88E, #B77B63)', color: '#1A2C31', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: MU_R.fontBrand, fontSize: item.rank === 1 ? 14 : 12, fontWeight: 900, border: '2px solid #FFFFFF', boxShadow: '0 6px 14px rgba(0,0,0,0.15)', zIndex: 2 }}>
+                    <div style={{ position: 'absolute', top: -13, left: '50%', transform: 'translateX(-50%)', width: item.rank === 1 ? 32 : 26, height: item.rank === 1 ? 32 : 26, borderRadius: 999, background: item.rank === 1 ? MU_R.gold : item.rank === 2 ? 'linear-gradient(135deg, #E6E0D8, #BCB1A5)' : 'linear-gradient(135deg, #D8A88E, #B77B63)', color: MU_M.goldDeep, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: MU_R.fontBrand, fontSize: item.rank === 1 ? 14 : 12, fontWeight: 900, border: '2px solid #FFFFFF', zIndex: 2 }}>
                       {item.rank}
                     </div>
                   </div>
@@ -240,13 +240,13 @@ function MU_Ranking() {
           </div>
         </div>
 
-        <div style={{ margin: '24px 16px 0', borderRadius: 24, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, overflow: 'hidden', boxShadow: '0 12px 36px rgba(26, 44, 49, 0.08), 0 4px 10px rgba(0,0,0,0.03)' }}>
+        <div style={{ margin: '24px 16px 0', borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, overflow: 'hidden' }}>
           {list.map((p, i) => (
             <button key={p.r} type="button" onClick={() => window.__nav?.open('cast-detail')} style={{ width: '100%', display: 'flex', alignItems: 'center', padding: '18px 16px', gap: 16, borderTop: i > 0 ? `0.5px solid ${MU_R.hairline}` : 'none', cursor: 'pointer', textAlign: 'left', background: 'none', borderLeft: 'none', borderRight: 'none', borderBottom: 'none', transition: 'background 0.2s ease' }}>
-              <div style={{ width: 36, height: 36, borderRadius: 18, background: i < 3 ? 'linear-gradient(135deg, rgba(164, 150, 115, 0.15), rgba(164, 150, 115, 0.06))' : 'rgba(243, 236, 228, 0.7)', border: `0.5px solid ${i < 3 ? 'rgba(164, 150, 115, 0.25)' : MU_R.hairline}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: MU_R.fontBrand, fontSize: 14, color: MU_R.goldDeep, fontWeight: 800, letterSpacing: '0.01em', flexShrink: 0, boxShadow: 'inset 0 1.5px 3px rgba(255,255,255,1), 0 2px 5px rgba(0,0,0,0.02)' }}>
+              <div style={{ width: 36, height: 36, borderRadius: 8, background: i < 3 ? 'linear-gradient(135deg, rgba(164, 150, 115, 0.15), rgba(164, 150, 115, 0.06))' : 'rgba(243, 236, 228, 0.7)', border: `0.5px solid ${i < 3 ? 'rgba(164, 150, 115, 0.25)' : MU_R.hairline}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: MU_R.fontBrand, fontSize: 14, color: MU_R.goldDeep, fontWeight: 800, letterSpacing: '0.01em', flexShrink: 0, boxShadow: 'inset 0 1.5px 3px rgba(255,255,255,1), 0 2px 5px rgba(0,0,0,0.02)' }}>
                 {String(p.r).padStart(2, '0')}
               </div>
-              <div style={{ padding: 2.5, borderRadius: 24, background: '#FFF', boxShadow: '0 4px 12px rgba(0,0,0,0.06)', border: `0.5px solid ${MU_R.hairline}` }}>
+              <div style={{ padding: 2.5, borderRadius: 8, background: '#FFF', border: `0.5px solid ${MU_R.hairline}` }}>
                 <MU_RankAvatar src={MU_RANK_AVATARS[(i + 3) % MU_RANK_AVATARS.length]} w={44} h={44} radius={22} />
               </div>
               <div style={{ flex: 1 }}>
@@ -260,7 +260,7 @@ function MU_Ranking() {
                   <div style={{ fontSize: 9.5, color: MU_R.inkLow, letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>Gift Mastery</div>
                 </div>
               </div>
-              <div style={{ width: 28, height: 28, borderRadius: 14, background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(164, 150, 115, 0.08) 100%)', border: `0.5px solid rgba(164, 150, 115, 0.15)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 2px 6px rgba(164, 150, 115, 0.05)' }}>
+              <div style={{ width: 28, height: 28, borderRadius: 8, background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(164, 150, 115, 0.08) 100%)', border: `0.5px solid rgba(164, 150, 115, 0.15)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={MU_R.goldDeep} strokeWidth="2.5"><path d="M9 5 L16 12 L9 19" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </div>
             </button>
@@ -437,7 +437,7 @@ function MU_Messages() {
             <window.MU_FlatRowGroup marginTop={6}>
               {notices.map((item, i) => (
                 <button key={item.title} type="button" onClick={() => { MU_setNoticeDetailContext(item); window.__nav?.open('notice-detail'); }} style={{ width: '100%', display: 'flex', padding: '14px 0', alignItems: 'flex-start', gap: 14, textAlign: 'left', cursor: 'pointer', background: 'transparent', border: 'none' }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 22, background: MU_R.gradGold, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: MU_R.shadowGold, flexShrink: 0 }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_R.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: MU_R.goldDeep }}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A2C31" strokeWidth="2"><path d="M12 3 A5 5 0 0 1 17 8 V11.5 L19 15 V17 H5 V15 L7 11.5 V8 A5 5 0 0 1 12 3 Z" /><path d="M10 20 A2 2 0 0 0 14 20" strokeLinecap="round" /></svg>
                   </div>
                   <div style={{ flex: 1 }}>
@@ -457,7 +457,7 @@ function MU_Messages() {
             <window.MU_FlatRowGroup marginTop={6}>
               {supportTickets.map((item, i) => (
                 <div key={item.title} style={{ display: 'flex', padding: '14px 0', alignItems: 'flex-start', gap: 14 }}>
-                  <div style={{ width: 40, height: 40, borderRadius: 20, background: 'transparent', border: `0.5px solid ${MU_R.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: 8, background: 'transparent', border: `0.5px solid ${MU_R.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={MU_R.gold} strokeWidth="2"><path d="M12 18 H12.01" strokeLinecap="round" /><path d="M9.1 9 A3 3 0 1 1 14.9 10 C13.6 10.7 12.7 11.4 12.3 12.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   </div>
                   <div style={{ flex: 1 }}>
@@ -512,7 +512,7 @@ function MU_NoticeDetail() {
       <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', paddingBottom: 40 }}>
         <div style={{ paddingTop: MU_TOP_SPACING }}>
           <div style={{ padding: '10px 16px 12px', display: 'flex', alignItems: 'center', gap: 14 }}>
-            <button type="button" onClick={() => window.__nav?.back()} style={{ width: 32, height: 32, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.03)' }}>
+            <button type="button" onClick={() => window.__nav?.back()} style={{ width: 32, height: 32, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, cursor: 'pointer' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={MU_R.ink} strokeWidth="2.5"><path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
             <div style={{ flex: 1, textAlign: 'center', marginRight: 46 }}>
@@ -522,7 +522,7 @@ function MU_NoticeDetail() {
           </div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 18, borderRadius: 20, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, boxShadow: '0 12px 30px rgba(26,44,49,0.05)' }}>
+        <div style={{ margin: '14px 20px 0', padding: 18, borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}` }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
             <div style={{ height: 22, padding: '0 8px', borderRadius: 999, background: MU_R.rougeTint, color: MU_R.rouge, fontSize: 10, fontWeight: 800, display: 'inline-flex', alignItems: 'center', border: `0.5px solid #F0DCD8` }}>{notice.badge}</div>
             <div style={{ fontSize: 11, color: MU_R.inkLow }}>{notice.time}</div>
@@ -531,7 +531,7 @@ function MU_NoticeDetail() {
           <div style={{ marginTop: 10, fontSize: 13, color: MU_R.inkMid, lineHeight: 1.8 }}>{notice.body}</div>
         </div>
 
-        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 18, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairline}` }}>
+        <div style={{ margin: '14px 20px 0', padding: 16, borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairline}` }}>
           <div style={{ fontFamily: MU_R.fontBrand, fontSize: 10, color: MU_R.goldDeep, letterSpacing: '0.24em' }}>DETAIL</div>
           <div style={{ marginTop: 8, fontSize: 12, color: MU_R.ink, lineHeight: 1.8 }}>{notice.detailBody || notice.body}</div>
         </div>
@@ -564,10 +564,10 @@ function MU_SupportChat() {
     <div style={{ width: '100%', height: '100%', background: MU_R.bg, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10, paddingTop: MU_TOP_SPACING, background: 'rgba(251, 247, 244, 0.94)', backdropFilter: 'blur(20px)', borderBottom: `0.5px solid ${MU_R.hairlineStrong}` }}>
         <div style={{ padding: '10px 16px 12px', display: 'flex', alignItems: 'center', gap: 14 }}>
-          <button type="button" onClick={() => window.__nav?.back()} style={{ width: 32, height: 32, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.03)' }}>
+          <button type="button" onClick={() => window.__nav?.back()} style={{ width: 32, height: 32, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, cursor: 'pointer' }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={MU_R.ink} strokeWidth="2.5"><path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </button>
-          <div style={{ width: 42, height: 42, borderRadius: 21, background: MU_R.gradGold, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: MU_R.shadowGold }}>
+          <div style={{ width: 42, height: 42, borderRadius: 21, background: '#FBF8F4', border: `0.5px solid ${MU_R.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_R.goldDeep }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A2C31" strokeWidth="2">
               <path d="M12 18 H12.01" strokeLinecap="round" />
               <path d="M9.1 9 A3 3 0 1 1 14.9 10 C13.6 10.7 12.7 11.4 12.3 12.8" strokeLinecap="round" strokeLinejoin="round" />
@@ -581,7 +581,7 @@ function MU_SupportChat() {
       </div>
 
       <div style={{ position: 'absolute', top: 84 + MU_TOP_SPACING, bottom: 72, left: 0, right: 0, overflowY: 'auto', padding: '16px 16px 0' }}>
-        <div style={{ marginBottom: 14, padding: '12px 14px', borderRadius: 16, background: '#FBF1F1', border: '1px solid #F0DCD8', fontSize: 11, color: MU_R.rouge, lineHeight: 1.7 }}>
+        <div style={{ marginBottom: 14, padding: '12px 14px', borderRadius: 8, background: '#FBF1F1', border: '1px solid #F0DCD8', fontSize: 11, color: MU_R.rouge, lineHeight: 1.7 }}>
           当前入口适用于预约异常、支付问题、优惠券未到账、礼物记录核对、账号安全等人工服务。
         </div>
         {messages.map((message) => {
@@ -601,10 +601,10 @@ function MU_SupportChat() {
 
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(251, 247, 244, 0.96)', backdropFilter: 'blur(20px)', borderTop: `0.5px solid ${MU_R.hairlineStrong}`, padding: '10px 14px 12px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ flex: 1, height: 42, borderRadius: 12, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, padding: '0 14px', display: 'flex', alignItems: 'center', boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.03)' }}>
+          <div style={{ flex: 1, height: 42, borderRadius: 6, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, padding: '0 14px', display: 'flex', alignItems: 'center' }}>
             <input value={draft} onChange={(event) => setDraft(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') sendMessage(); }} placeholder="输入问题描述或订单编号..." style={{ flex: 1, border: 'none', outline: 'none', background: 'transparent', fontSize: 14, color: MU_R.ink }} />
           </div>
-          <button type="button" onClick={sendMessage} style={{ width: 72, height: 42, borderRadius: 12, background: MU_R.gradGold, color: '#1A2C31', fontSize: 13, fontWeight: 800, cursor: 'pointer', boxShadow: MU_R.shadowGold }}>
+          <button type="button" onClick={sendMessage} style={{ width: 72, height: 42, borderRadius: 6, background: 'transparent', border: `0.5px solid ${MU_R.gold}`, color: MU_R.goldDeep, fontSize: 13, fontWeight: 800, cursor: 'pointer' }}>
             发送
           </button>
         </div>
@@ -809,7 +809,7 @@ function MU_Chat() {
     const isMe = message.from === 'me';
     if (message.type === 'gift') {
       return (
-        <div style={{ width: 190, borderRadius: 20, overflow: 'hidden', border: `0.5px solid ${MU_R.gold}`, background: '#FFFFFF', boxShadow: '0 12px 32px rgba(164, 150, 115, 0.18), inset 0 0 0 1px rgba(255,255,255,0.8)' }}>
+        <div style={{ width: 190, borderRadius: 8, overflow: 'hidden', border: `0.5px solid ${MU_R.gold}`, background: '#FFFFFF' }}>
           <div style={{ padding: '16px 14px', textAlign: 'center', background: 'linear-gradient(180deg, rgba(164, 150, 115, 0.08), transparent)' }}>
             <div style={{ position: 'relative', display: 'inline-block' }}>
               <div style={{ position: 'absolute', inset: -10, background: 'radial-gradient(circle, rgba(164,150,115,0.2) 0%, transparent 70%)', filter: 'blur(4px)' }} />
@@ -824,10 +824,10 @@ function MU_Chat() {
 
     if (message.type === 'card') {
       return (
-        <button type="button" onClick={(event) => { event.stopPropagation(); window.__nav?.open(message.target || 'cast-detail'); }} style={{ width: 230, padding: 14, borderRadius: 18, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, textAlign: 'left', cursor: 'pointer', boxShadow: '0 10px 24px rgba(26, 44, 49, 0.06), inset 0 1px 1px rgba(255,255,255,1)' }}>
+        <button type="button" onClick={(event) => { event.stopPropagation(); window.__nav?.open(message.target || 'cast-detail'); }} style={{ width: 230, padding: 14, borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, textAlign: 'left', cursor: 'pointer' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
             <div style={{ fontSize: 14, color: MU_R.ink, fontFamily: MU_R.fontSerif, letterSpacing: '0.02em', fontWeight: 700 }}>{message.title}</div>
-            <div style={{ height: 18, padding: '0 8px', borderRadius: 9, background: MU_R.rouge, color: '#F6F2EF', fontSize: 8, fontWeight: 800, display: 'flex', alignItems: 'center', boxShadow: '0 2px 6px rgba(217,83,79,0.2)' }}>{message.tag}</div>
+            <div style={{ height: 18, padding: '0 8px', borderRadius: 9, background: MU_R.rouge, color: '#F6F2EF', fontSize: 8, fontWeight: 800, display: 'flex', alignItems: 'center' }}>{message.tag}</div>
           </div>
           <div style={{ marginTop: 8, fontSize: 11, color: MU_R.inkMid, lineHeight: 1.5, opacity: 0.8 }}>{message.subtitle}</div>
           <div style={{ marginTop: 12, height: 1, background: MU_R.hairline }} />
@@ -841,13 +841,13 @@ function MU_Chat() {
 
     if (message.type === 'package') {
       return (
-        <button type="button" onClick={(event) => { event.stopPropagation(); window.__nav?.open('booking'); }} style={{ width: 230, padding: 16, borderRadius: 20, background: 'linear-gradient(135deg, #FDFBF9 0%, #EFEBE7 100%)', border: `1px solid ${MU_R.goldLight}`, textAlign: 'left', cursor: 'pointer', boxShadow: '0 12px 30px rgba(164, 150, 115, 0.15), inset 0 1px 1px rgba(255,255,255,1)' }}>
+        <button type="button" onClick={(event) => { event.stopPropagation(); window.__nav?.open('booking'); }} style={{ width: 230, padding: 16, borderRadius: 8, background: 'linear-gradient(135deg, #FDFBF9 0%, #EFEBE7 100%)', border: `1px solid ${MU_R.goldLight}`, textAlign: 'left', cursor: 'pointer' }}>
           <div style={{ fontFamily: MU_R.fontBrand, fontSize: 10, color: MU_R.goldDeep, letterSpacing: '0.18em', fontWeight: 800 }}>GROUP PACKAGE</div>
           <div style={{ marginTop: 6, fontSize: 15, color: MU_R.ink, fontFamily: MU_R.fontSerif, letterSpacing: '0.02em', fontWeight: 800 }}>{message.title}</div>
           <div style={{ marginTop: 4, fontSize: 11, color: MU_R.inkMid, opacity: 0.8 }}>{message.subtitle}</div>
           <div style={{ marginTop: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ fontSize: 13, color: MU_R.goldDeep, fontFamily: MU_R.fontBrand, letterSpacing: '0.1em', fontWeight: 900 }}>{message.price}</div>
-            <div style={{ height: 26, padding: '0 14px', borderRadius: 13, background: MU_R.gradGold, color: '#1A2C31', fontSize: 11, fontWeight: 800, display: 'flex', alignItems: 'center', boxShadow: MU_R.shadowGold }}>予約する</div>
+            <div style={{ height: 26, padding: '0 14px', borderRadius: 13, background: 'transparent', border: `0.5px solid ${MU_R.gold}`, color: MU_R.goldDeep, fontSize: 11, fontWeight: 800, display: 'flex', alignItems: 'center' }}>予約する</div>
           </div>
         </button>
       );
@@ -855,8 +855,8 @@ function MU_Chat() {
 
     if (message.type === 'image') {
       return (
-        <button type="button" onClick={(event) => { event.stopPropagation(); setPreviewImage(message); }} style={{ width: 200, padding: 4, borderRadius: 20, overflow: 'hidden', background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, cursor: 'pointer', textAlign: 'left', boxShadow: '0 12px 36px rgba(26, 44, 49, 0.08)' }}>
-          <img src={message.src} alt={message.title} style={{ width: '100%', height: 200, borderRadius: 16, objectFit: 'cover', display: 'block' }} />
+        <button type="button" onClick={(event) => { event.stopPropagation(); setPreviewImage(message); }} style={{ width: 200, padding: 4, borderRadius: 8, overflow: 'hidden', background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, cursor: 'pointer', textAlign: 'left' }}>
+          <img src={message.src} alt={message.title} style={{ width: '100%', height: 200, borderRadius: 8, objectFit: 'cover', display: 'block' }} />
           <div style={{ padding: '10px 12px 8px', fontSize: 12, color: MU_R.ink, fontFamily: MU_R.fontSerif, letterSpacing: '0.04em', fontWeight: 600 }}>{message.title}</div>
         </button>
       );
@@ -902,7 +902,7 @@ function MU_Chat() {
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10, paddingTop: MU_TOP_SPACING, background: 'rgba(251, 247, 244, 0.94)', backdropFilter: 'blur(20px)', borderBottom: `0.5px solid ${MU_R.hairlineStrong}` }}>
         <div style={{ position: 'absolute', inset: 0, opacity: 0.02, pointerEvents: 'none', backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }} />
         <div style={{ padding: '10px 16px 12px', display: 'flex', alignItems: 'center', gap: 14, position: 'relative', zIndex: 1 }}>
-          <button type="button" onClick={() => { closePicker(); window.__nav?.back(); }} style={{ width: 32, height: 32, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.03)' }}>
+          <button type="button" onClick={() => { closePicker(); window.__nav?.back(); }} style={{ width: 32, height: 32, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, cursor: 'pointer' }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={MU_R.ink} strokeWidth="2.5"><path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </button>
           <MU_ChatAvatar size={42} src={MU_RANK_AVATARS[0]} online />
@@ -914,25 +914,25 @@ function MU_Chat() {
             <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', gap: 8 }}>
               <div style={{ fontSize: 8, color: MU_R.goldDeep, fontFamily: MU_R.fontBrand, letterSpacing: '0.12em', fontWeight: 800 }}>AFFECTION 5/7</div>
               <div style={{ flex: 1, height: 3, borderRadius: 1.5, background: 'rgba(164, 150, 115, 0.12)', overflow: 'hidden', maxWidth: 80 }}>
-                <div style={{ width: '71%', height: '100%', background: MU_R.gradGold, borderRadius: 1.5 }} />
+                <div style={{ width: '71%', height: '100%', background: MU_R.gold, borderRadius: 1.5 }} />
               </div>
             </div>
           </div>
-          <button type="button" onClick={() => setMoreMenuOpen((prev) => !prev)} style={{ width: 32, height: 32, borderRadius: 10, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.03)' }}>
+          <button type="button" onClick={() => setMoreMenuOpen((prev) => !prev)} style={{ width: 32, height: 32, borderRadius: 6, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill={MU_R.inkMid}><circle cx="5" cy="12" r="1.5" /><circle cx="12" cy="12" r="1.5" /><circle cx="19" cy="12" r="1.5" /></svg>
           </button>
         </div>
 
         <div style={{ padding: '0 16px 12px', position: 'relative', zIndex: 1 }}>
-          <button type="button" onClick={() => window.__nav?.open('booking')} style={{ width: '100%', padding: '10px 14px', borderRadius: 14, background: '#FBF1F1', border: '1px solid #F0DCD8', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', textAlign: 'left', boxShadow: '0 4px 12px rgba(217, 83, 79, 0.05)' }}>
-            <div style={{ width: 30, height: 30, borderRadius: 8, background: MU_R.rouge, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 4px 10px rgba(217, 83, 79, 0.2)' }}>
+          <button type="button" onClick={() => window.__nav?.open('booking')} style={{ width: '100%', padding: '10px 14px', borderRadius: 8, background: '#FBF1F1', border: '1px solid #F0DCD8', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', textAlign: 'left' }}>
+            <div style={{ width: 30, height: 30, borderRadius: 8, background: MU_R.rouge, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2"><path d="M20 12V8H4v4m16 0v4H4v-4m16 0h2M4 12H2" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 12, color: MU_R.ink, fontWeight: 700, letterSpacing: '0.02em' }}>ペアコース 8,000円OFF</div>
               <div style={{ fontSize: 9, color: MU_R.rouge, fontWeight: 600, letterSpacing: '0.08em', marginTop: 1 }}>LIMITED · EXP 2026/05/31</div>
             </div>
-            <div style={{ padding: '5px 12px', borderRadius: 10, background: MU_R.gradGold, fontSize: 10, fontWeight: 900, color: '#1A2C31', letterSpacing: '0.1em', boxShadow: '0 4px 10px rgba(164, 150, 115, 0.25)' }}>予約</div>
+            <div style={{ padding: '5px 12px', borderRadius: 6, background: 'transparent', border: `0.5px solid ${MU_R.gold}`, fontSize: 10, fontWeight: 500, color: MU_R.goldDeep, letterSpacing: '0.1em' }}>予約</div>
           </button>
         </div>
       </div>
@@ -1039,7 +1039,7 @@ function MU_Chat() {
       ) : null}
 
       {moreMenuOpen ? (
-        <div style={{ position: 'absolute', top: 94, right: 12, zIndex: 26, width: 156, borderRadius: 16, background: 'rgba(255,255,255,0.96)', border: `0.5px solid ${MU_R.hairline}`, boxShadow: '0 14px 30px rgba(26,44,49,0.14)', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: 94, right: 12, zIndex: 26, width: 156, borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_R.hairline}`, overflow: 'hidden' }}>
           {[
             { label: 'キャスト詳細を見る', action: () => window.__nav?.open('cast-detail') },
             { label: '店舗詳細を見る', action: () => window.__nav?.open('shop-detail') },
@@ -1067,7 +1067,7 @@ function MU_Chat() {
               <div style={{ fontSize: 14, color: '#F6F2EF', fontFamily: MU_R.fontSerif }}>{previewImage.title}</div>
               <button type="button" onClick={() => setPreviewImage(null)} style={{ width: 34, height: 34, borderRadius: 17, background: 'rgba(251,247,244,0.12)', border: '1px solid rgba(251,247,244,0.14)', color: '#F6F2EF', fontSize: 18, cursor: 'pointer' }}>×</button>
             </div>
-            <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.35)' }}>
+            <div style={{ borderRadius: 8, overflow: 'hidden' }}>
               <img src={previewImage.src} alt={previewImage.title} style={{ width: '100%', maxHeight: 520, objectFit: 'cover', display: 'block' }} />
             </div>
           </div>
@@ -1083,7 +1083,7 @@ function MU_Chat() {
               top: messageMenuPos?.top ?? 120, 
               minWidth: 180, 
               maxWidth: 240, 
-              borderRadius: 20, 
+              borderRadius: 8, 
               background: 'rgba(255,255,255,0.95)', 
               backdropFilter: 'blur(15px)',
               border: `0.5px solid ${MU_R.hairlineStrong}`, 
@@ -1097,11 +1097,11 @@ function MU_Chat() {
               {getMessagePreview(selectedMessage)}
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8 }}>
-              <button type="button" onClick={handleCopyMessage} style={{ height: 36, borderRadius: 10, background: '#F8F9FA', color: MU_R.ink, fontSize: 12, fontWeight: 700, cursor: 'pointer', border: 'none' }}>コピー</button>
+              <button type="button" onClick={handleCopyMessage} style={{ height: 36, borderRadius: 6, background: '#F8F9FA', color: MU_R.ink, fontSize: 12, fontWeight: 700, cursor: 'pointer', border: 'none' }}>コピー</button>
               {selectedMessage.from === 'me' && !selectedMessage.recalled ? (
-                <button type="button" onClick={handleRecallMessage} style={{ height: 36, borderRadius: 10, background: 'rgba(164, 150, 115, 0.1)', color: MU_R.goldDeep, fontSize: 12, fontWeight: 700, cursor: 'pointer', border: 'none' }}>送信取消</button>
+                <button type="button" onClick={handleRecallMessage} style={{ height: 36, borderRadius: 6, background: 'rgba(164, 150, 115, 0.1)', color: MU_R.goldDeep, fontSize: 12, fontWeight: 700, cursor: 'pointer', border: 'none' }}>送信取消</button>
               ) : null}
-              <button type="button" onClick={handleDeleteMessage} style={{ height: 36, borderRadius: 10, background: '#FFF0F1', color: MU_R.rouge, fontSize: 12, fontWeight: 700, cursor: 'pointer', border: 'none', gridColumn: selectedMessage.from === 'me' ? 'auto' : 'span 2' }}>削除</button>
+              <button type="button" onClick={handleDeleteMessage} style={{ height: 36, borderRadius: 6, background: '#FFF0F1', color: MU_R.rouge, fontSize: 12, fontWeight: 700, cursor: 'pointer', border: 'none', gridColumn: selectedMessage.from === 'me' ? 'auto' : 'span 2' }}>削除</button>
             </div>
           </div>
         </div>
@@ -1109,21 +1109,21 @@ function MU_Chat() {
 
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(251, 247, 244, 0.96)', backdropFilter: 'blur(20px)', borderTop: `0.5px solid ${MU_R.hairlineStrong}`, paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 8px)' }}>
         <div style={{ padding: '10px 14px 8px', display: 'flex', alignItems: 'center', gap: 10 }}>
-          <button type="button" onClick={() => { setPickerOpen((prev) => !prev); }} style={{ width: 40, height: 40, borderRadius: 12, background: pickerOpen ? MU_R.gradGold : '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 4px 10px rgba(0,0,0,0.03)', transition: 'all 0.2s ease' }}>
+          <button type="button" onClick={() => { setPickerOpen((prev) => !prev); }} style={{ width: 40, height: 40, borderRadius: 6, background: pickerOpen ? MU_R.bgAlt : '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s ease' }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={pickerOpen ? '#1A2C31' : MU_R.goldDeep} strokeWidth="2.5"><path d="M12 5v14M5 12h14" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </button>
-          <div style={{ flex: 1, height: 42, borderRadius: 12, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, padding: '0 14px', display: 'flex', alignItems: 'center', gap: 10, boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.03)' }}>
+          <div style={{ flex: 1, height: 42, borderRadius: 6, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, padding: '0 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
             <button type="button" onClick={() => { setActiveQuickType('emoji'); setPickerOpen(true); }} style={{ color: MU_R.goldDeep, fontSize: 20, cursor: 'pointer', opacity: 0.8, filter: 'grayscale(0.2)' }}>☺</button>
             <input value={draft} onFocus={() => { if (pickerOpen) closePicker(); }} onChange={(event) => setDraft(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') sendTextMessage(); }} placeholder="メッセージを入力..." style={{ flex: 1, border: 'none', outline: 'none', background: 'transparent', fontSize: 14, color: MU_R.ink, fontWeight: 500 }} />
           </div>
-          <button type="button" onClick={sendTextMessage} style={{ minWidth: 64, height: 42, borderRadius: 12, background: MU_R.gradGold, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1A2C31', fontSize: 13, fontWeight: 800, letterSpacing: '0.04em', cursor: 'pointer', boxShadow: MU_R.shadowGold, transition: 'transform 0.1s active', transform: 'scale(1)' }}>
+          <button type="button" onClick={sendTextMessage} style={{ minWidth: 64, height: 42, borderRadius: 6, background: 'transparent', border: `0.5px solid ${MU_R.gold}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MU_R.goldDeep, fontSize: 13, fontWeight: 800, letterSpacing: '0.04em', cursor: 'pointer', transition: 'transform 0.1s active', transform: 'scale(1)' }}>
             送信
           </button>
         </div>
 
         {pickerOpen ? (
           <div style={{ padding: '0 12px 12px' }}>
-            <div style={{ marginBottom: 10, padding: 4, borderRadius: 18, background: MU_R.surface, border: `0.5px solid ${MU_R.hairline}`, display: 'flex', gap: 4 }}>
+            <div style={{ marginBottom: 10, padding: 4, borderRadius: 8, background: MU_R.surface, border: `0.5px solid ${MU_R.hairline}`, display: 'flex', gap: 4 }}>
               {[
                 { id: 'emoji', label: '絵文字' },
                 { id: 'gift', label: 'ギフト' },
@@ -1133,7 +1133,7 @@ function MU_Chat() {
               ].map((tab) => {
                 const active = tab.id === activeQuickType;
                 return (
-                  <button key={tab.id} type="button" onClick={() => setActiveQuickType(tab.id)} style={{ flex: 1, height: 30, borderRadius: 14, background: active ? MU_R.gradGold : 'transparent', color: active ? '#1A2C31' : MU_R.inkMid, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
+                  <button key={tab.id} type="button" onClick={() => setActiveQuickType(tab.id)} style={{ flex: 1, height: 30, borderRadius: 8, background: active ? MU_R.bgAlt : 'transparent', color: active ? MU_R.ink : MU_R.inkMid, fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer' }}>
                     {tab.label}
                   </button>
                 );
@@ -1160,7 +1160,7 @@ function MU_Chat() {
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 8, maxHeight: 188, overflowY: 'auto', paddingRight: 2 }}>
                   {emojiOptions.map((emoji) => (
-                    <button key={emoji} type="button" onClick={() => setDraft((prev) => `${prev}${emoji}`)} style={{ height: 44, borderRadius: 14, background: MU_R.surface, border: `0.5px solid ${MU_R.hairline}`, fontSize: 22, cursor: 'pointer' }}>
+                    <button key={emoji} type="button" onClick={() => setDraft((prev) => `${prev}${emoji}`)} style={{ height: 44, borderRadius: 8, background: MU_R.surface, border: `0.5px solid ${MU_R.hairline}`, fontSize: 22, cursor: 'pointer' }}>
                       {emoji}
                     </button>
                   ))}
@@ -1177,11 +1177,11 @@ function MU_Chat() {
                     onClick={() => {
                       sendQuickMessage({ from: 'me', type: 'gift', ...item }, { triggerGift: item });
                     }}
-                    style={{ padding: '14px 12px', borderRadius: 16, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, cursor: 'pointer', textAlign: 'left', position: 'relative', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' }}
+                    style={{ padding: '14px 12px', borderRadius: 8, background: '#FFFFFF', border: `0.5px solid ${MU_R.hairlineStrong}`, cursor: 'pointer', textAlign: 'left', position: 'relative', overflow: 'hidden' }}
                   >
                     <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 40, background: 'linear-gradient(180deg, rgba(164,150,115,0.06), transparent)', pointerEvents: 'none' }} />
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, position: 'relative', zIndex: 1 }}>
-                      <div style={{ width: 46, height: 46, borderRadius: 12, background: 'rgba(164, 150, 115, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.8)' }}>{item.emoji}</div>
+                      <div style={{ width: 46, height: 46, borderRadius: 6, background: 'rgba(164, 150, 115, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26 }}>{item.emoji}</div>
                       <div>
                         <div style={{ fontSize: 13, color: MU_R.ink, fontFamily: MU_R.fontSerif, letterSpacing: '0.02em', fontWeight: 700 }}>{item.title}</div>
                         <div style={{ marginTop: 4, fontSize: 11, color: MU_R.goldDeep, fontFamily: MU_R.fontBrand, letterSpacing: '0.08em', fontWeight: 900 }}>{item.price}</div>
@@ -1195,7 +1195,7 @@ function MU_Chat() {
             {activeQuickType === 'card' ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {cardOptions.map((item) => (
-                  <button key={item.id} type="button" onClick={() => sendQuickMessage({ from: 'me', type: 'card', ...item })} style={{ padding: '12px 14px', borderRadius: 14, background: MU_R.surface, border: `0.5px solid ${MU_R.hairline}`, textAlign: 'left', cursor: 'pointer' }}>
+                  <button key={item.id} type="button" onClick={() => sendQuickMessage({ from: 'me', type: 'card', ...item })} style={{ padding: '12px 14px', borderRadius: 8, background: MU_R.surface, border: `0.5px solid ${MU_R.hairline}`, textAlign: 'left', cursor: 'pointer' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
                       <div style={{ fontSize: 13, color: MU_R.ink, fontFamily: MU_R.fontSerif }}>{item.title}</div>
                       <div style={{ height: 18, padding: '0 6px', borderRadius: 9, background: MU_R.rougeTint, color: MU_R.rouge, fontSize: 8, fontWeight: 700, display: 'flex', alignItems: 'center' }}>{item.tag}</div>
@@ -1209,7 +1209,7 @@ function MU_Chat() {
             {activeQuickType === 'package' ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {packageOptions.map((item) => (
-                  <button key={item.id} type="button" onClick={() => sendQuickMessage({ from: 'me', type: 'package', ...item })} style={{ padding: '12px 14px', borderRadius: 14, background: 'linear-gradient(135deg, #EFEBE7 0%, #FFFFFF 100%)', border: `0.5px solid ${MU_R.hairlineStrong}`, textAlign: 'left', cursor: 'pointer' }}>
+                  <button key={item.id} type="button" onClick={() => sendQuickMessage({ from: 'me', type: 'package', ...item })} style={{ padding: '12px 14px', borderRadius: 8, background: '#FBF8F4', border: `0.5px solid ${MU_R.hairlineStrong}`, textAlign: 'left', cursor: 'pointer' }}>
                     <div style={{ fontFamily: MU_R.fontBrand, fontSize: 9, color: MU_R.goldDeep, letterSpacing: '0.16em' }}>GROUP PACKAGE</div>
                     <div style={{ marginTop: 5, fontSize: 13, color: MU_R.ink, fontFamily: MU_R.fontSerif }}>{item.title}</div>
                     <div style={{ marginTop: 4, fontSize: 10, color: MU_R.inkMid }}>{item.subtitle}</div>
@@ -1222,7 +1222,7 @@ function MU_Chat() {
             {activeQuickType === 'image' ? (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
                 {imageOptions.map((item) => (
-                  <button key={item.id} type="button" onClick={() => sendQuickMessage({ from: 'me', type: 'image', ...item })} style={{ borderRadius: 12, overflow: 'hidden', border: `0.5px solid ${MU_R.hairline}`, background: MU_R.surface, cursor: 'pointer', textAlign: 'left' }}>
+                  <button key={item.id} type="button" onClick={() => sendQuickMessage({ from: 'me', type: 'image', ...item })} style={{ borderRadius: 6, overflow: 'hidden', border: `0.5px solid ${MU_R.hairline}`, background: MU_R.surface, cursor: 'pointer', textAlign: 'left' }}>
                     <img src={item.src} alt={item.title} style={{ width: '100%', height: 88, objectFit: 'cover', display: 'block' }} />
                     <div style={{ padding: '6px 7px', fontSize: 10, color: MU_R.ink }}>{item.title}</div>
                   </button>
